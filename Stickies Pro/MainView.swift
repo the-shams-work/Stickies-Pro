@@ -22,7 +22,7 @@ struct MainView: View {
 
                 HistoryView(viewModel: viewModel)
                     .tabItem {
-                        Label("History", systemImage: "clock")
+                        Label("Archive", systemImage: "clock")
                     }
             }
             .tint(.purple)

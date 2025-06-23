@@ -105,7 +105,7 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack {
-            Text("Welcome to Stikies")
+            Text("Welcome to Stikies Pro")
                 .font(.largeTitle.bold())
                 .foregroundColor(.purple)
                 .padding(.top, 30)
