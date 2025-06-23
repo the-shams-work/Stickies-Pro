@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AVKit
-import Speech
 
 struct AddNoteView: View {
     @ObservedObject var viewModel: NotesViewModel
@@ -29,9 +28,6 @@ struct AddNoteView: View {
     @State private var showImagePicker = false
     @State private var showAudioPicker = false
     @State private var showVideoPicker = false
-
-    @State private var isRecording = false
-    @StateObject private var speechRecognizer = SpeechRecognizer()
 
     let today = Date()
 
@@ -57,27 +53,8 @@ struct AddNoteView: View {
             Form {
                 Section(header: Text("Note Details")) {
                     TextField("Title", text: $title)
-
-                    HStack(alignment: .top) {
-                        TextField("Body", text: $content, axis: .vertical)
-                            .lineLimit(5, reservesSpace: true)
-
-                        Button(action: {
-                            if isRecording {
-                                speechRecognizer.stopTranscribing()
-                            } else {
-                                speechRecognizer.startTranscribing { transcribedText in
-                                    self.content = transcribedText
-                                }
-                            }
-                            isRecording.toggle()
-                        }) {
-                            Image(systemName: isRecording ? "mic.fill" : "mic")
-                                .foregroundColor(isRecording ? .red : .purple)
-                                .padding(.top, 5)
-                                .padding(.leading, 3)
-                        }
-                    }
+                    TextField("Body",text: $content, axis: .vertical)
+                        .lineLimit(5, reservesSpace: true)
                 }
 
                 Section(header: Text("Date & Time")) {
