@@ -1,6 +1,6 @@
 //
 //  SpeechRecognizer.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 18/02/25.
 //

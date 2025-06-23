@@ -1,6 +1,6 @@
 //
 //  StickyNote.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //

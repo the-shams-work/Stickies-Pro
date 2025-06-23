@@ -1,6 +1,6 @@
 //
 //  OnboardingView.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 16/02/25.
 //

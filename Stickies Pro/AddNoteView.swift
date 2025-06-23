@@ -1,6 +1,6 @@
 //
 //  AddNoteView.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //
@@ -100,7 +100,7 @@ struct AddNoteView: View {
                 }
 
                 Section(header: Text("Attachments")) {
-                    Button("Select Image") { showImagePicker = true }
+                    ImagePickerButton(selectedImage: $selectedImage)
                     if let image = selectedImage {
                         Image(uiImage: image)
                             .resizable()
@@ -109,12 +109,12 @@ struct AddNoteView: View {
                             .cornerRadius(8)
                     }
 
-                    Button("Select Audio") { showAudioPicker = true }
+                    AudioPickerButton(selectedAudioURL: $selectedAudioURL)
                     if let audioURL = selectedAudioURL {
                         Text("Audio: \(audioURL.lastPathComponent)")
                     }
 
-                    Button("Select Video") { showVideoPicker = true }
+                    VideoPickerButton(selectedVideoURL: $selectedVideoURL)
                     if let videoURL = selectedVideoURL {
                         Text("Video: \(videoURL.lastPathComponent)")
                     }
@@ -178,16 +178,6 @@ struct AddNoteView: View {
                     }
                     .disabled(title.isEmpty || content.isEmpty)
                 }
-            }
-            
-            .sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: $selectedImage)
-            }
-            .sheet(isPresented: $showAudioPicker) {
-                MediaPicker(mediaType: .audio, mediaURL: $selectedAudioURL)
-            }
-            .sheet(isPresented: $showVideoPicker) {
-                MediaPicker(mediaType: .video, mediaURL: $selectedVideoURL)
             }
         }
     }

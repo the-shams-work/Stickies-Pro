@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 17/02/25.
 //
@@ -11,6 +11,7 @@ import UIKit
 
 struct VideoPicker: UIViewControllerRepresentable {
     @Binding var videoURL: URL?
+    let sourceType: UIImagePickerController.SourceType
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -19,7 +20,7 @@ struct VideoPicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
-        picker.sourceType = .camera
+        picker.sourceType = sourceType
         picker.mediaTypes = ["public.movie"]  
         return picker
     }
@@ -38,6 +39,43 @@ struct VideoPicker: UIViewControllerRepresentable {
                 parent.videoURL = url
             }
             picker.dismiss(animated: true)
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
+    }
+}
+
+struct VideoPickerButton: View {
+    @Binding var selectedVideoURL: URL?
+    @State private var showActionSheet = false
+    @State private var showVideoPicker = false
+    @State private var selectedSourceType: UIImagePickerController.SourceType = .photoLibrary
+    
+    var body: some View {
+        Button("Select Video") { 
+            showActionSheet = true 
+        }
+        .actionSheet(isPresented: $showActionSheet) {
+            ActionSheet(
+                title: Text("Select Video"),
+                message: Text("Choose how you want to add a video"),
+                buttons: [
+                    .default(Text("Camera")) {
+                        selectedSourceType = .camera
+                        showVideoPicker = true
+                    },
+                    .default(Text("Photo Library")) {
+                        selectedSourceType = .photoLibrary
+                        showVideoPicker = true
+                    },
+                    .cancel()
+                ]
+            )
+        }
+        .sheet(isPresented: $showVideoPicker) {
+            VideoPicker(videoURL: $selectedVideoURL, sourceType: selectedSourceType)
         }
     }
 }

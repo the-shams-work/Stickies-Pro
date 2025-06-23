@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 20/02/25.
 //

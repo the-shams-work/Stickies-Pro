@@ -1,6 +1,6 @@
 //
 //  StickyNoteView.swift
-//  Stickies
+//  Stickies Pro
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //
@@ -26,6 +26,7 @@ struct StickyNoteView: View {
     @State private var isAudioPlaying = false
     @State private var audioProgress: Double = 0.0
     @State private var audioDuration: Double = 0.0
+    @State private var showAudioPlayer = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -63,83 +64,75 @@ struct StickyNoteView: View {
                 .foregroundColor(.white.opacity(0.8))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            HStack(spacing: 10) {
+            // Attachment Icons
+            HStack(spacing: 15) {
                 if let image = note.attachment {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 150)
+                    Button(action: {
+                        showFullScreenImage = true
+                    }) {
+                        VStack(spacing: 5) {
+                            Image(systemName: "photo.fill")
+                                .resizable()
+                                .frame(width: 30, height: 25)
+                                .foregroundColor(.white)
+                            Text("Image")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                        }
+                        .padding(10)
+                        .background(Color.white.opacity(0.2))
                         .cornerRadius(8)
-                        .onTapGesture {
-                            showFullScreenImage = true
-                        }
-                        .fullScreenCover(isPresented: $showFullScreenImage) {
-                            ZoomableImageView(image: image)
-                        }
+                    }
+                    .fullScreenCover(isPresented: $showFullScreenImage) {
+                        ZoomableImageView(image: image)
+                    }
                 }
 
                 if let videoURL = note.videoURL {
-                    VideoPlayer(player: player)
-                        .frame(height: 150)
-                        .cornerRadius(8) 
-                        .onTapGesture {
-                            showFullScreenVideo = false
-                        }
-                        .fullScreenCover(isPresented: $showFullScreenVideo) {
-                            ZoomableVideoView(videoURL: videoURL)
-                        }
-                        .onAppear {
-                            player = AVPlayer(url: videoURL)
-                        }
-                        .onDisappear {
-                            player?.pause()
-                        }
-                }
-            }
-
-            if let audioURL = note.audioURL {
-                VStack {
-                    Slider(value: $audioProgress, in: 0...audioDuration, onEditingChanged: { _ in
-                        Task { @MainActor in
-                            let targetTime = CMTime(seconds: audioProgress, preferredTimescale: 600)
-                            audioPlayer?.seek(to: targetTime)
-                        }
-                    })
-                    .padding(.horizontal)
-
-                    HStack {
-                        Button(action: {
-                            Task { @MainActor in
-                                if isAudioPlaying {
-                                    audioPlayer?.pause()
-                                } else {
-                                    audioPlayer?.play()
-                                }
-                                isAudioPlaying.toggle()
-                            }
-                        }) {
-                            Image(systemName: isAudioPlaying ? "pause.circle.fill" : "play.circle.fill")
+                    Button(action: {
+                        showFullScreenVideo = true
+                    }) {
+                        VStack(spacing: 5) {
+                            Image(systemName: "video.fill")
                                 .resizable()
-                                .frame(width: 40, height: 40)
+                                .frame(width: 30, height: 25)
+                                .foregroundColor(.white)
+                            Text("Video")
+                                .font(.caption)
                                 .foregroundColor(.white)
                         }
-                        Spacer()
-                        Text("\(formatTime(audioProgress)) / \(formatTime(audioDuration))")
-                            .foregroundColor(.white)
-                            .font(.caption)
+                        .padding(10)
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(8)
                     }
-                    .padding(.horizontal)
+                    .fullScreenCover(isPresented: $showFullScreenVideo) {
+                        ZoomableVideoView(videoURL: videoURL)
+                    }
                 }
-                .onAppear {
-                    setupAudioPlayer(url: audioURL)
-                }
-                .onDisappear {
-                    Task { @MainActor in
-                        audioPlayer?.pause()
-                        isAudioPlaying = false
+
+                if let audioURL = note.audioURL {
+                    Button(action: {
+                        showAudioPlayer = true
+                    }) {
+                        VStack(spacing: 5) {
+                            Image(systemName: "music.note")
+                                .resizable()
+                                .frame(width: 30, height: 25)
+                                .foregroundColor(.white)
+                            Text("Audio")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                        }
+                        .padding(10)
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(8)
+                    }
+                    .sheet(isPresented: $showAudioPlayer) {
+                        AudioPlayerSheet(audioURL: audioURL)
                     }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
@@ -157,7 +150,7 @@ struct StickyNoteView: View {
                         .destructive(Text("Delete")) {
                             showDeleteConfirmation = true
                         },
-                        .default(Text("Mark as Active")) {
+                        .default(Text("Active")) {
                             markAsDone()
                         },
                         .cancel()
@@ -173,7 +166,7 @@ struct StickyNoteView: View {
                         .destructive(Text("Delete")) {
                             showDeleteConfirmation = true
                         },
-                        .default(Text("Mark as Done")) {
+                        .default(Text("Archive")) {
                             markAsDone()
                         },
                         .cancel()
@@ -218,6 +211,122 @@ struct StickyNoteView: View {
        }
 
 
+    private func formatTime(_ seconds: Double) -> String {
+        let minutes = Int(seconds) / 60
+        let seconds = Int(seconds) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+}
+
+struct AudioPlayerSheet: View {
+    let audioURL: URL
+    @Environment(\.dismiss) var dismiss
+    @State private var audioPlayer: AVPlayer?
+    @State private var isAudioPlaying = false
+    @State private var audioProgress: Double = 0.0
+    @State private var audioDuration: Double = 0.0
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 30) {
+                Image(systemName: "music.note")
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(.purple)
+                
+                Text("Audio Player")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                
+                Text(audioURL.lastPathComponent)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                
+                VStack(spacing: 20) {
+                    Slider(value: $audioProgress, in: 0...audioDuration, onEditingChanged: { _ in
+                        Task { @MainActor in
+                            let targetTime = CMTime(seconds: audioProgress, preferredTimescale: 600)
+                            audioPlayer?.seek(to: targetTime)
+                        }
+                    })
+                    .padding(.horizontal)
+                    
+                    HStack {
+                        Text(formatTime(audioProgress))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            Task { @MainActor in
+                                if isAudioPlaying {
+                                    audioPlayer?.pause()
+                                } else {
+                                    audioPlayer?.play()
+                                }
+                                isAudioPlaying.toggle()
+                            }
+                        }) {
+                            Image(systemName: isAudioPlaying ? "pause.circle.fill" : "play.circle.fill")
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(.purple)
+                        }
+                        
+                        Spacer()
+                        
+                        Text(formatTime(audioDuration))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.horizontal)
+                }
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(12)
+                .padding(.horizontal)
+                
+                Spacer()
+            }
+            .padding()
+            .navigationTitle("Audio Player")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        audioPlayer?.pause()
+                        dismiss()
+                    }
+                }
+            }
+            .onAppear {
+                setupAudioPlayer()
+            }
+            .onDisappear {
+                audioPlayer?.pause()
+            }
+        }
+    }
+    
+    private func setupAudioPlayer() {
+        audioPlayer = AVPlayer(url: audioURL)
+        let asset = AVAsset(url: audioURL)
+        
+        Task {
+            let duration = try? await asset.load(.duration)
+            audioDuration = duration.map { CMTimeGetSeconds($0) } ?? 0.0
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            Task { @MainActor in
+                if let currentTime = audioPlayer?.currentTime() {
+                    audioProgress = CMTimeGetSeconds(currentTime)
+                }
+            }
+        }
+    }
+    
     private func formatTime(_ seconds: Double) -> String {
         let minutes = Int(seconds) / 60
         let seconds = Int(seconds) % 60

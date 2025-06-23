@@ -256,8 +256,10 @@
 				DEVELOPMENT_TEAM = 777RNPN89P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stickies-Pro-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Stickies Pro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Needs your camera to let you snap pictures or record videos for your notes.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone access is rerquired to use the microphone.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Stickies Pro Microphone access is required for speech recogniztion.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -288,8 +290,10 @@
 				DEVELOPMENT_TEAM = 777RNPN89P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stickies-Pro-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Stickies Pro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Needs your camera to let you snap pictures or record videos for your notes.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone access is rerquired to use the microphone.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Stickies Pro Microphone access is required for speech recogniztion.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
