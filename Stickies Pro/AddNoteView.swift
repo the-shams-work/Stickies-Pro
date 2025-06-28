@@ -24,6 +24,8 @@ struct AddNoteView: View {
     @State private var selectedAudioURL: URL?
     @State private var selectedVideoURL: URL?
     @State private var reminderDate: Date?
+    @State private var isTimeBounded: Bool
+    @State private var wantsReminder: Bool
 
     @State private var showImagePicker = false
     @State private var showAudioPicker = false
@@ -40,12 +42,19 @@ struct AddNoteView: View {
         _content = State(initialValue: editingNote?.content ?? "")
         _startDate = State(initialValue: editingNote?.startDate ?? Date())
         _endDate = State(initialValue: editingNote?.endDate ?? Date())
-        _selectedColor = State(initialValue: editingNote?.color ?? .yellow)
+        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.yellow)
         _selectedCategory = State(initialValue: editingNote?.category ?? .todo)
         _selectedImage = State(initialValue: editingNote?.attachment)
         _selectedAudioURL = State(initialValue: editingNote?.audioURL)
         _selectedVideoURL = State(initialValue: editingNote?.videoURL)
         _reminderDate = State(initialValue: editingNote?.reminderDate)
+        _isTimeBounded = State(initialValue: {
+            guard let editingNote = editingNote else { return false }
+            let today = Date()
+            let calendar = Calendar.current
+            return !calendar.isDate(editingNote.startDate, inSameDayAs: today) || !calendar.isDate(editingNote.endDate, inSameDayAs: today)
+        }())
+        _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
     }
 
     var body: some View {
@@ -58,12 +67,18 @@ struct AddNoteView: View {
                 }
 
                 Section(header: Text("Date & Time")) {
-                    DatePicker("Start Date", selection: $startDate, in: today..., displayedComponents: .date)
-                    DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
-                    DatePicker("Set Reminder", selection: Binding(
-                        get: { reminderDate ?? today },
-                        set: { reminderDate = $0 }
-                    ), in: today..., displayedComponents: [.date, .hourAndMinute])
+                    Toggle("Is this a time-bounded note?", isOn: $isTimeBounded)
+                    if isTimeBounded {
+                        DatePicker("Start Date", selection: $startDate, in: today..., displayedComponents: .date)
+                        DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
+                    }
+                    Toggle("Set a reminder?", isOn: $wantsReminder)
+                    if wantsReminder {
+                        DatePicker("Date & Time", selection: Binding(
+                            get: { reminderDate ?? today },
+                            set: { reminderDate = $0 }
+                        ), in: today..., displayedComponents: [.date, .hourAndMinute])
+                    }
                 }
 
                 Section(header: Text("Customization")) {
@@ -97,29 +112,32 @@ struct AddNoteView: View {
                     }
                 }
             }
-            .navigationBarTitle(editingNote == nil ? "New Sticky Note" : "Edit Sticky Note", displayMode: .inline)
+            .navigationBarTitle(editingNote == nil ? "New Note" : "Edit Sticky Note", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { showAddNote = false }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
+                        let useStartDate = isTimeBounded ? startDate : today
+                        let useEndDate = isTimeBounded ? endDate : today
+                        let useReminderDate = wantsReminder ? reminderDate : nil
                         if let editingNote {
                             viewModel.updateNote(
                                 id: editingNote.id,
                                 title: title,
                                 content: content,
-                                startDate: startDate,
-                                endDate: endDate,
+                                startDate: useStartDate,
+                                endDate: useEndDate,
                                 color: selectedColor,
                                 category: selectedCategory,
                                 attachment: selectedImage,
                                 audioURL: selectedAudioURL,
                                 videoURL: selectedVideoURL,
-                                reminderDate: reminderDate
+                                reminderDate: useReminderDate
                             )
 
-                            if let reminderDate = reminderDate {
+                            if let reminderDate = useReminderDate {
                                 NotificationManager.shared.removeNotification(identifier: editingNote.id.uuidString)
                                 NotificationManager.shared.scheduleNotification(
                                     title: "Reminder: \(title)",
@@ -132,17 +150,17 @@ struct AddNoteView: View {
                             let newNote = viewModel.addNote(
                                 title: title,
                                 content: content,
-                                startDate: startDate,
-                                endDate: endDate,
+                                startDate: useStartDate,
+                                endDate: useEndDate,
                                 color: selectedColor,
                                 category: selectedCategory,
                                 attachment: selectedImage,
                                 audioURL: selectedAudioURL,
                                 videoURL: selectedVideoURL,
-                                reminderDate: reminderDate
+                                reminderDate: useReminderDate
                             )
 
-                            if let reminderDate = reminderDate, reminderDate > Date() {
+                            if let reminderDate = useReminderDate, reminderDate > Date() {
                                 NotificationManager.shared.scheduleNotification(
                                     title: "Reminder: \(title)",
                                     body: content,

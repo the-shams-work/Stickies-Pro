@@ -15,7 +15,7 @@ struct ContentView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var activeNotes: [StickyNote] {
-        var notes = viewModel.notes.filter { !$0.isDone }
+        var notes = viewModel.notes.filter { !$0.isDone && $0.startDate <= Date() }
         
         if !viewModel.searchQuery.isEmpty {
             notes = notes.filter {

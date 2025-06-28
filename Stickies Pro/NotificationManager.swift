@@ -21,7 +21,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         print("🔔 Requesting notification permission...")
         let center = UNUserNotificationCenter.current()
         
-        // First check current settings
         center.getNotificationSettings { settings in
             print("📱 Current notification settings:")
             print("   - Authorization status: \(settings.authorizationStatus.rawValue)")
@@ -71,7 +70,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             if settings.authorizationStatus == .authorized {
                 print("✅ Notifications authorized - proceeding with scheduling")
                 
-                // Remove any existing notification with same ID
                 center.removePendingNotificationRequests(withIdentifiers: [identifier])
                 print("🗑️ Removed existing notification with ID: \(identifier)")
 
@@ -99,7 +97,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                     } else {
                         print("✅ Notification scheduled successfully for \(date) with ID: \(identifier)")
                         
-                        // List all pending notifications for debugging
                         center.getPendingNotificationRequests { requests in
                             print("📋 Total pending notifications: \(requests.count)")
                             for request in requests {
@@ -125,7 +122,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         print("✅ Removed notification with ID: \(identifier)")
     }
     
-    // MARK: - UNUserNotificationCenterDelegate
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("🔔 Notification received while app is in foreground")
@@ -134,6 +130,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print("🔔 User tapped on notification: \(response.notification.request.identifier)")
+        UIApplication.shared.applicationIconBadgeNumber = 0
         completionHandler()
     }
 }

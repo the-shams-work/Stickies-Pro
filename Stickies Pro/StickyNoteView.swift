@@ -59,12 +59,14 @@ struct StickyNoteView: View {
                     .lineLimit(3)
             }
 
-            Text("Start: \(formattedDate(note.startDate)) - End: \(formattedDate(note.endDate))")
-                .font(.footnote)
-                .foregroundColor(.white.opacity(0.8))
-                .frame(maxWidth: .infinity, alignment: .leading)
+            // Only show dates if the note is time-bounded
+            if !Calendar.current.isDate(note.startDate, inSameDayAs: Date()) || !Calendar.current.isDate(note.endDate, inSameDayAs: Date()) {
+                Text("Start: \(formattedDate(note.startDate)) - End: \(formattedDate(note.endDate))")
+                    .font(.footnote)
+                    .foregroundColor(.white.opacity(0.8))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
 
-            // Attachment Icons
             HStack(spacing: 15) {
                 if let image = note.attachment {
                     Button(action: {
@@ -136,7 +138,7 @@ struct StickyNoteView: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
-        .background(note.color)
+        .background(note.colorValue)
         .cornerRadius(12)
         .shadow(radius: 5)
         .onLongPressGesture {

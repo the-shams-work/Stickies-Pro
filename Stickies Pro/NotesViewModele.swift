@@ -8,12 +8,47 @@
 import SwiftUI
 
 class NotesViewModel: ObservableObject {
-    @Published var notes: [StickyNote] = []
+    @Published var notes: [StickyNote] = [] {
+        didSet {
+            saveNotes()
+        }
+    }
     @Published var searchQuery: String = ""
     @Published var sortOption: SortOption = .dateCreated
 
     enum SortOption {
         case dateCreated, title, category
+    }
+
+    private let notesFileName = "notes.json"
+    private var notesFileURL: URL {
+        let manager = FileManager.default
+        let url = manager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return url.appendingPathComponent(notesFileName)
+    }
+
+    init() {
+        loadNotes()
+    }
+
+    func saveNotes() {
+        do {
+            let data = try JSONEncoder().encode(notes)
+            try data.write(to: notesFileURL)
+            print("✅ Notes saved to disk.")
+        } catch {
+            print("❌ Failed to save notes: \(error)")
+        }
+    }
+
+    func loadNotes() {
+        do {
+            let data = try Data(contentsOf: notesFileURL)
+            notes = try JSONDecoder().decode([StickyNote].self, from: data)
+            print("✅ Notes loaded from disk.")
+        } catch {
+            print("⚠️ No saved notes found or failed to load: \(error)")
+        }
     }
 
     var activeNotes: [StickyNote] {
@@ -49,7 +84,7 @@ class NotesViewModel: ObservableObject {
             notes[index].content = content
             notes[index].startDate = startDate
             notes[index].endDate = endDate
-            notes[index].color = color
+            notes[index].colorValue = color
             notes[index].category = category
             notes[index].attachment = attachment
             notes[index].audioURL = audioURL
