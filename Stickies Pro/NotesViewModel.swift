@@ -118,6 +118,71 @@ class NotesViewModel: ObservableObject {
         return notes
     }
     
+    var archivedNotes: [StickyNote] {
+        var notes = self.notes.filter { $0.isDone }
+        
+        // Search filter
+        if !searchQuery.isEmpty {
+            notes = notes.filter {
+                $0.title.localizedCaseInsensitiveContains(searchQuery) ||
+                $0.content.localizedCaseInsensitiveContains(searchQuery)
+            }
+        }
+        
+        // Category filter
+        if let selectedCategory = selectedCategoryFilter {
+            notes = notes.filter { $0.category == selectedCategory }
+        }
+        
+        // Attachment filter
+        if showOnlyWithAttachments {
+            notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil }
+        }
+        
+        // Reminder filter
+        if showOnlyWithReminders {
+            notes = notes.filter { $0.reminderDate != nil }
+        }
+        
+        // Date filter
+        let calendar = Calendar.current
+        let now = Date()
+        
+        switch dateFilterOption {
+        case .today:
+            notes = notes.filter { calendar.isDateInToday($0.startDate) }
+        case .thisWeek:
+            notes = notes.filter { calendar.isDate($0.startDate, equalTo: now, toGranularity: .weekOfYear) }
+        case .thisMonth:
+            notes = notes.filter { calendar.isDate($0.startDate, equalTo: now, toGranularity: .month) }
+        case .overdue:
+            notes = notes.filter { $0.endDate < now }
+        case .all:
+            break
+        }
+        
+        // Sort
+        switch sortOption {
+        case .dateCreated:
+            notes.sort { $0.startDate > $1.startDate }
+        case .title:
+            notes.sort { $0.title.lowercased() < $1.title.lowercased() }
+        case .category:
+            notes.sort { $0.category.rawValue < $1.category.rawValue }
+        case .priority:
+            notes.sort { 
+                let firstPriority = getPriority(for: $0)
+                let secondPriority = getPriority(for: $1)
+                if firstPriority == secondPriority {
+                    return $0.startDate > $1.startDate
+                }
+                return firstPriority > secondPriority
+            }
+        }
+        
+        return notes
+    }
+    
     private func getPriority(for note: StickyNote) -> Int {
         var priority = 0
         

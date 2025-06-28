@@ -134,7 +134,7 @@ struct AudioRecorderView: View {
             Image(systemName: isRecording ? "mic.fill" : "mic")
                 .resizable()
                 .frame(width: 80, height: 80)
-                .foregroundColor(isRecording ? .red : .blue)
+                .foregroundColor(isRecording ? .red : .purple)
                 .scaleEffect(isRecording ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: isRecording)
             
@@ -174,7 +174,7 @@ struct AudioRecorderView: View {
             Button("Cancel") {
                 dismiss()
             }
-            .foregroundColor(.red)
+            .foregroundColor(.purple)
         }
         .padding()
         .onAppear {

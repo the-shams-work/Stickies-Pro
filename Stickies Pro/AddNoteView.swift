@@ -82,15 +82,11 @@ struct AddNoteView: View {
 
                     Picker("Category", selection: $selectedCategory) {
                         ForEach(NoteCategory.allCases) { category in
-                            HStack {
-                                Text(category.rawValue)
-                                Spacer()
-                                Image(systemName: category.systemImage)
-                                    .foregroundColor(.blue)
-                            }
-                            .tag(category)
+                            CategoryRowView(category: category)
+                                .tag(category)
                         }
                     }
+                    .tint(.purple)
                 }
 
                 Section(header: Text("Attachments")) {
@@ -114,10 +110,14 @@ struct AddNoteView: View {
                     }
                 }
             }
+            .tint(.purple)
             .navigationBarTitle(editingNote == nil ? "New Note" : "Edit Sticky Note", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") { showAddNote = false }
+                    Button("Cancel") { 
+                        showAddNote = false 
+                    }
+                    .foregroundColor(.purple)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
@@ -173,10 +173,27 @@ struct AddNoteView: View {
                         }
                         showAddNote = false
                     }
+                    .foregroundColor(.purple)
                     .disabled(title.isEmpty || content.isEmpty)
                 }
             }
         }
+    }
+}
+
+struct CategoryRowView: View {
+    let category: NoteCategory
+    
+    var body: some View {
+        HStack {
+            Text(category.rawValue)
+            Spacer()
+            Image(systemName: category.systemImage)
+                .foregroundColor(.purple)
+                .accentColor(.purple)
+                .font(.system(size: 16, weight: .medium))
+        }
+        .accentColor(.purple)
     }
 }
 

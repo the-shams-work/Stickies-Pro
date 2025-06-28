@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var editingNote: StickyNote?
     @State private var showFilters = false
     @State private var isSearchFocused = false
+    @State private var showingArchivedNotes = false
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
@@ -27,7 +28,7 @@ struct ContentView: View {
                 sortOptions
                 notesList
             }
-            .navigationTitle("My Notes")
+            .navigationTitle(showingArchivedNotes ? "Archive" : "My Notes")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -43,7 +44,7 @@ struct ContentView: View {
                 )
             }
             .sheet(isPresented: $showFilters) {
-                FilterView(viewModel: viewModel)
+                FilterView(viewModel: viewModel, showingArchivedNotes: $showingArchivedNotes)
             }
             .onAppear {
                 NotificationManager.shared.requestNotificationPermission()
@@ -187,18 +188,22 @@ struct ContentView: View {
     // MARK: - Notes List
     private var notesList: some View {
         ZStack {
-            if viewModel.filteredNotes.isEmpty {
+            let currentNotes = showingArchivedNotes ? viewModel.archivedNotes : viewModel.filteredNotes
+            
+            if currentNotes.isEmpty {
                 emptyStateView
             } else {
                 ScrollView {
                     LazyVStack(spacing: 12) {
-                        ForEach(viewModel.filteredNotes, id: \.id) { note in
+                        ForEach(currentNotes, id: \.id) { note in
                             StickyNoteView(
                                 note: note,
                                 markAsDone: { viewModel.markAsDone(id: note.id) },
                                 onEdit: {
-                                    editingNote = note
-                                    showAddNote = true
+                                    if !showingArchivedNotes {
+                                        editingNote = note
+                                        showAddNote = true
+                                    }
                                 },
                                 onDelete: { viewModel.deleteNote(id: note.id) }
                             )
@@ -209,25 +214,27 @@ struct ContentView: View {
                 }
             }
             
-            // Floating Add Button
-            VStack {
-                Spacer()
-                HStack {
+            // Floating Add Button (only show for active notes)
+            if !showingArchivedNotes {
+                VStack {
                     Spacer()
-                    Button(action: {
-                        editingNote = nil
-                        showAddNote = true
-                    }) {
-                        Image(systemName: "plus")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 56, height: 56)
-                            .background(Color.purple)
-                            .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            editingNote = nil
+                            showAddNote = true
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.system(size: 24, weight: .semibold))
+                                .foregroundColor(.white)
+                                .frame(width: 56, height: 56)
+                                .background(Color.purple)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        }
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 30)
                     }
-                    .padding(.trailing, 20)
-                    .padding(.bottom, 30)
                 }
             }
         }
@@ -236,22 +243,38 @@ struct ContentView: View {
     // MARK: - Empty State
     private var emptyStateView: some View {
         VStack(spacing: 20) {
-            Image(systemName: "note.text")
+            Image(systemName: showingArchivedNotes ? "clock" : "note.text")
                 .font(.system(size: 60))
                 .foregroundColor(.secondary)
             
-            Text(viewModel.searchQuery.isEmpty ? "No Notes Yet" : "No Results Found")
+            Text(getEmptyStateTitle())
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
             
-            Text(viewModel.searchQuery.isEmpty ? "Tap the + button to create your note" : "Try adjusting your search or filters")
+            Text(getEmptyStateMessage())
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private func getEmptyStateTitle() -> String {
+        if showingArchivedNotes {
+            return viewModel.searchQuery.isEmpty ? "No Archived Notes" : "No Results Found"
+        } else {
+            return viewModel.searchQuery.isEmpty ? "No Notes Yet" : "No Results Found"
+        }
+    }
+    
+    private func getEmptyStateMessage() -> String {
+        if showingArchivedNotes {
+            return viewModel.searchQuery.isEmpty ? "Completed notes will appear here" : "Try adjusting your search or filters"
+        } else {
+            return viewModel.searchQuery.isEmpty ? "Tap the + button to create your note" : "Try adjusting your search or filters"
+        }
     }
     
     // MARK: - Filter Button
@@ -314,46 +337,57 @@ struct SortButton: View {
 
 struct FilterView: View {
     @ObservedObject var viewModel: NotesViewModel
+    @Binding var showingArchivedNotes: Bool
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("Category")) {
-                    Picker("Category", selection: $viewModel.selectedCategoryFilter) {
-                        Text("All Categories").tag(nil as NoteCategory?)
-                        ForEach(NoteCategory.allCases) { category in
-                            HStack {
-                                Text(category.rawValue)
-                                Spacer()
-                                Image(systemName: category.systemImage)
-                                    .foregroundColor(.purple)
-                            }
-                            .tag(category as NoteCategory?)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
+            VStack(spacing: 0) {
+                // Segmented Control for View Switching
+                Picker("View", selection: $showingArchivedNotes) {
+                    Text("My Notes").tag(false)
+                    Text("Archive").tag(true)
                 }
+                .pickerStyle(SegmentedPickerStyle())
+                .tint(.purple)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(Color(.systemGroupedBackground))
                 
-                Section(header: Text("Date Range")) {
-                    Picker("Date Filter", selection: $viewModel.dateFilterOption) {
-                        ForEach(NotesViewModel.DateFilterOption.allCases, id: \.self) { option in
-                            HStack {
-                                Text(option.rawValue)
-                                Spacer()
-                                Image(systemName: option.systemImage)
-                                    .foregroundColor(.purple)
+                Form {
+                    Section(header: Text("Category")) {
+                        Picker("Category", selection: $viewModel.selectedCategoryFilter) {
+                            Text("All Categories").tag(nil as NoteCategory?)
+                            ForEach(NoteCategory.allCases) { category in
+                                CategoryRowView(category: category)
+                                    .tag(category as NoteCategory?)
                             }
-                            .tag(option)
                         }
+                        .pickerStyle(MenuPickerStyle())
+                        .tint(.purple)
                     }
-                    .pickerStyle(MenuPickerStyle())
+                    
+                    Section(header: Text("Date Range")) {
+                        Picker("Date Filter", selection: $viewModel.dateFilterOption) {
+                            ForEach(NotesViewModel.DateFilterOption.allCases, id: \.self) { option in
+                                HStack {
+                                    Text(option.rawValue)
+                                    Spacer()
+                                    Image(systemName: option.systemImage)
+                                        .foregroundColor(.purple)
+                                }
+                                .tag(option)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                    }
+                    
+                    Section(header: Text("Content Type")) {
+                        Toggle("Only notes with attachments", isOn: $viewModel.showOnlyWithAttachments)
+                        Toggle("Only notes with reminders", isOn: $viewModel.showOnlyWithReminders)
+                    }
                 }
-                
-                Section(header: Text("Content Type")) {
-                    Toggle("Only notes with attachments", isOn: $viewModel.showOnlyWithAttachments)
-                    Toggle("Only notes with reminders", isOn: $viewModel.showOnlyWithReminders)
-                }
+                .tint(.purple)
             }
             .navigationTitle("Filters")
             .navigationBarTitleDisplayMode(.inline)
@@ -365,13 +399,16 @@ struct FilterView: View {
                         viewModel.showOnlyWithReminders = false
                         viewModel.dateFilterOption = .all
                     }
+                    .foregroundColor(.purple)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
                         presentationMode.wrappedValue.dismiss()
                     }
+                    .foregroundColor(.purple)
                 }
             }
         }
     }
 }
+

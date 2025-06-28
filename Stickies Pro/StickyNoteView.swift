@@ -269,6 +269,7 @@ struct AudioPlayerSheet: View {
                         audioPlayer?.pause()
                         dismiss()
                     }
+                    .foregroundColor(.purple)
                 }
             }
             .onAppear {

@@ -13,21 +13,9 @@ struct MainView: View {
 
     var body: some View {
         if hasSeenOnboarding {
-            TabView {
-                ContentView(viewModel: viewModel)
-                    .tabItem {
-                        Label("My Notes", systemImage: "note.text")
-                    }
-
-                HistoryView(viewModel: viewModel)
-                    .tabItem {
-                        Label("Archive", systemImage: "clock")
-                    }
-            }
-            .tint(.purple)
+            ContentView(viewModel: viewModel)
         } else {
             OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
         }
-
     }
 }
