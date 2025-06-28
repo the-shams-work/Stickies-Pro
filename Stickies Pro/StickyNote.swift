@@ -92,12 +92,11 @@ struct StickyNote: Identifiable, Codable {
     var isDone: Bool
     var color: ColorCodable
     var category: NoteCategory
-    var attachmentData: Data? // UIImage as Data
-    var audioURLString: String? // URL as String
-    var videoURLString: String? // URL as String
+    var attachmentData: Data?
+    var audioURLString: String?
+    var videoURLString: String? 
     var reminderDate: Date?
 
-    // Computed properties for UI use
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
         set { attachmentData = newValue?.jpegData(compressionQuality: 0.8) }
@@ -181,11 +180,11 @@ extension Color {
         Scanner(string: hex).scanHexInt64(&int)
         let a, r, g, b: UInt64
         switch hex.count {
-        case 3: // RGB (12-bit)
+        case 3:
             (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
+        case 6:
             (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
+        case 8:
             (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
         default:
             (a, r, g, b) = (255, 255, 255, 0)

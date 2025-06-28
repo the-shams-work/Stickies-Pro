@@ -15,9 +15,31 @@ class NotesViewModel: ObservableObject {
     }
     @Published var searchQuery: String = ""
     @Published var sortOption: SortOption = .dateCreated
+    @Published var selectedCategoryFilter: NoteCategory?
+    @Published var showOnlyWithAttachments: Bool = false
+    @Published var showOnlyWithReminders: Bool = false
+    @Published var dateFilterOption: DateFilterOption = .all
 
     enum SortOption {
-        case dateCreated, title, category
+        case dateCreated, title, category, priority
+    }
+    
+    enum DateFilterOption: String, CaseIterable {
+        case all = "All"
+        case today = "Today"
+        case thisWeek = "This Week"
+        case thisMonth = "This Month"
+        case overdue = "Overdue"
+        
+        var systemImage: String {
+            switch self {
+            case .all: return "calendar"
+            case .today: return "calendar.badge.clock"
+            case .thisWeek: return "calendar.badge.plus"
+            case .thisMonth: return "calendar.badge.exclamationmark"
+            case .overdue: return "exclamationmark.triangle"
+            }
+        }
     }
 
     private let notesFileName = "notes.json"
@@ -29,6 +51,92 @@ class NotesViewModel: ObservableObject {
 
     init() {
         loadNotes()
+    }
+
+    var filteredNotes: [StickyNote] {
+        var notes = self.notes.filter { !$0.isDone && $0.startDate <= Date() }
+        
+        // Search filter
+        if !searchQuery.isEmpty {
+            notes = notes.filter {
+                $0.title.localizedCaseInsensitiveContains(searchQuery) ||
+                $0.content.localizedCaseInsensitiveContains(searchQuery)
+            }
+        }
+        
+        // Category filter
+        if let selectedCategory = selectedCategoryFilter {
+            notes = notes.filter { $0.category == selectedCategory }
+        }
+        
+        // Attachment filter
+        if showOnlyWithAttachments {
+            notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil }
+        }
+        
+        // Reminder filter
+        if showOnlyWithReminders {
+            notes = notes.filter { $0.reminderDate != nil }
+        }
+        
+        // Date filter
+        let calendar = Calendar.current
+        let now = Date()
+        
+        switch dateFilterOption {
+        case .today:
+            notes = notes.filter { calendar.isDateInToday($0.startDate) }
+        case .thisWeek:
+            notes = notes.filter { calendar.isDate($0.startDate, equalTo: now, toGranularity: .weekOfYear) }
+        case .thisMonth:
+            notes = notes.filter { calendar.isDate($0.startDate, equalTo: now, toGranularity: .month) }
+        case .overdue:
+            notes = notes.filter { $0.endDate < now }
+        case .all:
+            break
+        }
+        
+        // Sort
+        switch sortOption {
+        case .dateCreated:
+            notes.sort { $0.startDate > $1.startDate }
+        case .title:
+            notes.sort { $0.title.lowercased() < $1.title.lowercased() }
+        case .category:
+            notes.sort { $0.category.rawValue < $1.category.rawValue }
+        case .priority:
+            notes.sort { 
+                let firstPriority = getPriority(for: $0)
+                let secondPriority = getPriority(for: $1)
+                if firstPriority == secondPriority {
+                    return $0.startDate > $1.startDate
+                }
+                return firstPriority > secondPriority
+            }
+        }
+        
+        return notes
+    }
+    
+    private func getPriority(for note: StickyNote) -> Int {
+        var priority = 0
+        
+        // High priority for urgent category
+        if note.category == .urgent { priority += 10 }
+        
+        // High priority for important category
+        if note.category == .important { priority += 8 }
+        
+        // Medium priority for notes with reminders
+        if note.reminderDate != nil { priority += 5 }
+        
+        // Medium priority for overdue notes
+        if note.endDate < Date() { priority += 3 }
+        
+        // Low priority for notes with attachments
+        if note.attachment != nil || note.audioURL != nil || note.videoURL != nil { priority += 1 }
+        
+        return priority
     }
 
     func saveNotes() {
