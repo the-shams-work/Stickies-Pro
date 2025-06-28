@@ -82,7 +82,13 @@ struct AddNoteView: View {
 
                     Picker("Category", selection: $selectedCategory) {
                         ForEach(NoteCategory.allCases) { category in
-                            Text(category.rawValue).tag(category)
+                            HStack {
+                                Text(category.rawValue)
+                                Spacer()
+                                Image(systemName: category.systemImage)
+                                    .foregroundColor(.blue)
+                            }
+                            .tag(category)
                         }
                     }
                 }

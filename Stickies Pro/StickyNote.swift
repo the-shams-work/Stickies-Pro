@@ -8,30 +8,79 @@
 import SwiftUI
 
 enum NoteCategory: String, CaseIterable, Identifiable, Codable {
-    case todo = "To Do 📅"
-    case journal = "Journals 📝"
-    case ideas = "Ideas 💡"
-    case study = "Study Notes 📚"
-    case finance = "Finance 💰"
-    case work = "Work Notes 📁"
-    case goals = "Goals 🎯"
-    case important = "Important 📌"
-    case projects = "Projects 📊"
-    case music = "Music & Lyrics 🎶"
-    case books = "Book Notes 📖"
-    case movies = "Movie Reviews 🎬"
-    case art = "Art & Design 🎨"
-    case writing = "Writing & Blog ✍️"
-    case diet = "Diet & Fitness 🥗"
-    case mental = "Mental Wellness 🧘"
-    case health = "Health Records 🏥"
-    case travel = "Travel Plans 🛫"
-    case memories = "Memories 📸"
-    case urgent = "Urgent ⚠️"
-    case home = "Home & Family 🏠"
-    case shopping = "Shopping List 🛍️"
+    case todo = "To Do"
+    case journal = "Journals"
+    case ideas = "Ideas"
+    case study = "Study Notes"
+    case finance = "Finance"
+    case work = "Work Notes"
+    case goals = "Goals"
+    case important = "Important"
+    case projects = "Projects"
+    case music = "Music & Lyrics"
+    case books = "Book Notes"
+    case movies = "Movie Reviews"
+    case art = "Art & Design"
+    case writing = "Writing & Blog"
+    case diet = "Diet & Fitness"
+    case mental = "Mental Wellness"
+    case health = "Health Records"
+    case travel = "Travel Plans"
+    case memories = "Memories"
+    case urgent = "Urgent"
+    case home = "Home & Family"
+    case shopping = "Shopping List"
 
     var id: String { self.rawValue }
+    
+    var systemImage: String {
+        switch self {
+        case .todo:
+            return "checklist"
+        case .journal:
+            return "book"
+        case .ideas:
+            return "lightbulb"
+        case .study:
+            return "graduationcap"
+        case .finance:
+            return "dollarsign.circle"
+        case .work:
+            return "briefcase"
+        case .goals:
+            return "target"
+        case .important:
+            return "exclamationmark.triangle"
+        case .projects:
+            return "chart.bar"
+        case .music:
+            return "music.note"
+        case .books:
+            return "text.book.closed"
+        case .movies:
+            return "film"
+        case .art:
+            return "paintbrush"
+        case .writing:
+            return "pencil"
+        case .diet:
+            return "leaf"
+        case .mental:
+            return "brain.head.profile"
+        case .health:
+            return "cross.case"
+        case .travel:
+            return "airplane"
+        case .memories:
+            return "photo"
+        case .urgent:
+            return "exclamationmark.octagon"
+        case .home:
+            return "house"
+        case .shopping:
+            return "cart"
+        }
+    }
 }
 
 struct StickyNote: Identifiable, Codable {
