@@ -10,7 +10,6 @@ import SwiftUI
 struct MainView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @StateObject var viewModel = NotesViewModel()
-    @State private var showOnboarding = !UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
 
     var body: some View {
         if hasSeenOnboarding {

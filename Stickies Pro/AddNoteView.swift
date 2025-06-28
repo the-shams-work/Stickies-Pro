@@ -27,10 +27,6 @@ struct AddNoteView: View {
     @State private var isTimeBounded: Bool
     @State private var wantsReminder: Bool
 
-    @State private var showImagePicker = false
-    @State private var showAudioPicker = false
-    @State private var showVideoPicker = false
-
     let today = Date()
 
     init(viewModel: NotesViewModel, showAddNote: Binding<Bool>, editingNote: StickyNote? = nil) {

@@ -51,14 +51,6 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    var activeNotes: [StickyNote] {
-        notes.filter { !$0.isDone }
-    }
-
-    var completedNotes: [StickyNote] {
-        notes.filter { $0.isDone }
-    }
-
     func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?) -> StickyNote {
         let newNote = StickyNote(
             title: title,

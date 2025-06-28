@@ -18,14 +18,8 @@ struct StickyNoteView: View {
     @State private var showActionSheet = false
     @State private var showFullText = false
     @State private var textLimit = 125
-    @State private var player: AVPlayer?
-    @State private var isPlaying = false
     @State private var showFullScreenImage = false
     @State private var showFullScreenVideo = false
-    @State private var audioPlayer: AVPlayer?
-    @State private var isAudioPlaying = false
-    @State private var audioProgress: Double = 0.0
-    @State private var audioDuration: Double = 0.0
     @State private var showAudioPlayer = false
 
     var body: some View {
@@ -192,31 +186,6 @@ struct StickyNoteView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter.string(from: date)
-    }
-
-    @MainActor private func setupAudioPlayer(url: URL) {
-           audioPlayer = AVPlayer(url: url)
-           let asset = AVAsset(url: url)
-           
-           Task {
-               let duration = try? await asset.load(.duration)
-               audioDuration = duration.map { CMTimeGetSeconds($0) } ?? 0.0
-           }
-
-           Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-               Task { @MainActor in
-                   if let currentTime = audioPlayer?.currentTime() {
-                       audioProgress = CMTimeGetSeconds(currentTime)
-                   }
-               }
-           }
-       }
-
-
-    private func formatTime(_ seconds: Double) -> String {
-        let minutes = Int(seconds) / 60
-        let seconds = Int(seconds) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
