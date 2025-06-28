@@ -76,20 +76,18 @@ struct AudioPickerButton: View {
         Button("Select Audio") { 
             showActionSheet = true 
         }
-        .actionSheet(isPresented: $showActionSheet) {
-            ActionSheet(
-                title: Text("Select Audio"),
-                message: Text("Choose how you want to add audio"),
-                buttons: [
-                    .default(Text("Record Audio")) {
-                        requestMicrophonePermission()
-                    },
-                    .default(Text("Choose File")) {
-                        showAudioPicker = true
-                    },
-                    .cancel()
-                ]
-            )
+        .confirmationDialog("Select Audio", isPresented: $showActionSheet, titleVisibility: .visible) {
+            Button("Record Audio") {
+                requestMicrophonePermission()
+            }
+            
+            Button("Choose File") {
+                showAudioPicker = true
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Choose how you want to add audio")
         }
         .sheet(isPresented: $showAudioPicker) {
             MediaPicker(mediaType: .audio, mediaURL: $selectedAudioURL)

@@ -57,22 +57,20 @@ struct VideoPickerButton: View {
         Button("Select Video") { 
             showActionSheet = true 
         }
-        .actionSheet(isPresented: $showActionSheet) {
-            ActionSheet(
-                title: Text("Select Video"),
-                message: Text("Choose how you want to add a video"),
-                buttons: [
-                    .default(Text("Camera")) {
-                        selectedSourceType = .camera
-                        showVideoPicker = true
-                    },
-                    .default(Text("Photo Library")) {
-                        selectedSourceType = .photoLibrary
-                        showVideoPicker = true
-                    },
-                    .cancel()
-                ]
-            )
+        .confirmationDialog("Select Video", isPresented: $showActionSheet, titleVisibility: .visible) {
+            Button("Camera") {
+                selectedSourceType = .camera
+                showVideoPicker = true
+            }
+            
+            Button("Photo Library") {
+                selectedSourceType = .photoLibrary
+                showVideoPicker = true
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Choose how you want to add a video")
         }
         .sheet(isPresented: $showVideoPicker) {
             VideoPicker(videoURL: $selectedVideoURL, sourceType: selectedSourceType)

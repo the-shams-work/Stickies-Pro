@@ -15,7 +15,6 @@ struct StickyNoteView: View {
     let onDelete: () -> Void
 
     @State private var showDeleteConfirmation = false
-    @State private var showActionSheet = false
     @State private var showFullText = false
     @State private var textLimit = 125
     @State private var showFullScreenImage = false
@@ -135,39 +134,37 @@ struct StickyNoteView: View {
         .background(note.colorValue)
         .cornerRadius(12)
         .shadow(radius: 5)
-        .onLongPressGesture {
-            showActionSheet.toggle()
-        }
-        .actionSheet(isPresented: $showActionSheet) {
+        .contextMenu {
             if note.isDone {
-                return ActionSheet(
-                    title: Text("Choose an action for this note."),
-                    buttons: [
-                        .destructive(Text("Delete")) {
-                            showDeleteConfirmation = true
-                        },
-                        .default(Text("Active")) {
-                            markAsDone()
-                        },
-                        .cancel()
-                    ]
-                )
+                Button(action: {
+                    markAsDone()
+                }) {
+                    Label("Mark as Active", systemImage: "arrow.clockwise")
+                }
+                
+                Button(role: .destructive, action: {
+                    showDeleteConfirmation = true
+                }) {
+                    Label("Delete", systemImage: "trash")
+                }
             } else {
-                return ActionSheet(
-                    title: Text("Choose an action for this note."),
-                    buttons: [
-                        .default(Text("Edit")) {
-                            onEdit()
-                        },
-                        .destructive(Text("Delete")) {
-                            showDeleteConfirmation = true
-                        },
-                        .default(Text("Archive")) {
-                            markAsDone()
-                        },
-                        .cancel()
-                    ]
-                )
+                Button(action: {
+                    onEdit()
+                }) {
+                    Label("Edit", systemImage: "pencil")
+                }
+                
+                Button(action: {
+                    markAsDone()
+                }) {
+                    Label("Archive", systemImage: "archivebox")
+                }
+                
+                Button(role: .destructive, action: {
+                    showDeleteConfirmation = true
+                }) {
+                    Label("Delete", systemImage: "trash")
+                }
             }
         }
         .alert(isPresented: $showDeleteConfirmation) {

@@ -55,22 +55,20 @@ struct ImagePickerButton: View {
         Button("Select Image") { 
             showActionSheet = true 
         }
-        .actionSheet(isPresented: $showActionSheet) {
-            ActionSheet(
-                title: Text("Select Image"),
-                message: Text("Choose how you want to add an image"),
-                buttons: [
-                    .default(Text("Camera")) {
-                        selectedSourceType = .camera
-                        showImagePicker = true
-                    },
-                    .default(Text("Photo Library")) {
-                        selectedSourceType = .photoLibrary
-                        showImagePicker = true
-                    },
-                    .cancel()
-                ]
-            )
+        .confirmationDialog("Select Image", isPresented: $showActionSheet, titleVisibility: .visible) {
+            Button("Camera") {
+                selectedSourceType = .camera
+                showImagePicker = true
+            }
+            
+            Button("Photo Library") {
+                selectedSourceType = .photoLibrary
+                showImagePicker = true
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Choose how you want to add an image")
         }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $selectedImage, sourceType: selectedSourceType)
