@@ -94,7 +94,7 @@ struct StickyNote: Identifiable, Codable {
     var category: NoteCategory
     var attachmentData: Data?
     var audioURLString: String?
-    var videoURLString: String? 
+    var videoURLString: String?
     var reminderDate: Date?
 
     var attachment: UIImage? {

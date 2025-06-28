@@ -19,18 +19,12 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Modern Search Bar
                 searchBar
                 
-                // Filter Chips
                 if hasActiveFilters {
                     filterChips
                 }
-                
-                // Sort Options
                 sortOptions
-                
-                // Notes List
                 notesList
             }
             .navigationTitle("My Notes")
@@ -88,7 +82,7 @@ struct ContentView: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSearchFocused ? Color.blue : Color.clear, lineWidth: 1)
+                    .stroke(isSearchFocused ? Color.purple : Color.clear, lineWidth: 1)
             )
             
             if !viewModel.searchQuery.isEmpty {
@@ -96,7 +90,7 @@ struct ContentView: View {
                     viewModel.searchQuery = ""
                     isSearchFocused = false
                 }
-                .foregroundColor(.blue)
+                .foregroundColor(.purple)
                 .font(.system(size: 16, weight: .medium))
             }
         }
@@ -120,7 +114,7 @@ struct ContentView: View {
                     FilterChip(
                         title: category.rawValue,
                         systemImage: category.systemImage,
-                        color: .blue
+                        color: .purple
                     ) {
                         viewModel.selectedCategoryFilter = nil
                     }
@@ -130,7 +124,7 @@ struct ContentView: View {
                     FilterChip(
                         title: "With Attachments",
                         systemImage: "paperclip",
-                        color: .green
+                        color: .purple
                     ) {
                         viewModel.showOnlyWithAttachments = false
                     }
@@ -140,7 +134,7 @@ struct ContentView: View {
                     FilterChip(
                         title: "With Reminders",
                         systemImage: "bell",
-                        color: .orange
+                        color: .purple
                     ) {
                         viewModel.showOnlyWithReminders = false
                     }
@@ -228,13 +222,7 @@ struct ContentView: View {
                             .font(.system(size: 24, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(width: 56, height: 56)
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [.blue, .purple]),
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
+                            .background(Color.purple)
                             .clipShape(Circle())
                             .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                     }
@@ -257,7 +245,7 @@ struct ContentView: View {
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
             
-            Text(viewModel.searchQuery.isEmpty ? "Tap the + button to create your first note" : "Try adjusting your search or filters")
+            Text(viewModel.searchQuery.isEmpty ? "Tap the + button to create your note" : "Try adjusting your search or filters")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -273,7 +261,7 @@ struct ContentView: View {
         }) {
             Image(systemName: "line.3.horizontal.decrease.circle")
                 .font(.system(size: 20))
-                .foregroundColor(hasActiveFilters ? .blue : .primary)
+                .foregroundColor(hasActiveFilters ? .purple : .primary)
         }
     }
 }
@@ -317,7 +305,7 @@ struct SortButton: View {
                 .font(.system(size: 14, weight: .medium))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? Color.blue : Color(.systemGray5))
+                .background(isSelected ? Color.purple : Color(.systemGray5))
                 .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(20)
         }
@@ -339,7 +327,7 @@ struct FilterView: View {
                                 Text(category.rawValue)
                                 Spacer()
                                 Image(systemName: category.systemImage)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.purple)
                             }
                             .tag(category as NoteCategory?)
                         }
@@ -354,7 +342,7 @@ struct FilterView: View {
                                 Text(option.rawValue)
                                 Spacer()
                                 Image(systemName: option.systemImage)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.purple)
                             }
                             .tag(option)
                         }
