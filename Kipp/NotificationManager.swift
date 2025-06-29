@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  Stickies Pro
+//  NotificationManager.swift
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 18/02/25.
 //
@@ -110,7 +110,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                 }
             } else {
                 print("❌ Notifications not authorized. Current status: \(settings.authorizationStatus.rawValue)")
-                print("💡 User needs to enable notifications in Settings > Notifications > Stickies Pro")
+                print("💡 User needs to enable notifications in Settings > Notifications > Kipp")
             }
         }
     }

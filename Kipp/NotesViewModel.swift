@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  Stickies Pro
+//  NotesViewModel.swift
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //

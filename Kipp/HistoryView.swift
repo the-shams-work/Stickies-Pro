@@ -1,11 +1,12 @@
 //
 //  HistoryView.swift
-//  Stickies Pro
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //
 
 import SwiftUI
+
 struct HistoryView: View {
     @ObservedObject var viewModel: NotesViewModel
 

@@ -1,6 +1,6 @@
 //
 //  OnboardingView.swift
-//  Stickies Pro
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 16/02/25.
 //
@@ -22,7 +22,7 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack {
-            Text("Welcome to Stikies Pro")
+            Text("Welcome to Kipp")
                 .font(.largeTitle.bold())
                 .foregroundColor(.purple)
                 .padding(.top, 30)

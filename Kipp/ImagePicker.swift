@@ -1,6 +1,6 @@
 //
 //  ImagePicker.swift
-//  Stickies Pro
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //
@@ -52,7 +52,7 @@ struct ImagePickerButton: View {
     @State private var selectedSourceType: UIImagePickerController.SourceType = .photoLibrary
     
     var body: some View {
-        Button("Select Image") { 
+        Button("Add Image") { 
             showActionSheet = true 
         }
         .confirmationDialog("Select Image", isPresented: $showActionSheet, titleVisibility: .visible) {

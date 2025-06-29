@@ -1,28 +1,27 @@
 //
-//  File.swift
-//  Stickies Pro
+//  ZoomableImageView.swift
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 20/02/25.
 //
 
 import SwiftUI
-import AVKit
 
-struct ZoomableVideoView: View {
-    let videoURL: URL
+struct ZoomableImageView: View {
+    let image: UIImage
     @Environment(\.dismiss) var dismiss
-    
+
     @State private var scale: CGFloat = 1.0
     @State private var lastScale: CGFloat = 1.0
     @State private var offset = CGSize.zero
     @State private var lastOffset = CGSize.zero
-    @State private var player: AVPlayer?
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
 
-            VideoPlayer(player: player)
+            Image(uiImage: image)
+                .resizable()
                 .scaledToFit()
                 .scaleEffect(scale)
                 .offset(offset)
@@ -76,13 +75,5 @@ struct ZoomableVideoView: View {
                 Spacer()
             }
         }
-        .onAppear {
-            setupVideoPlayer()
-        }
-    }
-    
-    private func setupVideoPlayer() {
-        player = AVPlayer(url: videoURL)
-        player?.play() 
     }
 }

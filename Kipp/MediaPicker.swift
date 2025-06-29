@@ -1,6 +1,6 @@
 //
 //  MediaPicker.swift
-//  Stickies Pro
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //
@@ -73,7 +73,7 @@ struct AudioPickerButton: View {
     @State private var recordingURL: URL?
     
     var body: some View {
-        Button("Select Audio") { 
+        Button("Add Audio") { 
             showActionSheet = true 
         }
         .confirmationDialog("Select Audio", isPresented: $showActionSheet, titleVisibility: .visible) {

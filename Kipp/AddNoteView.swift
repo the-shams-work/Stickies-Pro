@@ -1,6 +1,6 @@
 //
 //  AddNoteView.swift
-//  Stickies Pro
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 13/02/25.
 //

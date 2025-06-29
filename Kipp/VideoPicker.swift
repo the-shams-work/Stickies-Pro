@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  Stickies Pro
+//  VideoPicker.swift
+//  Kipp
 //
 //  Created by Shams Tabrej Alam on 17/02/25.
 //
@@ -54,8 +54,8 @@ struct VideoPickerButton: View {
     @State private var selectedSourceType: UIImagePickerController.SourceType = .photoLibrary
     
     var body: some View {
-        Button("Select Video") { 
-            showActionSheet = true 
+        Button("Add Video") {
+            showActionSheet = true
         }
         .confirmationDialog("Select Video", isPresented: $showActionSheet, titleVisibility: .visible) {
             Button("Camera") {
