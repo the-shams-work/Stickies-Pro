@@ -51,6 +51,7 @@ class NotesViewModel: ObservableObject {
 
     init() {
         loadNotes()
+        removeExpiredNotes()
     }
 
     var filteredNotes: [StickyNote] {
@@ -219,6 +220,7 @@ class NotesViewModel: ObservableObject {
             let data = try Data(contentsOf: notesFileURL)
             notes = try JSONDecoder().decode([StickyNote].self, from: data)
             print("✅ Notes loaded from disk.")
+            removeExpiredNotes()
         } catch {
             print("⚠️ No saved notes found or failed to load: \(error)")
         }
@@ -267,5 +269,11 @@ class NotesViewModel: ObservableObject {
             notes[index].isDone.toggle()
             objectWillChange.send()
         }
+    }
+
+    func removeExpiredNotes() {
+        let today = Calendar.current.startOfDay(for: Date())
+        notes.removeAll { $0.endDate < today }
+        saveNotes()
     }
 }

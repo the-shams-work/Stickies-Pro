@@ -30,6 +30,7 @@ struct AddNoteView: View {
     // Validation state variables
     @State private var showValidationAlert = false
     @State private var validationMessage = ""
+    @State private var showFutureNoteAlert = false
 
     let today = Date()
 
@@ -80,7 +81,9 @@ struct AddNoteView: View {
         let useStartDate = isTimeBounded ? startDate : today
         let useEndDate = isTimeBounded ? endDate : today
         let useReminderDate = wantsReminder ? reminderDate : nil
-        
+        let calendar = Calendar.current
+        let isFutureStart = !calendar.isDateInToday(useStartDate) && useStartDate > today
+
         if let editingNote {
             viewModel.updateNote(
                 id: editingNote.id,
@@ -128,7 +131,11 @@ struct AddNoteView: View {
                 )
             }
         }
-        showAddNote = false
+        if isFutureStart {
+            showFutureNoteAlert = true
+        } else {
+            showAddNote = false
+        }
     }
 
     var body: some View {
@@ -136,7 +143,7 @@ struct AddNoteView: View {
             Form {
                 Section(header: Text("Note Details")) {
                     TextField("Title", text: $title)
-                    TextField("Body",text: $content, axis: .vertical)
+                    TextField("Content",text: $content, axis: .vertical)
                         .lineLimit(5, reservesSpace: true)
                 }
 
@@ -208,6 +215,11 @@ struct AddNoteView: View {
                 Button("OK") { }
             } message: {
                 Text(validationMessage)
+            }
+            .alert("Note Scheduled", isPresented: $showFutureNoteAlert) {
+                Button("OK") { showAddNote = false }
+            } message: {
+                Text("Your note will be activated and shown as per your selected date.")
             }
         }
     }
