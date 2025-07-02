@@ -26,6 +26,10 @@ struct AddNoteView: View {
     @State private var reminderDate: Date?
     @State private var isTimeBounded: Bool
     @State private var wantsReminder: Bool
+    
+    // Validation state variables
+    @State private var showValidationAlert = false
+    @State private var validationMessage = ""
 
     let today = Date()
 
@@ -51,6 +55,80 @@ struct AddNoteView: View {
             return !calendar.isDate(editingNote.startDate, inSameDayAs: today) || !calendar.isDate(editingNote.endDate, inSameDayAs: today)
         }())
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
+    }
+
+    // MARK: - Validation Function
+    private func validateNote() -> Bool {
+        if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            validationMessage = "Please enter a title for your note."
+            showValidationAlert = true
+            return false
+        }
+        
+        if content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            validationMessage = "Please enter content for your note."
+            showValidationAlert = true
+            return false
+        }
+        
+        return true
+    }
+    
+    private func saveNote() {
+        guard validateNote() else { return }
+        
+        let useStartDate = isTimeBounded ? startDate : today
+        let useEndDate = isTimeBounded ? endDate : today
+        let useReminderDate = wantsReminder ? reminderDate : nil
+        
+        if let editingNote {
+            viewModel.updateNote(
+                id: editingNote.id,
+                title: title,
+                content: content,
+                startDate: useStartDate,
+                endDate: useEndDate,
+                color: selectedColor,
+                category: selectedCategory,
+                attachment: selectedImage,
+                audioURL: selectedAudioURL,
+                videoURL: selectedVideoURL,
+                reminderDate: useReminderDate
+            )
+
+            if let reminderDate = useReminderDate {
+                NotificationManager.shared.removeNotification(identifier: editingNote.id.uuidString)
+                NotificationManager.shared.scheduleNotification(
+                    title: "Reminder: \(title)",
+                    body: content,
+                    date: reminderDate,
+                    identifier: editingNote.id.uuidString
+                )
+            }
+        } else {
+            let newNote = viewModel.addNote(
+                title: title,
+                content: content,
+                startDate: useStartDate,
+                endDate: useEndDate,
+                color: selectedColor,
+                category: selectedCategory,
+                attachment: selectedImage,
+                audioURL: selectedAudioURL,
+                videoURL: selectedVideoURL,
+                reminderDate: useReminderDate
+            )
+
+            if let reminderDate = useReminderDate, reminderDate > Date() {
+                NotificationManager.shared.scheduleNotification(
+                    title: "Reminder: \(title)",
+                    body: content,
+                    date: reminderDate,
+                    identifier: newNote.id.uuidString
+                )
+            }
+        }
+        showAddNote = false
     }
 
     var body: some View {
@@ -121,61 +199,15 @@ struct AddNoteView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        let useStartDate = isTimeBounded ? startDate : today
-                        let useEndDate = isTimeBounded ? endDate : today
-                        let useReminderDate = wantsReminder ? reminderDate : nil
-                        if let editingNote {
-                            viewModel.updateNote(
-                                id: editingNote.id,
-                                title: title,
-                                content: content,
-                                startDate: useStartDate,
-                                endDate: useEndDate,
-                                color: selectedColor,
-                                category: selectedCategory,
-                                attachment: selectedImage,
-                                audioURL: selectedAudioURL,
-                                videoURL: selectedVideoURL,
-                                reminderDate: useReminderDate
-                            )
-
-                            if let reminderDate = useReminderDate {
-                                NotificationManager.shared.removeNotification(identifier: editingNote.id.uuidString)
-                                NotificationManager.shared.scheduleNotification(
-                                    title: "Reminder: \(title)",
-                                    body: content,
-                                    date: reminderDate,
-                                    identifier: editingNote.id.uuidString
-                                )
-                            }
-                        } else {
-                            let newNote = viewModel.addNote(
-                                title: title,
-                                content: content,
-                                startDate: useStartDate,
-                                endDate: useEndDate,
-                                color: selectedColor,
-                                category: selectedCategory,
-                                attachment: selectedImage,
-                                audioURL: selectedAudioURL,
-                                videoURL: selectedVideoURL,
-                                reminderDate: useReminderDate
-                            )
-
-                            if let reminderDate = useReminderDate, reminderDate > Date() {
-                                NotificationManager.shared.scheduleNotification(
-                                    title: "Reminder: \(title)",
-                                    body: content,
-                                    date: reminderDate,
-                                    identifier: newNote.id.uuidString
-                                )
-                            }
-                        }
-                        showAddNote = false
+                        saveNote()
                     }
                     .foregroundColor(.purple)
-                    .disabled(title.isEmpty || content.isEmpty)
                 }
+            }
+            .alert("Validation Error", isPresented: $showValidationAlert) {
+                Button("OK") { }
+            } message: {
+                Text(validationMessage)
             }
         }
     }

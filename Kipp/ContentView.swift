@@ -340,6 +340,9 @@ struct FilterView: View {
     @Binding var showingArchivedNotes: Bool
     @Environment(\.presentationMode) var presentationMode
     
+    // Reset confirmation state
+    @State private var showResetConfirmation = false
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {

@@ -28,20 +28,26 @@ struct StickyNoteView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            if note.content.count > textLimit {
+            let needsExpandButton = note.content.count > textLimit || note.content.contains("\n")
+            if needsExpandButton {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(showFullText ? note.content : String(note.content.prefix(textLimit)) + "...")
+                    Text(showFullText ? note.content : String(note.content.prefix(textLimit)) + (showFullText ? "" : "..."))
                         .font(.body)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(showFullText ? nil : 3)
 
                     HStack {
                         Spacer()
                         Button(action: { showFullText.toggle() }) {
-                            Text(showFullText ? "See Less" : "See More")
-                                .font(.caption)
+                            Image(systemName: showFullText ? "chevron.up" : "chevron.down")
+                                .font(.system(size: 18, weight: .bold))
                                 .foregroundColor(.white)
+                                .padding(6)
+                                .background(Color.white.opacity(0.18))
+                                .clipShape(Circle())
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
             } else {
