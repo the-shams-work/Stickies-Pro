@@ -260,8 +260,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Kipp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needs your camera to let you snap pictures or record videos for your notes.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone access is rerquired to use the microphone.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Kipp Microphone access is required for speech recogniztion.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(PRODUCT_NAME) Allows you to record audio and save it as an attachment in your notes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -271,7 +270,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tabrejshamsalam.Kipp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -294,8 +293,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Kipp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needs your camera to let you snap pictures or record videos for your notes.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone access is rerquired to use the microphone.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Kipp Microphone access is required for speech recogniztion.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(PRODUCT_NAME) Allows you to record audio and save it as an attachment in your notes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -305,7 +303,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tabrejshamsalam.Kipp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

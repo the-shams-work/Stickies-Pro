@@ -21,7 +21,7 @@ class NotesViewModel: ObservableObject {
     @Published var dateFilterOption: DateFilterOption = .all
 
     enum SortOption {
-        case dateCreated, title, category, priority
+        case dateCreated, title, category
     }
     
     enum DateFilterOption: String, CaseIterable {
@@ -105,15 +105,6 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.title.lowercased() < $1.title.lowercased() }
         case .category:
             notes.sort { $0.category.rawValue < $1.category.rawValue }
-        case .priority:
-            notes.sort { 
-                let firstPriority = getPriority(for: $0)
-                let secondPriority = getPriority(for: $1)
-                if firstPriority == secondPriority {
-                    return $0.startDate > $1.startDate
-                }
-                return firstPriority > secondPriority
-            }
         }
         
         return notes
@@ -170,40 +161,11 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.title.lowercased() < $1.title.lowercased() }
         case .category:
             notes.sort { $0.category.rawValue < $1.category.rawValue }
-        case .priority:
-            notes.sort { 
-                let firstPriority = getPriority(for: $0)
-                let secondPriority = getPriority(for: $1)
-                if firstPriority == secondPriority {
-                    return $0.startDate > $1.startDate
-                }
-                return firstPriority > secondPriority
-            }
         }
         
         return notes
     }
     
-    private func getPriority(for note: StickyNote) -> Int {
-        var priority = 0
-        
-        // High priority for urgent category
-        if note.category == .urgent { priority += 10 }
-        
-        // High priority for important category
-        if note.category == .important { priority += 8 }
-        
-        // Medium priority for notes with reminders
-        if note.reminderDate != nil { priority += 5 }
-        
-        // Medium priority for overdue notes
-        if note.endDate < Date() { priority += 3 }
-        
-        // Low priority for notes with attachments
-        if note.attachment != nil || note.audioURL != nil || note.videoURL != nil { priority += 1 }
-        
-        return priority
-    }
 
     func saveNotes() {
         do {
