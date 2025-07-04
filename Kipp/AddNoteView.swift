@@ -139,88 +139,86 @@ struct AddNoteView: View {
     }
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Note Details")) {
-                    TextField("Title", text: $title)
-                    TextField("Content",text: $content, axis: .vertical)
-                        .lineLimit(5, reservesSpace: true)
+        Form {
+            Section(header: Text("Note Details")) {
+                TextField("Title", text: $title)
+                TextField("Content",text: $content, axis: .vertical)
+                    .lineLimit(5, reservesSpace: true)
+            }
+
+            Section(header: Text("Date & Time")) {
+                Toggle("Is this a time-bounded note?", isOn: $isTimeBounded)
+                if isTimeBounded {
+                    DatePicker("Start Date", selection: $startDate, in: today..., displayedComponents: .date)
+                    DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
                 }
-
-                Section(header: Text("Date & Time")) {
-                    Toggle("Is this a time-bounded note?", isOn: $isTimeBounded)
-                    if isTimeBounded {
-                        DatePicker("Start Date", selection: $startDate, in: today..., displayedComponents: .date)
-                        DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
-                    }
-                    Toggle("Set a reminder?", isOn: $wantsReminder)
-                    if wantsReminder {
-                        DatePicker("Date & Time", selection: Binding(
-                            get: { reminderDate ?? today },
-                            set: { reminderDate = $0 }
-                        ), in: today..., displayedComponents: [.date, .hourAndMinute])
-                    }
-                }
-
-                Section(header: Text("Customization")) {
-                    ColorPicker("Note Color", selection: $selectedColor)
-
-                    Picker("Category", selection: $selectedCategory) {
-                        ForEach(NoteCategory.allCases) { category in
-                            CategoryRowView(category: category)
-                                .tag(category)
-                        }
-                    }
-                    .tint(.purple)
-                }
-
-                Section(header: Text("Attachments")) {
-                    ImagePickerButton(selectedImage: $selectedImage)
-                    if let image = selectedImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 150)
-                            .cornerRadius(8)
-                    }
-
-                    AudioPickerButton(selectedAudioURL: $selectedAudioURL)
-                    if let audioURL = selectedAudioURL {
-                        Text("Audio: \(audioURL.lastPathComponent)")
-                    }
-
-                    VideoPickerButton(selectedVideoURL: $selectedVideoURL)
-                    if let videoURL = selectedVideoURL {
-                        Text("Video: \(videoURL.lastPathComponent)")
-                    }
+                Toggle("Set a reminder?", isOn: $wantsReminder)
+                if wantsReminder {
+                    DatePicker("Date & Time", selection: Binding(
+                        get: { reminderDate ?? today },
+                        set: { reminderDate = $0 }
+                    ), in: today..., displayedComponents: [.date, .hourAndMinute])
                 }
             }
-            .tint(.purple)
-            .navigationBarTitle(editingNote == nil ? "New Note" : "Edit Sticky Note", displayMode: .inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") { 
-                        showAddNote = false 
+
+            Section(header: Text("Customization")) {
+                ColorPicker("Note Color", selection: $selectedColor)
+
+                Picker("Category", selection: $selectedCategory) {
+                    ForEach(NoteCategory.allCases) { category in
+                        CategoryRowView(category: category)
+                            .tag(category)
                     }
-                    .foregroundColor(.purple)
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        saveNote()
-                    }
-                    .foregroundColor(.purple)
+                .tint(.purple)
+            }
+
+            Section(header: Text("Attachments")) {
+                ImagePickerButton(selectedImage: $selectedImage)
+                if let image = selectedImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150)
+                        .cornerRadius(8)
+                }
+
+                AudioPickerButton(selectedAudioURL: $selectedAudioURL)
+                if let audioURL = selectedAudioURL {
+                    Text("Audio: \(audioURL.lastPathComponent)")
+                }
+
+                VideoPickerButton(selectedVideoURL: $selectedVideoURL)
+                if let videoURL = selectedVideoURL {
+                    Text("Video: \(videoURL.lastPathComponent)")
                 }
             }
-            .alert("Validation Error", isPresented: $showValidationAlert) {
-                Button("OK") { }
-            } message: {
-                Text(validationMessage)
+        }
+        .tint(.purple)
+        .navigationBarTitle(editingNote == nil ? "New Note" : "Edit Sticky Note", displayMode: .inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Cancel") { 
+                    showAddNote = false 
+                }
+                .foregroundColor(.purple)
             }
-            .alert("Note Scheduled", isPresented: $showFutureNoteAlert) {
-                Button("OK") { showAddNote = false }
-            } message: {
-                Text("Your note will be activated and shown as per your selected date.")
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Save") {
+                    saveNote()
+                }
+                .foregroundColor(.purple)
             }
+        }
+        .alert("Validation Error", isPresented: $showValidationAlert) {
+            Button("OK") { }
+        } message: {
+            Text(validationMessage)
+        }
+        .alert("Note Scheduled", isPresented: $showFutureNoteAlert) {
+            Button("OK") { showAddNote = false }
+        } message: {
+            Text("Your note will be activated and shown as per your selected date.")
         }
     }
 }

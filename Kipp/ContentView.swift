@@ -18,7 +18,7 @@ struct ContentView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 0) {
                 searchBar
                 
@@ -36,18 +36,22 @@ struct ContentView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
-            .sheet(isPresented: $showAddNote, onDismiss: { editingNote = nil }) {
+            .onAppear {
+                NotificationManager.shared.requestNotificationPermission()
+            }
+        }
+        .sheet(isPresented: $showAddNote, onDismiss: { editingNote = nil }) {
+            NavigationStack {
                 AddNoteView(
                     viewModel: viewModel,
                     showAddNote: $showAddNote,
                     editingNote: editingNote
                 )
             }
-            .sheet(isPresented: $showFilters) {
+        }
+        .sheet(isPresented: $showFilters) {
+            NavigationStack {
                 FilterView(viewModel: viewModel, showingArchivedNotes: $showingArchivedNotes)
-            }
-            .onAppear {
-                NotificationManager.shared.requestNotificationPermission()
             }
         }
     }
@@ -340,72 +344,70 @@ struct FilterView: View {
     @State private var showResetConfirmation = false
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                // Segmented Control for View Switching
-                Picker("View", selection: $showingArchivedNotes) {
-                    Text("My Notes").tag(false)
-                    Text("Archive").tag(true)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .tint(.purple)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(Color(.systemGroupedBackground))
-                
-                Form {
-                    Section(header: Text("Category")) {
-                        Picker("Category", selection: $viewModel.selectedCategoryFilter) {
-                            Text("All Categories").tag(nil as NoteCategory?)
-                            ForEach(NoteCategory.allCases) { category in
-                                CategoryRowView(category: category)
-                                    .tag(category as NoteCategory?)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .tint(.purple)
-                    }
-                    
-                    Section(header: Text("Date Range")) {
-                        Picker("Date Filter", selection: $viewModel.dateFilterOption) {
-                            ForEach(NotesViewModel.DateFilterOption.allCases, id: \.self) { option in
-                                HStack {
-                                    Text(option.rawValue)
-                                    Spacer()
-                                    Image(systemName: option.systemImage)
-                                        .foregroundColor(.purple)
-                                }
-                                .tag(option)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                    }
-                    
-                    Section(header: Text("Content Type")) {
-                        Toggle("Only notes with attachments", isOn: $viewModel.showOnlyWithAttachments)
-                        Toggle("Only notes with reminders", isOn: $viewModel.showOnlyWithReminders)
-                    }
-                }
-                .tint(.purple)
+        VStack(spacing: 0) {
+            // Segmented Control for View Switching
+            Picker("View", selection: $showingArchivedNotes) {
+                Text("My Notes").tag(false)
+                Text("Archive").tag(true)
             }
-            .navigationTitle("Filters")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Reset") {
-                        viewModel.selectedCategoryFilter = nil
-                        viewModel.showOnlyWithAttachments = false
-                        viewModel.showOnlyWithReminders = false
-                        viewModel.dateFilterOption = .all
+            .pickerStyle(SegmentedPickerStyle())
+            .tint(.purple)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(Color(.systemGroupedBackground))
+            
+            Form {
+                Section(header: Text("Category")) {
+                    Picker("Category", selection: $viewModel.selectedCategoryFilter) {
+                        Text("All Categories").tag(nil as NoteCategory?)
+                        ForEach(NoteCategory.allCases) { category in
+                            CategoryRowView(category: category)
+                                .tag(category as NoteCategory?)
+                        }
                     }
-                    .foregroundColor(.purple)
+                    .pickerStyle(MenuPickerStyle())
+                    .tint(.purple)
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        presentationMode.wrappedValue.dismiss()
+                
+                Section(header: Text("Date Range")) {
+                    Picker("Date Filter", selection: $viewModel.dateFilterOption) {
+                        ForEach(NotesViewModel.DateFilterOption.allCases, id: \.self) { option in
+                            HStack {
+                                Text(option.rawValue)
+                                Spacer()
+                                Image(systemName: option.systemImage)
+                                    .foregroundColor(.purple)
+                            }
+                            .tag(option)
+                        }
                     }
-                    .foregroundColor(.purple)
+                    .pickerStyle(MenuPickerStyle())
                 }
+                
+                Section(header: Text("Content Type")) {
+                    Toggle("Only notes with attachments", isOn: $viewModel.showOnlyWithAttachments)
+                    Toggle("Only notes with reminders", isOn: $viewModel.showOnlyWithReminders)
+                }
+            }
+            .tint(.purple)
+        }
+        .navigationTitle("Filters")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Reset") {
+                    viewModel.selectedCategoryFilter = nil
+                    viewModel.showOnlyWithAttachments = false
+                    viewModel.showOnlyWithReminders = false
+                    viewModel.dateFilterOption = .all
+                }
+                .foregroundColor(.purple)
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Done") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .foregroundColor(.purple)
             }
         }
     }
