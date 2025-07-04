@@ -53,7 +53,8 @@ struct AddNoteView: View {
             guard let editingNote = editingNote else { return false }
             let today = Date()
             let calendar = Calendar.current
-            return !calendar.isDate(editingNote.startDate, inSameDayAs: today) || !calendar.isDate(editingNote.endDate, inSameDayAs: today)
+            // Only set as time-bounded if the note actually has different start/end dates
+            return !calendar.isDate(editingNote.startDate, inSameDayAs: editingNote.endDate)
         }())
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
     }
@@ -78,10 +79,14 @@ struct AddNoteView: View {
     private func saveNote() {
         guard validateNote() else { return }
         
+        let calendar = Calendar.current
+        let today = Date()
+        
+        // For non-time-bounded notes, set both start and end date to today
+        // For time-bounded notes, use the selected dates
         let useStartDate = isTimeBounded ? startDate : today
         let useEndDate = isTimeBounded ? endDate : today
         let useReminderDate = wantsReminder ? reminderDate : nil
-        let calendar = Calendar.current
         let isFutureStart = !calendar.isDateInToday(useStartDate) && useStartDate > today
 
         if let editingNote {
@@ -96,7 +101,8 @@ struct AddNoteView: View {
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
-                reminderDate: useReminderDate
+                reminderDate: useReminderDate,
+                isTimeBounded: isTimeBounded
             )
 
             if let reminderDate = useReminderDate {
@@ -119,7 +125,8 @@ struct AddNoteView: View {
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
-                reminderDate: useReminderDate
+                reminderDate: useReminderDate,
+                isTimeBounded: isTimeBounded
             )
 
             if let reminderDate = useReminderDate, reminderDate > Date() {
@@ -147,7 +154,17 @@ struct AddNoteView: View {
             }
 
             Section(header: Text("Date & Time")) {
-                Toggle("Is this a time-bounded note?", isOn: $isTimeBounded)
+                Toggle("Is this a time-bounded note?", isOn: Binding(
+                    get: { isTimeBounded },
+                    set: { newValue in
+                        isTimeBounded = newValue
+                        if !newValue {
+                            // When disabling, reset dates to today
+                            startDate = today
+                            endDate = today
+                        }
+                    }
+                ))
                 if isTimeBounded {
                     DatePicker("Start Date", selection: $startDate, in: today..., displayedComponents: .date)
                     DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)

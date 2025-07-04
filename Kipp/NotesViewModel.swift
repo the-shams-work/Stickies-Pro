@@ -188,7 +188,7 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?) -> StickyNote {
+    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool) -> StickyNote {
         let newNote = StickyNote(
             title: title,
             content: content,
@@ -200,14 +200,14 @@ class NotesViewModel: ObservableObject {
             attachment: attachment,
             audioURL: audioURL,
             videoURL: videoURL,
-            reminderDate: reminderDate
+            reminderDate: reminderDate,
+            isTimeBounded: isTimeBounded
         )
-
         notes.append(newNote)
         return newNote
     }
 
-    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?) {
+    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].title = title
             notes[index].content = content
@@ -219,6 +219,7 @@ class NotesViewModel: ObservableObject {
             notes[index].audioURL = audioURL
             notes[index].videoURL = videoURL
             notes[index].reminderDate = reminderDate
+            notes[index].isTimeBounded = isTimeBounded
         }
     }
 
@@ -235,7 +236,7 @@ class NotesViewModel: ObservableObject {
 
     func removeExpiredNotes() {
         let today = Calendar.current.startOfDay(for: Date())
-        notes.removeAll { $0.endDate < today }
+        notes.removeAll { $0.isTimeBounded && $0.endDate < today }
         saveNotes()
     }
 }

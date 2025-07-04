@@ -58,8 +58,8 @@ struct StickyNoteView: View {
                     .lineLimit(3)
             }
 
-            // Only show dates if the note is time-bounded
-            if !Calendar.current.isDate(note.startDate, inSameDayAs: Date()) || !Calendar.current.isDate(note.endDate, inSameDayAs: Date()) {
+            // Only show dates if the note is time-bounded (start and end dates are different)
+            if !Calendar.current.isDate(note.startDate, inSameDayAs: note.endDate) {
                 Text("Start: \(formattedDate(note.startDate)) - End: \(formattedDate(note.endDate))")
                     .font(.footnote)
                     .foregroundColor(.white.opacity(0.8))

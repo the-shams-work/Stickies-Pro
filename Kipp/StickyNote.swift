@@ -96,6 +96,7 @@ struct StickyNote: Identifiable, Codable {
     var audioURLString: String?
     var videoURLString: String?
     var reminderDate: Date?
+    var isTimeBounded: Bool
 
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
@@ -114,7 +115,7 @@ struct StickyNote: Identifiable, Codable {
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool) {
         self.id = id
         self.title = title
         self.content = content
@@ -127,10 +128,11 @@ struct StickyNote: Identifiable, Codable {
         self.audioURLString = audioURL?.absoluteString
         self.videoURLString = videoURL?.absoluteString
         self.reminderDate = reminderDate
+        self.isTimeBounded = isTimeBounded
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, reminderDate
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, reminderDate, isTimeBounded
     }
 
     init(from decoder: Decoder) throws {
@@ -147,6 +149,7 @@ struct StickyNote: Identifiable, Codable {
         audioURLString = try container.decodeIfPresent(String.self, forKey: .audioURLString)
         videoURLString = try container.decodeIfPresent(String.self, forKey: .videoURLString)
         reminderDate = try container.decodeIfPresent(Date.self, forKey: .reminderDate)
+        isTimeBounded = try container.decodeIfPresent(Bool.self, forKey: .isTimeBounded) ?? false
     }
 
     func encode(to encoder: Encoder) throws {
@@ -163,6 +166,7 @@ struct StickyNote: Identifiable, Codable {
         try container.encodeIfPresent(audioURLString, forKey: .audioURLString)
         try container.encodeIfPresent(videoURLString, forKey: .videoURLString)
         try container.encodeIfPresent(reminderDate, forKey: .reminderDate)
+        try container.encode(isTimeBounded, forKey: .isTimeBounded)
     }
 }
 
