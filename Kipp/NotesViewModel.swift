@@ -171,9 +171,9 @@ class NotesViewModel: ObservableObject {
         do {
             let data = try JSONEncoder().encode(notes)
             try data.write(to: notesFileURL)
-            print("✅ Notes saved to disk.")
+            print("Notes saved to disk.")
         } catch {
-            print("❌ Failed to save notes: \(error)")
+            print("Failed to save notes: \(error)")
         }
     }
 
@@ -181,10 +181,10 @@ class NotesViewModel: ObservableObject {
         do {
             let data = try Data(contentsOf: notesFileURL)
             notes = try JSONDecoder().decode([StickyNote].self, from: data)
-            print("✅ Notes loaded from disk.")
+            print("Notes loaded from disk.")
             removeExpiredNotes()
         } catch {
-            print("⚠️ No saved notes found or failed to load: \(error)")
+            print("No saved notes found or failed to load: \(error)")
         }
     }
 

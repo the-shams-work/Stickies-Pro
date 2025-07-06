@@ -18,11 +18,11 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     }
 
     func requestNotificationPermission() {
-        print("🔔 Requesting notification permission...")
+        print("Requesting notification permission...")
         let center = UNUserNotificationCenter.current()
         
         center.getNotificationSettings { settings in
-            print("📱 Current notification settings:")
+            print("Current notification settings:")
             print("   - Authorization status: \(settings.authorizationStatus.rawValue)")
             print("   - Alert setting: \(settings.alertSetting.rawValue)")
             print("   - Sound setting: \(settings.soundSetting.rawValue)")
@@ -30,32 +30,32 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             
             switch settings.authorizationStatus {
             case .notDetermined:
-                print("🔔 Permission not determined - requesting...")
+                print("Permission not determined - requesting...")
                 center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
                     DispatchQueue.main.async {
                         if granted {
-                            print("✅ Notification permission granted!")
+                            print("Notification permission granted!")
                         } else {
-                            print("❌ Notification permission denied: \(error?.localizedDescription ?? "Unknown error")")
+                            print("Notification permission denied: \(error?.localizedDescription ?? "Unknown error")")
                         }
                     }
                 }
             case .authorized:
-                print("✅ Notification permission already authorized")
+                print("Notification permission already authorized")
             case .denied:
-                print("❌ Notification permission denied - user needs to enable in Settings")
+                print("Notification permission denied - user needs to enable in Settings")
             case .provisional:
-                print("⚠️ Provisional notification permission")
+                print("Provisional notification permission")
             case .ephemeral:
-                print("⚠️ Ephemeral notification permission")
+                print("Ephemeral notification permission")
             @unknown default:
-                print("❓ Unknown notification permission status")
+                print("Unknown notification permission status")
             }
         }
     }
 
     func scheduleNotification(title: String, body: String, date: Date, identifier: String) {
-        print("🔔 Attempting to schedule notification:")
+        print("Attempting to schedule notification:")
         print("   - Title: \(title)")
         print("   - Body: \(body)")
         print("   - Date: \(date)")
@@ -64,14 +64,14 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         let center = UNUserNotificationCenter.current()
 
         center.getNotificationSettings { settings in
-            print("📱 Checking notification settings before scheduling...")
+            print("Checking notification settings before scheduling...")
             print("   - Authorization status: \(settings.authorizationStatus.rawValue)")
             
             if settings.authorizationStatus == .authorized {
-                print("✅ Notifications authorized - proceeding with scheduling")
+                print("Notifications authorized - proceeding with scheduling")
                 
                 center.removePendingNotificationRequests(withIdentifiers: [identifier])
-                print("🗑️ Removed existing notification with ID: \(identifier)")
+                print("Removed existing notification with ID: \(identifier)")
 
                 let content = UNMutableNotificationContent()
                 content.title = title
@@ -80,25 +80,25 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                 content.badge = 1
 
                 if date <= Date() {
-                    print("❌ Notification date is in the past. Skipping notification.")
+                    print("Notification date is in the past. Skipping notification.")
                     return
                 }
 
                 let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
                 let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
                 
-                print("⏰ Trigger date components: \(triggerDate)")
+                print("Trigger date components: \(triggerDate)")
 
                 let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
 
                 center.add(request) { error in
                     if let error = error {
-                        print("❌ Failed to schedule notification: \(error.localizedDescription)")
+                        print("Failed to schedule notification: \(error.localizedDescription)")
                     } else {
-                        print("✅ Notification scheduled successfully for \(date) with ID: \(identifier)")
+                        print("Notification scheduled successfully for \(date) with ID: \(identifier)")
                         
                         center.getPendingNotificationRequests { requests in
-                            print("📋 Total pending notifications: \(requests.count)")
+                            print("Total pending notifications: \(requests.count)")
                             for request in requests {
                                 print("   - ID: \(request.identifier)")
                                 if let trigger = request.trigger as? UNCalendarNotificationTrigger {
@@ -109,27 +109,27 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                     }
                 }
             } else {
-                print("❌ Notifications not authorized. Current status: \(settings.authorizationStatus.rawValue)")
-                print("💡 User needs to enable notifications in Settings > Notifications > Kipp")
+                print("Notifications not authorized. Current status: \(settings.authorizationStatus.rawValue)")
+                print("User needs to enable notifications in Settings > Notifications > Kipp")
             }
         }
     }
 
     func removeNotification(identifier: String) {
-        print("🗑️ Removing notification with ID: \(identifier)")
+        print("Removing notification with ID: \(identifier)")
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [identifier])
-        print("✅ Removed notification with ID: \(identifier)")
+        print("Removed notification with ID: \(identifier)")
     }
     
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("🔔 Notification received while app is in foreground")
+        print("Notification received while app is in foreground")
         completionHandler([.banner, .sound, .badge])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("🔔 User tapped on notification: \(response.notification.request.identifier)")
+        print("User tapped on notification: \(response.notification.request.identifier)")
         UIApplication.shared.applicationIconBadgeNumber = 0
         completionHandler()
     }
