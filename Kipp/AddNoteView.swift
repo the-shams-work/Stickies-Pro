@@ -19,7 +19,7 @@ struct AddNoteView: View {
     @State private var startDate: Date
     @State private var endDate: Date
     @State private var selectedColor: Color
-    @State private var selectedCategory: NoteCategory
+    @State private var selectedCategory: NoteCategory?
     @State private var selectedImage: UIImage?
     @State private var selectedAudioURL: URL?
     @State private var selectedVideoURL: URL?
@@ -46,7 +46,7 @@ struct AddNoteView: View {
         _startDate = State(initialValue: editingNote?.startDate ?? Date())
         _endDate = State(initialValue: editingNote?.endDate ?? Date())
         _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.yellow)
-        _selectedCategory = State(initialValue: editingNote?.category ?? .todo)
+        _selectedCategory = State(initialValue: editingNote?.category)
         _selectedImage = State(initialValue: editingNote?.attachment)
         _selectedAudioURL = State(initialValue: editingNote?.audioURL)
         _selectedVideoURL = State(initialValue: editingNote?.videoURL)
@@ -59,7 +59,7 @@ struct AddNoteView: View {
             return !calendar.isDate(editingNote.startDate, inSameDayAs: editingNote.endDate)
         }())
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
-        _selectedPriority = State(initialValue: editingNote?.priority ?? .medium)
+        _selectedPriority = State(initialValue: editingNote?.priority ?? .none)
         _selectedRepeat = State(initialValue: editingNote?.reminderRepeat ?? .never)
     }
 
@@ -73,6 +73,12 @@ struct AddNoteView: View {
         
         if content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             validationMessage = "Please enter content for your note."
+            showValidationAlert = true
+            return false
+        }
+        
+        if selectedCategory == nil {
+            validationMessage = "Please select a category for your note."
             showValidationAlert = true
             return false
         }
@@ -101,7 +107,7 @@ struct AddNoteView: View {
                 startDate: useStartDate,
                 endDate: useEndDate,
                 color: selectedColor,
-                category: selectedCategory,
+                category: selectedCategory!,
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
@@ -127,7 +133,7 @@ struct AddNoteView: View {
                 startDate: useStartDate,
                 endDate: useEndDate,
                 color: selectedColor,
-                category: selectedCategory,
+                category: selectedCategory!,
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
@@ -161,8 +167,13 @@ struct AddNoteView: View {
                     .lineLimit(5, reservesSpace: true)
             }
 
-            Section(header: Text("Date & Time")) {
-                Toggle("Is this a time-bounded note?", isOn: Binding(
+            Section(header: Text("Date & Time"), footer: isTimeBounded ? AnyView(
+                Text("When 'Date Range' is enabled, you can set a start and end date for your note. The note will be active and visible only during this period.")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 4)
+            ) : AnyView(EmptyView())) {
+                Toggle("Date Range", isOn: Binding(
                     get: { isTimeBounded },
                     set: { newValue in
                         isTimeBounded = newValue
@@ -174,17 +185,19 @@ struct AddNoteView: View {
                     }
                 ))
                 if isTimeBounded {
-                    DatePicker("Start Date", selection: $startDate, in: today..., displayedComponents: .date)
-                    DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
+                    DatePicker("Start", selection: $startDate, in: today..., displayedComponents: .date)
+                    DatePicker("End", selection: $endDate, in: startDate..., displayedComponents: .date)
                 }
-                Toggle("Set a reminder?", isOn: $wantsReminder)
+                Toggle("Reminder", isOn: $wantsReminder)
                 if wantsReminder {
                     DatePicker("Date & Time", selection: Binding(
                         get: { reminderDate ?? today },
                         set: { reminderDate = $0 }
                     ), in: today..., displayedComponents: [.date, .hourAndMinute])
                     Picker("Repeat", selection: $selectedRepeat) {
-                        ForEach(ReminderRepeat.allCases) { repeatOption in
+                        Text("Never").tag(ReminderRepeat.never)
+                        Divider()
+                        ForEach(ReminderRepeat.allCases.filter { $0 != .never }) { repeatOption in
                             Text(repeatOption.rawValue).tag(repeatOption)
                         }
                     }
@@ -194,18 +207,22 @@ struct AddNoteView: View {
             Section(header: Text("Customization")) {
                 ColorPicker("Note Color", selection: $selectedColor)
 
-                Picker("Category", selection: $selectedCategory) {
-                    ForEach(NoteCategory.allCases) { category in
-                        CategoryRowView(category: category)
-                            .tag(category)
+                Picker("Priority", selection: $selectedPriority) {
+                    Text("None").tag(Priority.none)
+                    Divider()
+                    ForEach(Priority.allCases.filter { $0 != .none }) { priority in
+                        PriorityRowView(priority: priority)
+                            .tag(priority)
                     }
                 }
                 .tint(.purple)
                 
-                Picker("Priority", selection: $selectedPriority) {
-                    ForEach(Priority.allCases) { priority in
-                        PriorityRowView(priority: priority)
-                            .tag(priority)
+                Picker("Category", selection: $selectedCategory) {
+                    Text("Select Category").tag(nil as NoteCategory?)
+                    Divider()
+                    ForEach(NoteCategory.allCases) { category in
+                        CategoryRowView(category: category)
+                            .tag(category as NoteCategory?)
                     }
                 }
                 .tint(.purple)

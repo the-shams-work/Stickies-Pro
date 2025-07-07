@@ -16,28 +16,76 @@ struct ContentView: View {
     @State private var isSearchFocused = false
     @State private var showingArchivedNotes = false
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @State private var isSelecting = false
+    @State private var selectedNoteIDs = Set<UUID>()
+    @State private var showDeleteAlert = false
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                searchBar
-                
-                if hasActiveFilters {
-                    filterChips
+            ZStack(alignment: .bottom) {
+                VStack(spacing: 0) {
+                    searchBar
+                    
+                    if hasActiveFilters {
+                        filterChips
+                    }
+                    sortOptions
+                    notesList
                 }
-                sortOptions
-                notesList
-            }
-            .navigationTitle(showingArchivedNotes ? "Archive" : "My Notes")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    filterButton
+                .navigationTitle(showingArchivedNotes ? "Archive" : "My Notes")
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        if isSelecting {
+                            Button("Cancel") {
+                                isSelecting = false
+                                selectedNoteIDs.removeAll()
+                            }
+                            .foregroundColor(.purple)
+                        } else {
+                            Button("Edit") {
+                                isSelecting = true
+                            }
+                            .foregroundColor(.purple)
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        filterButton
+                    }
                 }
-            }
-            .background(Color(.systemGroupedBackground))
-            .onAppear {
-                NotificationManager.shared.requestNotificationPermission()
+                .background(Color(.systemGroupedBackground))
+                .onAppear {
+                    NotificationManager.shared.requestNotificationPermission()
+                }
+
+                // Floating Delete Button Overlay
+                if isSelecting && !selectedNoteIDs.isEmpty {
+                    Button(action: {
+                        showDeleteAlert = true
+                    }) {
+                        Text("Delete (\(selectedNoteIDs.count))")
+                            .font(.headline)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 10)
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(22)
+                            .shadow(color: Color.black.opacity(0.12), radius: 2, y: 1)
+                    }
+                    .padding(.bottom, 24)
+                    .transition(.move(edge: .bottom))
+                    .animation(.easeInOut, value: isSelecting)
+                    .alert("Delete Notes?", isPresented: $showDeleteAlert) {
+                        Button("Delete", role: .destructive) {
+                            viewModel.deleteNotes(withIDs: selectedNoteIDs)
+                            isSelecting = false
+                            selectedNoteIDs.removeAll()
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("Are you sure you want to delete the selected notes? This action cannot be undone.")
+                    }
+                }
             }
         }
         .sheet(isPresented: $showAddNote, onDismiss: { editingNote = nil }) {
@@ -96,7 +144,6 @@ struct ContentView: View {
                     isSearchFocused = false
                 }
                 .foregroundColor(.purple)
-                .font(.system(size: 16, weight: .medium))
             }
         }
         .padding(.horizontal, 16)
@@ -204,14 +251,25 @@ struct ContentView: View {
                                 note: note,
                                 markAsDone: { viewModel.markAsDone(id: note.id) },
                                 onEdit: {
-                                    if !showingArchivedNotes {
+                                    if !showingArchivedNotes && !isSelecting {
                                         editingNote = note
                                         showAddNote = true
                                     }
                                 },
-                                onDelete: { viewModel.deleteNote(id: note.id) }
+                                onDelete: { viewModel.deleteNote(id: note.id) },
+                                isSelecting: isSelecting,
+                                isSelected: selectedNoteIDs.contains(note.id)
                             )
                             .padding(.horizontal, 16)
+                            .onTapGesture {
+                                if isSelecting {
+                                    if selectedNoteIDs.contains(note.id) {
+                                        selectedNoteIDs.remove(note.id)
+                                    } else {
+                                        selectedNoteIDs.insert(note.id)
+                                    }
+                                }
+                            }
                         }
                     }
                     .padding(.vertical, 8)
@@ -364,6 +422,7 @@ struct FilterView: View {
                 Section(header: Text("Category")) {
                     Picker("Category", selection: $viewModel.selectedCategoryFilter) {
                         Text("All Categories").tag(nil as NoteCategory?)
+                        Divider()
                         ForEach(NoteCategory.allCases) { category in
                             CategoryRowView(category: category)
                                 .tag(category as NoteCategory?)

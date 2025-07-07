@@ -247,4 +247,8 @@ class NotesViewModel: ObservableObject {
         notes.removeAll { $0.isTimeBounded && $0.endDate < today }
         saveNotes()
     }
+
+    func deleteNotes(withIDs ids: Set<UUID>) {
+        notes.removeAll { ids.contains($0.id) }
+    }
 }

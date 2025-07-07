@@ -84,45 +84,45 @@ enum NoteCategory: String, CaseIterable, Identifiable, Codable {
 }
 
 enum Priority: String, CaseIterable, Identifiable, Codable {
+    case none = "None"
     case low = "Low"
     case medium = "Medium"
     case high = "High"
-    case urgent = "Urgent"
     
     var id: String { self.rawValue }
     
     var sortOrder: Int {
         switch self {
-        case .urgent: return 3
-        case .high: return 2
-        case .medium: return 1
+        case .none: return -1
         case .low: return 0
+        case .medium: return 1
+        case .high: return 2
         }
     }
     
     var systemImage: String {
         switch self {
+        case .none:
+            return "minus.circle"
         case .low:
             return "arrow.down.circle"
         case .medium:
             return "minus.circle"
         case .high:
             return "arrow.up.circle"
-        case .urgent:
-            return "exclamationmark.triangle.fill"
         }
     }
     
     var color: Color {
         switch self {
+        case .none:
+            return .gray
         case .low:
             return .green
         case .medium:
             return .blue
         case .high:
             return .orange
-        case .urgent:
-            return .red
         }
     }
 }
@@ -131,7 +131,6 @@ enum ReminderRepeat: String, CaseIterable, Codable, Identifiable {
     case never = "Never"
     case daily = "Every Day"
     case weekly = "Every Week"
-    case biweekly = "Every 2 Weeks"
     case monthly = "Every Month"
     case yearly = "Every Year"
     // case custom = "Custom" // For future advanced support

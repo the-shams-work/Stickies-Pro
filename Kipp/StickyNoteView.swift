@@ -13,6 +13,8 @@ struct StickyNoteView: View {
     let markAsDone: () -> Void
     let onEdit: () -> Void
     let onDelete: () -> Void
+    var isSelecting: Bool = false
+    var isSelected: Bool = false
 
     @State private var showDeleteConfirmation = false
     @State private var showFullText = false
@@ -24,26 +26,16 @@ struct StickyNoteView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
+                if isSelecting {
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(isSelected ? .purple : .secondary)
+                        .font(.title2)
+                        .transition(.scale)
+                }
                 Text(note.title)
                     .font(.title3.bold())
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Spacer()
-                
-                HStack(spacing: 4) {
-                    Image(systemName: note.priority.systemImage)
-                        .foregroundColor(note.priority.color)
-                        .font(.system(size: 14, weight: .bold))
-                    Text(note.priority.rawValue)
-                        .font(.caption)
-                        .foregroundColor(note.priority.color)
-                        .fontWeight(.semibold)
-                }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color.white.opacity(0.2))
-                .cornerRadius(8)
             }
 
             let needsExpandButton = note.content.count > textLimit || note.content.contains("\n")
@@ -157,14 +149,13 @@ struct StickyNoteView: View {
         .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
         .background(note.colorValue)
         .cornerRadius(12)
-        .contextMenu {
+        .contextMenu(isSelecting ? nil : ContextMenu {
             if note.isDone {
                 Button(action: {
                     markAsDone()
                 }) {
                     Label("Mark as Active", systemImage: "arrow.clockwise")
                 }
-                
                 Button(role: .destructive, action: {
                     showDeleteConfirmation = true
                 }) {
@@ -176,20 +167,18 @@ struct StickyNoteView: View {
                 }) {
                     Label("Edit", systemImage: "pencil")
                 }
-                
                 Button(action: {
                     markAsDone()
                 }) {
                     Label("Archive", systemImage: "archivebox")
                 }
-                
                 Button(role: .destructive, action: {
                     showDeleteConfirmation = true
                 }) {
                     Label("Delete", systemImage: "trash")
                 }
             }
-        }
+        })
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
                 title: Text("Delete Note"),
