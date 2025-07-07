@@ -83,6 +83,62 @@ enum NoteCategory: String, CaseIterable, Identifiable, Codable {
     }
 }
 
+enum Priority: String, CaseIterable, Identifiable, Codable {
+    case low = "Low"
+    case medium = "Medium"
+    case high = "High"
+    case urgent = "Urgent"
+    
+    var id: String { self.rawValue }
+    
+    var sortOrder: Int {
+        switch self {
+        case .urgent: return 3
+        case .high: return 2
+        case .medium: return 1
+        case .low: return 0
+        }
+    }
+    
+    var systemImage: String {
+        switch self {
+        case .low:
+            return "arrow.down.circle"
+        case .medium:
+            return "minus.circle"
+        case .high:
+            return "arrow.up.circle"
+        case .urgent:
+            return "exclamationmark.triangle.fill"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .low:
+            return .green
+        case .medium:
+            return .blue
+        case .high:
+            return .orange
+        case .urgent:
+            return .red
+        }
+    }
+}
+
+enum ReminderRepeat: String, CaseIterable, Codable, Identifiable {
+    case never = "Never"
+    case daily = "Every Day"
+    case weekly = "Every Week"
+    case biweekly = "Every 2 Weeks"
+    case monthly = "Every Month"
+    case yearly = "Every Year"
+    // case custom = "Custom" // For future advanced support
+
+    var id: String { self.rawValue }
+}
+
 struct StickyNote: Identifiable, Codable {
     let id: UUID
     var title: String
@@ -97,6 +153,8 @@ struct StickyNote: Identifiable, Codable {
     var videoURLString: String?
     var reminderDate: Date?
     var isTimeBounded: Bool
+    var priority: Priority
+    var reminderRepeat: ReminderRepeat
 
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
@@ -115,7 +173,7 @@ struct StickyNote: Identifiable, Codable {
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never) {
         self.id = id
         self.title = title
         self.content = content
@@ -129,10 +187,12 @@ struct StickyNote: Identifiable, Codable {
         self.videoURLString = videoURL?.absoluteString
         self.reminderDate = reminderDate
         self.isTimeBounded = isTimeBounded
+        self.priority = priority
+        self.reminderRepeat = reminderRepeat
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, reminderDate, isTimeBounded
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, reminderDate, isTimeBounded, priority, reminderRepeat
     }
 
     init(from decoder: Decoder) throws {
@@ -150,6 +210,8 @@ struct StickyNote: Identifiable, Codable {
         videoURLString = try container.decodeIfPresent(String.self, forKey: .videoURLString)
         reminderDate = try container.decodeIfPresent(Date.self, forKey: .reminderDate)
         isTimeBounded = try container.decodeIfPresent(Bool.self, forKey: .isTimeBounded) ?? false
+        priority = try container.decodeIfPresent(Priority.self, forKey: .priority) ?? .medium
+        reminderRepeat = try container.decodeIfPresent(ReminderRepeat.self, forKey: .reminderRepeat) ?? .never
     }
 
     func encode(to encoder: Encoder) throws {
@@ -167,6 +229,8 @@ struct StickyNote: Identifiable, Codable {
         try container.encodeIfPresent(videoURLString, forKey: .videoURLString)
         try container.encodeIfPresent(reminderDate, forKey: .reminderDate)
         try container.encode(isTimeBounded, forKey: .isTimeBounded)
+        try container.encode(priority, forKey: .priority)
+        try container.encode(reminderRepeat, forKey: .reminderRepeat)
     }
 }
 

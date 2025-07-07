@@ -26,6 +26,8 @@ struct AddNoteView: View {
     @State private var reminderDate: Date?
     @State private var isTimeBounded: Bool
     @State private var wantsReminder: Bool
+    @State private var selectedPriority: Priority
+    @State private var selectedRepeat: ReminderRepeat
     
     // Validation state variables
     @State private var showValidationAlert = false
@@ -57,6 +59,8 @@ struct AddNoteView: View {
             return !calendar.isDate(editingNote.startDate, inSameDayAs: editingNote.endDate)
         }())
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
+        _selectedPriority = State(initialValue: editingNote?.priority ?? .medium)
+        _selectedRepeat = State(initialValue: editingNote?.reminderRepeat ?? .never)
     }
 
     // MARK: - Validation Function
@@ -102,7 +106,9 @@ struct AddNoteView: View {
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
                 reminderDate: useReminderDate,
-                isTimeBounded: isTimeBounded
+                isTimeBounded: isTimeBounded,
+                priority: selectedPriority,
+                reminderRepeat: selectedRepeat
             )
 
             if let reminderDate = useReminderDate {
@@ -126,7 +132,9 @@ struct AddNoteView: View {
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
                 reminderDate: useReminderDate,
-                isTimeBounded: isTimeBounded
+                isTimeBounded: isTimeBounded,
+                priority: selectedPriority,
+                reminderRepeat: selectedRepeat
             )
 
             if let reminderDate = useReminderDate, reminderDate > Date() {
@@ -175,6 +183,11 @@ struct AddNoteView: View {
                         get: { reminderDate ?? today },
                         set: { reminderDate = $0 }
                     ), in: today..., displayedComponents: [.date, .hourAndMinute])
+                    Picker("Repeat", selection: $selectedRepeat) {
+                        ForEach(ReminderRepeat.allCases) { repeatOption in
+                            Text(repeatOption.rawValue).tag(repeatOption)
+                        }
+                    }
                 }
             }
 
@@ -185,6 +198,14 @@ struct AddNoteView: View {
                     ForEach(NoteCategory.allCases) { category in
                         CategoryRowView(category: category)
                             .tag(category)
+                    }
+                }
+                .tint(.purple)
+                
+                Picker("Priority", selection: $selectedPriority) {
+                    ForEach(Priority.allCases) { priority in
+                        PriorityRowView(priority: priority)
+                            .tag(priority)
                     }
                 }
                 .tint(.purple)
@@ -242,17 +263,17 @@ struct AddNoteView: View {
 
 struct CategoryRowView: View {
     let category: NoteCategory
-    
+
     var body: some View {
-        HStack {
-            Text(category.rawValue)
-            Spacer()
-            Image(systemName: category.systemImage)
-                .foregroundColor(.purple)
-                .accentColor(.purple)
-                .font(.system(size: 16, weight: .medium))
-        }
-        .accentColor(.purple)
+        Label(category.rawValue, systemImage: category.systemImage)
+    }
+}
+
+struct PriorityRowView: View {
+    let priority: Priority
+
+    var body: some View {
+        Label(priority.rawValue, systemImage: priority.systemImage)
     }
 }
 

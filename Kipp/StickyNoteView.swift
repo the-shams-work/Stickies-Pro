@@ -23,10 +23,28 @@ struct StickyNoteView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(note.title)
-                .font(.title3.bold())
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack {
+                Text(note.title)
+                    .font(.title3.bold())
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer()
+                
+                HStack(spacing: 4) {
+                    Image(systemName: note.priority.systemImage)
+                        .foregroundColor(note.priority.color)
+                        .font(.system(size: 14, weight: .bold))
+                    Text(note.priority.rawValue)
+                        .font(.caption)
+                        .foregroundColor(note.priority.color)
+                        .fontWeight(.semibold)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.white.opacity(0.2))
+                .cornerRadius(8)
+            }
 
             let needsExpandButton = note.content.count > textLimit || note.content.contains("\n")
             if needsExpandButton {
@@ -139,7 +157,6 @@ struct StickyNoteView: View {
         .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
         .background(note.colorValue)
         .cornerRadius(12)
-        .shadow(radius: 5)
         .contextMenu {
             if note.isDone {
                 Button(action: {

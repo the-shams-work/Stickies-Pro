@@ -21,7 +21,7 @@ class NotesViewModel: ObservableObject {
     @Published var dateFilterOption: DateFilterOption = .all
 
     enum SortOption {
-        case dateCreated, title, category
+        case dateCreated, title, category, priority
     }
     
     enum DateFilterOption: String, CaseIterable {
@@ -105,6 +105,8 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.title.lowercased() < $1.title.lowercased() }
         case .category:
             notes.sort { $0.category.rawValue < $1.category.rawValue }
+        case .priority:
+            notes.sort { $0.priority.sortOrder > $1.priority.sortOrder }
         }
         
         return notes
@@ -161,6 +163,8 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.title.lowercased() < $1.title.lowercased() }
         case .category:
             notes.sort { $0.category.rawValue < $1.category.rawValue }
+        case .priority:
+            notes.sort { $0.priority.sortOrder > $1.priority.sortOrder }
         }
         
         return notes
@@ -188,7 +192,7 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool) -> StickyNote {
+    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) -> StickyNote {
         let newNote = StickyNote(
             title: title,
             content: content,
@@ -201,13 +205,15 @@ class NotesViewModel: ObservableObject {
             audioURL: audioURL,
             videoURL: videoURL,
             reminderDate: reminderDate,
-            isTimeBounded: isTimeBounded
+            isTimeBounded: isTimeBounded,
+            priority: priority,
+            reminderRepeat: reminderRepeat
         )
         notes.append(newNote)
         return newNote
     }
 
-    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool) {
+    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].title = title
             notes[index].content = content
@@ -220,6 +226,8 @@ class NotesViewModel: ObservableObject {
             notes[index].videoURL = videoURL
             notes[index].reminderDate = reminderDate
             notes[index].isTimeBounded = isTimeBounded
+            notes[index].priority = priority
+            notes[index].reminderRepeat = reminderRepeat
         }
     }
 

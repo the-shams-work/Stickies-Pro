@@ -176,6 +176,10 @@ struct ContentView: View {
                     SortButton(title: "Category", isSelected: viewModel.sortOption == .category) {
                         viewModel.sortOption = .category
                     }
+                    
+                    SortButton(title: "Priority", isSelected: viewModel.sortOption == .priority) {
+                        viewModel.sortOption = .priority
+                    }
                 }
                 .padding(.horizontal, 16)
             }
