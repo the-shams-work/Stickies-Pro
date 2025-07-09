@@ -7,78 +7,89 @@
 
 import SwiftUI
 
-enum NoteCategory: String, CaseIterable, Identifiable, Codable {
-    case todo = "To Do"
-    case journal = "Journals"
-    case ideas = "Ideas"
-    case study = "Study Notes"
-    case finance = "Finance"
-    case work = "Work Notes"
-    case goals = "Goals"
-    case important = "Important"
-    case projects = "Projects"
-    case music = "Music & Lyrics"
-    case books = "Book Notes"
-    case movies = "Movie Reviews"
-    case art = "Art & Design"
-    case writing = "Writing & Blog"
-    case diet = "Diet & Fitness"
-    case mental = "Mental Wellness"
-    case health = "Health Records"
-    case travel = "Travel Plans"
-    case memories = "Memories"
-    case urgent = "Urgent"
-    case home = "Home & Family"
-    case shopping = "Shopping List"
+enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
+    case todo, journal, ideas, study, finance, work, goals, important, projects, music, books, movies, art, writing, diet, mental, health, travel, memories, urgent, home, shopping
+    case custom(String)
 
-    var id: String { self.rawValue }
-    
+    static var allCases: [NoteCategory] {
+        return [
+            .todo, .journal, .ideas, .study, .finance, .work, .goals, .important, .projects, .music, .books, .movies, .art, .writing, .diet, .mental, .health, .travel, .memories, .urgent, .home, .shopping
+        ]
+    }
+
+    var rawValue: String {
+        switch self {
+        case .todo: return "To Do"
+        case .journal: return "Journals"
+        case .ideas: return "Ideas"
+        case .study: return "Study Notes"
+        case .finance: return "Finance"
+        case .work: return "Work Notes"
+        case .goals: return "Goals"
+        case .important: return "Important"
+        case .projects: return "Projects"
+        case .music: return "Music & Lyrics"
+        case .books: return "Book Notes"
+        case .movies: return "Movie Reviews"
+        case .art: return "Art & Design"
+        case .writing: return "Writing & Blog"
+        case .diet: return "Diet & Fitness"
+        case .mental: return "Mental Wellness"
+        case .health: return "Health Records"
+        case .travel: return "Travel Plans"
+        case .memories: return "Memories"
+        case .urgent: return "Urgent"
+        case .home: return "Home & Family"
+        case .shopping: return "Shopping List"
+        case .custom(let value): return value
+        }
+    }
+
+    var id: String { rawValue }
+
     var systemImage: String {
         switch self {
-        case .todo:
-            return "checklist"
-        case .journal:
-            return "book"
-        case .ideas:
-            return "lightbulb"
-        case .study:
-            return "graduationcap"
-        case .finance:
-            return "dollarsign.circle"
-        case .work:
-            return "briefcase"
-        case .goals:
-            return "target"
-        case .important:
-            return "exclamationmark.triangle"
-        case .projects:
-            return "chart.bar"
-        case .music:
-            return "music.note"
-        case .books:
-            return "text.book.closed"
-        case .movies:
-            return "film"
-        case .art:
-            return "paintbrush"
-        case .writing:
-            return "pencil"
-        case .diet:
-            return "leaf"
-        case .mental:
-            return "brain.head.profile"
-        case .health:
-            return "cross.case"
-        case .travel:
-            return "airplane"
-        case .memories:
-            return "photo"
-        case .urgent:
-            return "exclamationmark.octagon"
-        case .home:
-            return "house"
-        case .shopping:
-            return "cart"
+        case .todo: return "checklist"
+        case .journal: return "book"
+        case .ideas: return "lightbulb"
+        case .study: return "graduationcap"
+        case .finance: return "dollarsign.circle"
+        case .work: return "briefcase"
+        case .goals: return "target"
+        case .important: return "exclamationmark.triangle"
+        case .projects: return "chart.bar"
+        case .music: return "music.note"
+        case .books: return "text.book.closed"
+        case .movies: return "film"
+        case .art: return "paintbrush"
+        case .writing: return "pencil"
+        case .diet: return "leaf"
+        case .mental: return "brain.head.profile"
+        case .health: return "cross.case"
+        case .travel: return "airplane"
+        case .memories: return "photo"
+        case .urgent: return "exclamationmark.octagon"
+        case .home: return "house"
+        case .shopping: return "cart"
+        case .custom: return "tag"
+        }
+    }
+
+    static func == (lhs: NoteCategory, rhs: NoteCategory) -> Bool {
+        switch (lhs, rhs) {
+        case let (.custom(a), .custom(b)): return a == b
+        case (.custom, _), (_, .custom): return false
+        default: return lhs.rawValue == rhs.rawValue
+        }
+    }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .custom(let value):
+            hasher.combine("custom")
+            hasher.combine(value)
+        default:
+            hasher.combine(rawValue)
         }
     }
 }

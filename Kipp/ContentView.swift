@@ -58,7 +58,6 @@ struct ContentView: View {
                     NotificationManager.shared.requestNotificationPermission()
                 }
 
-                // Floating Delete Button Overlay
                 if isSelecting && !selectedNoteIDs.isEmpty {
                     Button(action: {
                         showDeleteAlert = true
@@ -276,7 +275,6 @@ struct ContentView: View {
                 }
             }
             
-            // Floating Add Button (only show for active notes)
             if !showingArchivedNotes {
                 VStack {
                     Spacer()
@@ -403,6 +401,9 @@ struct FilterView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var showResetConfirmation = false
+    @State private var showCustomCategoryAlert = false
+    @State private var customCategoryInput = ""
+    @State private var previousCategory: NoteCategory? = nil
     
     var body: some View {
         VStack(spacing: 0) {
@@ -418,16 +419,44 @@ struct FilterView: View {
             
             Form {
                 Section(header: Text("Category")) {
-                    Picker("Category", selection: $viewModel.selectedCategoryFilter) {
+                    Picker("Category", selection: Binding(
+                        get: { viewModel.selectedCategoryFilter },
+                        set: { newValue in
+                            if let newValue = newValue, case .custom = newValue {
+                                previousCategory = viewModel.selectedCategoryFilter
+                                customCategoryInput = ""
+                                showCustomCategoryAlert = true
+                            } else {
+                                viewModel.selectedCategoryFilter = newValue
+                            }
+                        }
+                    )) {
                         Text("All Categories").tag(nil as NoteCategory?)
                         Divider()
-                        ForEach(NoteCategory.allCases) { category in
+                        ForEach(NoteCategory.allCases, id: \.id) { category in
                             CategoryRowView(category: category)
                                 .tag(category as NoteCategory?)
                         }
+                        Divider()
+                        Text("Custom").tag(NoteCategory.custom("") as NoteCategory?)
                     }
                     .pickerStyle(MenuPickerStyle())
                     .tint(.purple)
+                    .alert("Custom Category", isPresented: $showCustomCategoryAlert, actions: {
+                        TextField("Enter custom category", text: $customCategoryInput)
+                        Button("OK") {
+                            if !customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                viewModel.selectedCategoryFilter = .custom(customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines))
+                            } else {
+                                viewModel.selectedCategoryFilter = previousCategory
+                            }
+                        }
+                        Button("Cancel", role: .cancel) {
+                            viewModel.selectedCategoryFilter = previousCategory
+                        }
+                    }, message: {
+                        Text("Please enter your custom category name.")
+                    })
                 }
                 
                 Section(header: Text("Date Range")) {

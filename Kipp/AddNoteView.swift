@@ -28,11 +28,12 @@ struct AddNoteView: View {
     @State private var wantsReminder: Bool
     @State private var selectedPriority: Priority
     @State private var selectedRepeat: ReminderRepeat
-    
-    // Validation state variables
     @State private var showValidationAlert = false
     @State private var validationMessage = ""
     @State private var showFutureNoteAlert = false
+    @State private var showCustomCategoryAlert = false
+    @State private var customCategoryInput = ""
+    @State private var previousCategory: NoteCategory? = nil
 
     let today = Date()
 
@@ -55,7 +56,6 @@ struct AddNoteView: View {
             guard let editingNote = editingNote else { return false }
             let today = Date()
             let calendar = Calendar.current
-            // Only set as time-bounded if the note actually has different start/end dates
             return !calendar.isDate(editingNote.startDate, inSameDayAs: editingNote.endDate)
         }())
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
@@ -91,9 +91,6 @@ struct AddNoteView: View {
         
         let calendar = Calendar.current
         let today = Date()
-        
-        // For non-time-bounded notes, set both start and end date to today
-        // For time-bounded notes, use the selected dates
         let useStartDate = isTimeBounded ? startDate : today
         let useEndDate = isTimeBounded ? endDate : today
         let useReminderDate = wantsReminder ? reminderDate : nil
@@ -178,7 +175,6 @@ struct AddNoteView: View {
                     set: { newValue in
                         isTimeBounded = newValue
                         if !newValue {
-                            // When disabling, reset dates to today
                             startDate = today
                             endDate = today
                         }
@@ -217,15 +213,43 @@ struct AddNoteView: View {
                 }
                 .tint(.purple)
                 
-                Picker("Category", selection: $selectedCategory) {
+                Picker("Category", selection: Binding(
+                    get: { selectedCategory },
+                    set: { newValue in
+                        if let newValue = newValue, case .custom = newValue {
+                            previousCategory = selectedCategory
+                            customCategoryInput = ""
+                            showCustomCategoryAlert = true
+                        } else {
+                            selectedCategory = newValue
+                        }
+                    }
+                )) {
                     Text("Select Category").tag(nil as NoteCategory?)
                     Divider()
-                    ForEach(NoteCategory.allCases) { category in
+                    ForEach(NoteCategory.allCases, id: \.id) { category in
                         CategoryRowView(category: category)
                             .tag(category as NoteCategory?)
                     }
+                    Divider()
+                    Text("Custom").tag(NoteCategory.custom("") as NoteCategory?)
                 }
                 .tint(.purple)
+                .alert("Custom Category", isPresented: $showCustomCategoryAlert, actions: {
+                    TextField("Enter custom category", text: $customCategoryInput)
+                    Button("OK") {
+                        if !customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            selectedCategory = .custom(customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines))
+                        } else {
+                            selectedCategory = previousCategory
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {
+                        selectedCategory = previousCategory
+                    }
+                }, message: {
+                    Text("Please enter your custom category name.")
+                })
             }
 
             Section(header: Text("Attachments")) {
