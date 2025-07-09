@@ -34,6 +34,9 @@ struct AddNoteView: View {
     @State private var showCustomCategoryAlert = false
     @State private var customCategoryInput = ""
     @State private var previousCategory: NoteCategory? = nil
+    @State private var showRemoveImageAlert = false
+    @State private var showRemoveAudioAlert = false
+    @State private var showRemoveVideoAlert = false
 
     let today = Date()
 
@@ -260,16 +263,37 @@ struct AddNoteView: View {
                         .scaledToFit()
                         .frame(height: 150)
                         .cornerRadius(8)
+                        .onLongPressGesture {
+                            showRemoveImageAlert = true
+                        }
+                        .confirmationDialog("Remove Image?", isPresented: $showRemoveImageAlert, titleVisibility: .visible) {
+                            Button("Remove", role: .destructive) { selectedImage = nil }
+                            Button("Cancel", role: .cancel) { }
+                        }
                 }
 
                 AudioPickerButton(selectedAudioURL: $selectedAudioURL)
                 if let audioURL = selectedAudioURL {
                     Text("Audio: \(audioURL.lastPathComponent)")
+                        .onLongPressGesture {
+                            showRemoveAudioAlert = true
+                        }
+                        .confirmationDialog("Remove Audio?", isPresented: $showRemoveAudioAlert, titleVisibility: .visible) {
+                            Button("Remove", role: .destructive) { selectedAudioURL = nil }
+                            Button("Cancel", role: .cancel) { }
+                        }
                 }
 
                 VideoPickerButton(selectedVideoURL: $selectedVideoURL)
                 if let videoURL = selectedVideoURL {
                     Text("Video: \(videoURL.lastPathComponent)")
+                        .onLongPressGesture {
+                            showRemoveVideoAlert = true
+                        }
+                        .confirmationDialog("Remove Video?", isPresented: $showRemoveVideoAlert, titleVisibility: .visible) {
+                            Button("Remove", role: .destructive) { selectedVideoURL = nil }
+                            Button("Cancel", role: .cancel) { }
+                        }
                 }
             }
         }

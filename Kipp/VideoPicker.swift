@@ -21,7 +21,8 @@ struct VideoPicker: UIViewControllerRepresentable {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
         picker.sourceType = sourceType
-        picker.mediaTypes = ["public.movie"]  
+        picker.mediaTypes = ["public.movie"]
+        picker.videoQuality = .typeHigh
         return picker
     }
 
@@ -102,6 +103,7 @@ struct VideoPickerButton: View {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
         picker.mediaTypes = ["public.movie"]
+        picker.videoQuality = .typeHigh
         let newCoordinator = ImmersiveVideoCoordinator(
             onVideoPicked: { url in
                 selectedVideoURL = url

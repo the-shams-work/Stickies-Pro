@@ -29,6 +29,7 @@ struct MediaPicker: UIViewControllerRepresentable {
             let picker = UIImagePickerController()
             picker.delegate = context.coordinator
             picker.mediaTypes = ["public.movie"]
+            picker.videoQuality = .typeHigh
             return picker
         case .audio:
             let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.audio])
