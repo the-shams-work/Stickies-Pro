@@ -351,10 +351,7 @@ struct ColorRowView: View {
             Spacer()
             ColorPicker("", selection: $selectedColor)
                 .labelsHidden()
-                .frame(width: 40, height: 40)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
         }
-        .frame(height: 44)
     }
 }
 
