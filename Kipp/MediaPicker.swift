@@ -109,8 +109,7 @@ struct AudioPickerButton: View {
                 if granted {
                     showAudioRecorder = true
                 } else {
-                    // Handle permission denied
-                    print("Microphone permission denied")
+                    // Removed print
                 }
             }
         }
@@ -187,7 +186,7 @@ struct AudioRecorderView: View {
             try audioSession.setCategory(.playAndRecord, mode: .default)
             try audioSession.setActive(true)
         } catch {
-            print("Failed to setup audio session: \(error)")
+            // Removed print
         }
     }
     
@@ -209,7 +208,7 @@ struct AudioRecorderView: View {
             audioRecorder?.record()
             isRecording = true
         } catch {
-            print("Could not start recording: \(error)")
+            // Removed print
         }
     }
     

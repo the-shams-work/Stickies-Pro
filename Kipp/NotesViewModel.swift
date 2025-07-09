@@ -175,7 +175,6 @@ class NotesViewModel: ObservableObject {
         do {
             let data = try JSONEncoder().encode(notes)
             try data.write(to: notesFileURL)
-            print("Notes saved to disk.")
         } catch {
             print("Failed to save notes: \(error)")
         }
