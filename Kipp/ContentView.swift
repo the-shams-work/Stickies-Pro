@@ -402,12 +402,10 @@ struct FilterView: View {
     @Binding var showingArchivedNotes: Bool
     @Environment(\.presentationMode) var presentationMode
     
-    // Reset confirmation state
     @State private var showResetConfirmation = false
     
     var body: some View {
         VStack(spacing: 0) {
-            // Segmented Control for View Switching
             Picker("View", selection: $showingArchivedNotes) {
                 Text("My Notes").tag(false)
                 Text("Archive").tag(true)
@@ -434,7 +432,15 @@ struct FilterView: View {
                 
                 Section(header: Text("Date Range")) {
                     Picker("Date Filter", selection: $viewModel.dateFilterOption) {
-                        ForEach(NotesViewModel.DateFilterOption.allCases, id: \.self) { option in
+                        HStack {
+                            Text(NotesViewModel.DateFilterOption.all.rawValue)
+                            Spacer()
+                            Image(systemName: NotesViewModel.DateFilterOption.all.systemImage)
+                                .foregroundColor(.purple)
+                        }
+                        .tag(NotesViewModel.DateFilterOption.all)
+                        Divider()
+                        ForEach(NotesViewModel.DateFilterOption.allCases.filter { $0 != .all }, id: \.self) { option in
                             HStack {
                                 Text(option.rawValue)
                                 Spacer()

@@ -205,7 +205,7 @@ struct AddNoteView: View {
             }
 
             Section(header: Text("Customization")) {
-                ColorPicker("Note Color", selection: $selectedColor)
+                ColorRowView(selectedColor: $selectedColor)
 
                 Picker("Priority", selection: $selectedPriority) {
                     Text("None").tag(Priority.none)
@@ -291,6 +291,22 @@ struct PriorityRowView: View {
 
     var body: some View {
         Label(priority.rawValue, systemImage: priority.systemImage)
+    }
+}
+
+struct ColorRowView: View {
+    @Binding var selectedColor: Color
+
+    var body: some View {
+        HStack {
+            Text("Note Color")
+            Spacer()
+            ColorPicker("", selection: $selectedColor)
+                .labelsHidden()
+                .frame(width: 40, height: 40)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .frame(height: 44)
     }
 }
 
