@@ -29,7 +29,7 @@ struct HistoryView: View {
                                 StickyNoteView(
                                     note: note,
                                     markAsDone: { viewModel.markAsDone(id: note.id) },
-                                    onEdit: {}, // Editing disabled in history
+                                    onEdit: {},
                                     onDelete: { viewModel.deleteNote(id: note.id) }
                                 )
                                 .padding(.horizontal)
