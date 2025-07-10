@@ -193,7 +193,7 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) -> StickyNote {
+    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) -> StickyNote {
         let newNote = StickyNote(
             title: title,
             content: content,
@@ -205,6 +205,7 @@ class NotesViewModel: ObservableObject {
             attachment: attachment,
             audioURL: audioURL,
             videoURL: videoURL,
+            backgroundImage: backgroundImage,
             reminderDate: reminderDate,
             isTimeBounded: isTimeBounded,
             priority: priority,
@@ -214,7 +215,7 @@ class NotesViewModel: ObservableObject {
         return newNote
     }
 
-    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) {
+    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].title = title
             notes[index].content = content
@@ -225,6 +226,7 @@ class NotesViewModel: ObservableObject {
             notes[index].attachment = attachment
             notes[index].audioURL = audioURL
             notes[index].videoURL = videoURL
+            notes[index].backgroundImage = backgroundImage
             notes[index].reminderDate = reminderDate
             notes[index].isTimeBounded = isTimeBounded
             notes[index].priority = priority

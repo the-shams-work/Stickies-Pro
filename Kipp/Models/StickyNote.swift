@@ -161,6 +161,7 @@ struct StickyNote: Identifiable, Codable {
     var attachmentData: Data?
     var audioURLString: String?
     var videoURLString: String?
+    var backgroundImageData: Data?
     var reminderDate: Date?
     var isTimeBounded: Bool
     var priority: Priority
@@ -169,6 +170,10 @@ struct StickyNote: Identifiable, Codable {
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
         set { attachmentData = newValue?.jpegData(compressionQuality: 0.8) }
+    }
+    var backgroundImage: UIImage? {
+        get { backgroundImageData.flatMap { UIImage(data: $0) } }
+        set { backgroundImageData = newValue?.jpegData(compressionQuality: 0.8) }
     }
     var audioURL: URL? {
         get { audioURLString.flatMap { URL(string: $0) } }
@@ -183,7 +188,7 @@ struct StickyNote: Identifiable, Codable {
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never) {
         self.id = id
         self.title = title
         self.content = content
@@ -195,6 +200,7 @@ struct StickyNote: Identifiable, Codable {
         self.attachmentData = attachment?.jpegData(compressionQuality: 0.8)
         self.audioURLString = audioURL?.absoluteString
         self.videoURLString = videoURL?.absoluteString
+        self.backgroundImageData = backgroundImage?.jpegData(compressionQuality: 0.8)
         self.reminderDate = reminderDate
         self.isTimeBounded = isTimeBounded
         self.priority = priority
@@ -202,7 +208,7 @@ struct StickyNote: Identifiable, Codable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, reminderDate, isTimeBounded, priority, reminderRepeat
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat
     }
 
     init(from decoder: Decoder) throws {
@@ -218,6 +224,7 @@ struct StickyNote: Identifiable, Codable {
         attachmentData = try container.decodeIfPresent(Data.self, forKey: .attachmentData)
         audioURLString = try container.decodeIfPresent(String.self, forKey: .audioURLString)
         videoURLString = try container.decodeIfPresent(String.self, forKey: .videoURLString)
+        backgroundImageData = try container.decodeIfPresent(Data.self, forKey: .backgroundImageData)
         reminderDate = try container.decodeIfPresent(Date.self, forKey: .reminderDate)
         isTimeBounded = try container.decodeIfPresent(Bool.self, forKey: .isTimeBounded) ?? false
         priority = try container.decodeIfPresent(Priority.self, forKey: .priority) ?? .medium
@@ -237,6 +244,7 @@ struct StickyNote: Identifiable, Codable {
         try container.encodeIfPresent(attachmentData, forKey: .attachmentData)
         try container.encodeIfPresent(audioURLString, forKey: .audioURLString)
         try container.encodeIfPresent(videoURLString, forKey: .videoURLString)
+        try container.encodeIfPresent(backgroundImageData, forKey: .backgroundImageData)
         try container.encodeIfPresent(reminderDate, forKey: .reminderDate)
         try container.encode(isTimeBounded, forKey: .isTimeBounded)
         try container.encode(priority, forKey: .priority)

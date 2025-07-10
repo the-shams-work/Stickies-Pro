@@ -130,3 +130,87 @@ struct ImagePickerButton: View {
         topVC.present(picker, animated: true)
     }
 }
+
+struct BackgroundImagePickerButton: View {
+    @Binding var selectedBackgroundImage: UIImage?
+    @State private var showActionSheet = false
+    @State private var showImagePicker = false
+    @State private var selectedSourceType: UIImagePickerController.SourceType = .photoLibrary
+    @State private var coordinator: ImmersiveCameraCoordinator?
+    @State private var showRemoveBackgroundAlert = false
+    
+    var body: some View {
+        HStack {
+            Text("Background Image")
+            Spacer()
+            if let image = selectedBackgroundImage {
+                ZStack(alignment: .topTrailing) {
+                    Button(action: { showActionSheet = true }) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 36, height: 36)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
+                    }
+                    Button(action: { showRemoveBackgroundAlert = true }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.white)
+                            .background(Circle().fill(Color.black.opacity(0.7)))
+                            .frame(width: 20, height: 20)
+                    }
+                    .offset(x: 8, y: -8)
+                }
+            } else {
+                Button(action: { showActionSheet = true }) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.purple)
+                        .frame(width: 36, height: 36, alignment: .trailing)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .contentShape(Rectangle())
+        .confirmationDialog("Select Image", isPresented: $showActionSheet, titleVisibility: .visible) {
+            Button("Camera") {
+                selectedSourceType = .camera
+                presentImmersiveCamera()
+            }
+            Button("Photo Library") {
+                selectedSourceType = .photoLibrary
+                showImagePicker = true
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Choose how you want to add a background image")
+        }
+        .sheet(isPresented: Binding(get: { showImagePicker && selectedSourceType == .photoLibrary }, set: { if !$0 { showImagePicker = false } })) {
+            ImagePicker(image: $selectedBackgroundImage, sourceType: .photoLibrary)
+        }
+        .alert("Remove Background Image?", isPresented: $showRemoveBackgroundAlert) {
+            Button("Remove", role: .destructive) { selectedBackgroundImage = nil }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will remove the background image from your note.")
+        }
+    }
+    
+    private func presentImmersiveCamera() {
+        guard let topVC = UIApplication.topViewController() else { return }
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        let newCoordinator = ImmersiveCameraCoordinator(
+            onImagePicked: { image in
+                selectedBackgroundImage = image
+            },
+            onDismiss: {}
+        )
+        picker.delegate = newCoordinator
+        coordinator = newCoordinator
+        topVC.present(picker, animated: true)
+    }
+}

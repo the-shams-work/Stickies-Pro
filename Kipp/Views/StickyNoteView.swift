@@ -147,7 +147,22 @@ struct StickyNoteView: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
-        .background(note.colorValue)
+        .background(
+            ZStack {
+                if let backgroundImage = note.backgroundImage {
+                    Image(uiImage: backgroundImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
+                        .overlay(
+                            Rectangle()
+                                .fill(note.colorValue.opacity(0.7))
+                        )
+                } else {
+                    note.colorValue
+                }
+            }
+        )
         .cornerRadius(12)
         .contextMenu(isSelecting ? nil : ContextMenu {
             if note.isDone {

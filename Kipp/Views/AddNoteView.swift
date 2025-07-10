@@ -23,6 +23,7 @@ struct AddNoteView: View {
     @State private var selectedImage: UIImage?
     @State private var selectedAudioURL: URL?
     @State private var selectedVideoURL: URL?
+    @State private var selectedBackgroundImage: UIImage?
     @State private var reminderDate: Date?
     @State private var isTimeBounded: Bool
     @State private var wantsReminder: Bool
@@ -49,11 +50,12 @@ struct AddNoteView: View {
         _content = State(initialValue: editingNote?.content ?? "")
         _startDate = State(initialValue: editingNote?.startDate ?? Date())
         _endDate = State(initialValue: editingNote?.endDate ?? Date())
-        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.yellow)
+        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.white)
         _selectedCategory = State(initialValue: editingNote?.category)
         _selectedImage = State(initialValue: editingNote?.attachment)
         _selectedAudioURL = State(initialValue: editingNote?.audioURL)
         _selectedVideoURL = State(initialValue: editingNote?.videoURL)
+        _selectedBackgroundImage = State(initialValue: editingNote?.backgroundImage)
         _reminderDate = State(initialValue: editingNote?.reminderDate)
         _isTimeBounded = State(initialValue: {
             guard let editingNote = editingNote else { return false }
@@ -111,6 +113,7 @@ struct AddNoteView: View {
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
+                backgroundImage: selectedBackgroundImage,
                 reminderDate: useReminderDate,
                 isTimeBounded: isTimeBounded,
                 priority: selectedPriority,
@@ -137,6 +140,7 @@ struct AddNoteView: View {
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
+                backgroundImage: selectedBackgroundImage,
                 reminderDate: useReminderDate,
                 isTimeBounded: isTimeBounded,
                 priority: selectedPriority,
@@ -205,6 +209,19 @@ struct AddNoteView: View {
 
             Section(header: Text("Customization")) {
                 ColorRowView(selectedColor: $selectedColor)
+                
+                BackgroundImagePickerButton(selectedBackgroundImage: $selectedBackgroundImage)
+                if let backgroundImage = selectedBackgroundImage {
+                    Image(uiImage: backgroundImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 100)
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                }
 
                 Picker("Priority", selection: $selectedPriority) {
                     Text("None").tag(Priority.none)
