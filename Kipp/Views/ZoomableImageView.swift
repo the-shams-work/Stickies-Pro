@@ -56,7 +56,6 @@ struct ZoomableImageUIKitView: UIViewRepresentable {
         scrollView.addSubview(imageView)
         context.coordinator.imageView = imageView
 
-        // Double tap gesture
         let doubleTap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(doubleTap)
@@ -65,7 +64,6 @@ struct ZoomableImageUIKitView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIScrollView, context: Context) {
-        // No-op
     }
 
     func makeCoordinator() -> Coordinator {

@@ -27,7 +27,6 @@ extension UIApplication {
     }
 }
 
-// Immersive Camera Picker Coordinator
 class ImmersiveCameraCoordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     let onImagePicked: (UIImage?) -> Void
     let onDismiss: () -> Void

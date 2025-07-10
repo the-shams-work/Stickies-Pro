@@ -186,7 +186,7 @@ struct AudioRecorderView: View {
             try audioSession.setCategory(.playAndRecord, mode: .default)
             try audioSession.setActive(true)
         } catch {
-            // Removed print
+            
         }
     }
     
@@ -208,7 +208,7 @@ struct AudioRecorderView: View {
             audioRecorder?.record()
             isRecording = true
         } catch {
-            // Removed print
+            
         }
     }
     

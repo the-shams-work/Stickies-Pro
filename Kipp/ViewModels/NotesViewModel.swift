@@ -58,7 +58,6 @@ class NotesViewModel: ObservableObject {
     var filteredNotes: [StickyNote] {
         var notes = self.notes.filter { !$0.isDone && $0.startDate <= Date() }
         
-        // Search filter
         if !searchQuery.isEmpty {
             notes = notes.filter {
                 $0.title.localizedCaseInsensitiveContains(searchQuery) ||
@@ -66,22 +65,18 @@ class NotesViewModel: ObservableObject {
             }
         }
         
-        // Category filter
         if let selectedCategory = selectedCategoryFilter {
             notes = notes.filter { $0.category == selectedCategory }
         }
         
-        // Attachment filter
         if showOnlyWithAttachments {
             notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil }
         }
         
-        // Reminder filter
         if showOnlyWithReminders {
             notes = notes.filter { $0.reminderDate != nil }
         }
         
-        // Date filter
         let calendar = Calendar.current
         let now = Date()
         
@@ -98,7 +93,6 @@ class NotesViewModel: ObservableObject {
             break
         }
         
-        // Sort
         switch sortOption {
         case .dateCreated:
             notes.sort { $0.startDate > $1.startDate }
@@ -116,7 +110,6 @@ class NotesViewModel: ObservableObject {
     var archivedNotes: [StickyNote] {
         var notes = self.notes.filter { $0.isDone }
         
-        // Search filter
         if !searchQuery.isEmpty {
             notes = notes.filter {
                 $0.title.localizedCaseInsensitiveContains(searchQuery) ||
@@ -124,22 +117,18 @@ class NotesViewModel: ObservableObject {
             }
         }
         
-        // Category filter
         if let selectedCategory = selectedCategoryFilter {
             notes = notes.filter { $0.category == selectedCategory }
         }
         
-        // Attachment filter
         if showOnlyWithAttachments {
             notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil }
         }
         
-        // Reminder filter
         if showOnlyWithReminders {
             notes = notes.filter { $0.reminderDate != nil }
         }
         
-        // Date filter
         let calendar = Calendar.current
         let now = Date()
         
@@ -156,7 +145,6 @@ class NotesViewModel: ObservableObject {
             break
         }
         
-        // Sort
         switch sortOption {
         case .dateCreated:
             notes.sort { $0.startDate > $1.startDate }
@@ -235,9 +223,7 @@ class NotesViewModel: ObservableObject {
     }
 
     func deleteNote(id: UUID) {
-        // Remove the notification for this note before deleting
         NotificationManager.shared.removeNotification(identifier: id.uuidString)
-        print("Removed notification for note with ID: \(id)")
         notes.removeAll { $0.id == id }
     }
 
@@ -245,7 +231,6 @@ class NotesViewModel: ObservableObject {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].isDone.toggle()
             
-            // If the note is marked as done, remove its notification
             if notes[index].isDone {
                 NotificationManager.shared.removeNotification(identifier: id.uuidString)
             }
@@ -257,10 +242,8 @@ class NotesViewModel: ObservableObject {
     func removeExpiredNotes() {
         let today = Calendar.current.startOfDay(for: Date())
         
-        // Get the IDs of notes that will be removed
         let expiredNoteIDs = notes.filter { $0.isTimeBounded && $0.endDate < today }.map { $0.id }
         
-        // Remove notifications for expired notes
         for id in expiredNoteIDs {
             NotificationManager.shared.removeNotification(identifier: id.uuidString)
         }
@@ -270,30 +253,24 @@ class NotesViewModel: ObservableObject {
     }
 
     func deleteNotes(withIDs ids: Set<UUID>) {
-        // Remove notifications for all notes being deleted
         for id in ids {
             NotificationManager.shared.removeNotification(identifier: id.uuidString)
-            print("Removed notification for note with ID: \(id)")
         }
         notes.removeAll { ids.contains($0.id) }
     }
     
     func cleanupOrphanedNotifications() {
-        // Get all pending notification requests
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             let currentNoteIDs = Set(self.notes.map { $0.id.uuidString })
             let notificationIDs = Set(requests.map { $0.identifier })
             
-            // Find orphaned notifications (notifications for notes that no longer exist)
             let orphanedNotificationIDs = notificationIDs.subtracting(currentNoteIDs)
             
-            // Remove orphaned notifications
             if !orphanedNotificationIDs.isEmpty {
                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: Array(orphanedNotificationIDs))
                 print("Cleaned up \(orphanedNotificationIDs.count) orphaned notifications")
             }
             
-            // List all remaining notifications for debugging
             NotificationManager.shared.listPendingNotifications()
         }
     }

@@ -48,7 +48,6 @@ struct VideoPicker: UIViewControllerRepresentable {
     }
 }
 
-// Immersive Video Picker Coordinator
 class ImmersiveVideoCoordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     let onVideoPicked: (URL?) -> Void
     let onDismiss: () -> Void

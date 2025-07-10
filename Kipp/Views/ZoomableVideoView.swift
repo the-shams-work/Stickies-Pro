@@ -40,6 +40,5 @@ struct ZoomableVideoUIKitView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
-        // No-op
     }
 }

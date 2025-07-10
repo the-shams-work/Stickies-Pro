@@ -25,17 +25,17 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             case .notDetermined:
                 center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
                     DispatchQueue.main.async {
-                        // No print
+                        
                     }
                 }
             case .authorized:
-                break // No print
+                break
             case .denied:
-                break // No print
+                break
             case .provisional:
-                break // No print
+                break
             @unknown default:
-                break // No print
+                break 
             }
         }
     }
@@ -64,15 +64,15 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
                 center.add(request) { error in
                     if let error = error {
-                        // No print
+                        
                     } else {
                         center.getPendingNotificationRequests { requests in
-                            // No print
+                            
                         }
                     }
                 }
             } else {
-                // No print
+                
             }
         }
     }
