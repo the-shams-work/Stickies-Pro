@@ -109,7 +109,7 @@ struct AudioPickerButton: View {
                 if granted {
                     showAudioRecorder = true
                 } else {
-                    // Removed print
+                    
                 }
             }
         }
