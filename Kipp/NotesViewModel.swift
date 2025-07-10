@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 class NotesViewModel: ObservableObject {
     @Published var notes: [StickyNote] = [] {
@@ -186,6 +187,7 @@ class NotesViewModel: ObservableObject {
             notes = try JSONDecoder().decode([StickyNote].self, from: data)
             print("Notes loaded from disk.")
             removeExpiredNotes()
+            cleanupOrphanedNotifications()
         } catch {
             print("No saved notes found or failed to load: \(error)")
         }
@@ -231,23 +233,66 @@ class NotesViewModel: ObservableObject {
     }
 
     func deleteNote(id: UUID) {
+        // Remove the notification for this note before deleting
+        NotificationManager.shared.removeNotification(identifier: id.uuidString)
+        print("Removed notification for note with ID: \(id)")
         notes.removeAll { $0.id == id }
     }
 
     func markAsDone(id: UUID) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].isDone.toggle()
+            
+            // If the note is marked as done, remove its notification
+            if notes[index].isDone {
+                NotificationManager.shared.removeNotification(identifier: id.uuidString)
+            }
+            
             objectWillChange.send()
         }
     }
 
     func removeExpiredNotes() {
         let today = Calendar.current.startOfDay(for: Date())
+        
+        // Get the IDs of notes that will be removed
+        let expiredNoteIDs = notes.filter { $0.isTimeBounded && $0.endDate < today }.map { $0.id }
+        
+        // Remove notifications for expired notes
+        for id in expiredNoteIDs {
+            NotificationManager.shared.removeNotification(identifier: id.uuidString)
+        }
+        
         notes.removeAll { $0.isTimeBounded && $0.endDate < today }
         saveNotes()
     }
 
     func deleteNotes(withIDs ids: Set<UUID>) {
+        // Remove notifications for all notes being deleted
+        for id in ids {
+            NotificationManager.shared.removeNotification(identifier: id.uuidString)
+            print("Removed notification for note with ID: \(id)")
+        }
         notes.removeAll { ids.contains($0.id) }
+    }
+    
+    func cleanupOrphanedNotifications() {
+        // Get all pending notification requests
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            let currentNoteIDs = Set(self.notes.map { $0.id.uuidString })
+            let notificationIDs = Set(requests.map { $0.identifier })
+            
+            // Find orphaned notifications (notifications for notes that no longer exist)
+            let orphanedNotificationIDs = notificationIDs.subtracting(currentNoteIDs)
+            
+            // Remove orphaned notifications
+            if !orphanedNotificationIDs.isEmpty {
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: Array(orphanedNotificationIDs))
+                print("Cleaned up \(orphanedNotificationIDs.count) orphaned notifications")
+            }
+            
+            // List all remaining notifications for debugging
+            NotificationManager.shared.listPendingNotifications()
+        }
     }
 }

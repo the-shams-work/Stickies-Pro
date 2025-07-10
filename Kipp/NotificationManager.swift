@@ -80,6 +80,17 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     func removeNotification(identifier: String) {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [identifier])
+        print("Removed notification with identifier: \(identifier)")
+    }
+    
+    func listPendingNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            print("Pending notifications: \(requests.count)")
+            for request in requests {
+                print("  - ID: \(request.identifier), Title: \(request.content.title)")
+            }
+        }
     }
     
     
