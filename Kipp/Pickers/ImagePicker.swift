@@ -8,7 +8,6 @@
 import SwiftUI
 import UIKit
 
-// Helper to get top UIViewController
 extension UIApplication {
     static func topViewController(base: UIViewController? = UIApplication.shared.connectedScenes
         .compactMap { ($0 as? UIWindowScene)?.keyWindow }
@@ -166,10 +165,15 @@ struct BackgroundImagePickerButton: View {
                 }
             } else {
                 Button(action: { showActionSheet = true }) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.purple)
-                        .frame(width: 36, height: 36, alignment: .trailing)
+                    ZStack {
+                        Circle()
+                            .stroke(Color.purple, lineWidth: 2)
+                            .background(Circle().fill(Color.white))
+                            .frame(width: 26, height: 26)
+                        Image(systemName: "plus")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.purple)
+                    }
                 }
                 .buttonStyle(PlainButtonStyle())
             }
