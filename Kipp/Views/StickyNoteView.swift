@@ -34,7 +34,7 @@ struct StickyNoteView: View {
                 }
                 Text(note.title)
                     .font(.title3.bold())
-                    .foregroundColor(.white)
+                    .foregroundColor(note.colorValue.isWhite ? .black : .white)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
@@ -43,7 +43,7 @@ struct StickyNoteView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(showFullText ? note.content : String(note.content.prefix(textLimit)) + (showFullText ? "" : "..."))
                         .font(.body)
-                        .foregroundColor(.white)
+                        .foregroundColor(note.colorValue.isWhite ? .black : .white)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .lineLimit(showFullText ? nil : 3)
 
@@ -63,7 +63,7 @@ struct StickyNoteView: View {
             } else {
                 Text(note.content)
                     .font(.body)
-                    .foregroundColor(.white)
+                    .foregroundColor(note.colorValue.isWhite ? .black : .white)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .lineLimit(3)
             }
@@ -72,7 +72,7 @@ struct StickyNoteView: View {
             if !Calendar.current.isDate(note.startDate, inSameDayAs: note.endDate) {
                 Text("Start: \(formattedDate(note.startDate)) - End: \(formattedDate(note.endDate))")
                     .font(.footnote)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(note.colorValue.isWhite ? Color.black.opacity(0.8) : Color.white.opacity(0.8))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
