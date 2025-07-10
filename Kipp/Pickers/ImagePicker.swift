@@ -135,34 +135,12 @@ struct BackgroundImagePickerButton: View {
     @State private var showImagePicker = false
     @State private var selectedSourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var coordinator: ImmersiveCameraCoordinator?
-    @State private var showRemoveBackgroundAlert = false
     
     var body: some View {
         HStack {
             Text("Background Image")
             Spacer()
-            if let image = selectedBackgroundImage {
-                ZStack(alignment: .topTrailing) {
-                    Button(action: { showActionSheet = true }) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 36, height: 36)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                            )
-                    }
-                    Button(action: { showRemoveBackgroundAlert = true }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white)
-                            .background(Circle().fill(Color.black.opacity(0.7)))
-                            .frame(width: 20, height: 20)
-                    }
-                    .offset(x: 8, y: -8)
-                }
-            } else {
+            if selectedBackgroundImage == nil {
                 Button(action: { showActionSheet = true }) {
                     ZStack {
                         Circle()
@@ -170,7 +148,7 @@ struct BackgroundImagePickerButton: View {
                             .background(Circle().fill(Color.white))
                             .frame(width: 26, height: 26)
                         Image(systemName: "plus")
-                            .font(.system(size: 18, weight: .bold))
+                            .font(.system(size: 14, weight: .bold))
                             .foregroundColor(.purple)
                     }
                 }
@@ -193,12 +171,6 @@ struct BackgroundImagePickerButton: View {
         }
         .sheet(isPresented: Binding(get: { showImagePicker && selectedSourceType == .photoLibrary }, set: { if !$0 { showImagePicker = false } })) {
             ImagePicker(image: $selectedBackgroundImage, sourceType: .photoLibrary)
-        }
-        .alert("Remove Background Image?", isPresented: $showRemoveBackgroundAlert) {
-            Button("Remove", role: .destructive) { selectedBackgroundImage = nil }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This will remove the background image from your note.")
         }
     }
     

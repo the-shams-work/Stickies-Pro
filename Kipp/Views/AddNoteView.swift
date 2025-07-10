@@ -38,6 +38,7 @@ struct AddNoteView: View {
     @State private var showRemoveImageAlert = false
     @State private var showRemoveAudioAlert = false
     @State private var showRemoveVideoAlert = false
+    @State private var showRemoveBackgroundImageAlert = false
 
     let today = Date()
 
@@ -221,6 +222,16 @@ struct AddNoteView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                         )
+                        .onTapGesture {
+                            showRemoveBackgroundImageAlert = true
+                        }
+                        .confirmationDialog("Remove Background Image?", isPresented: $showRemoveBackgroundImageAlert, titleVisibility: .visible) {
+                            Button("Remove", role: .destructive) { selectedBackgroundImage = nil }
+                            Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("This will remove the background image from your note.")
+                        }
+                    
                 }
 
                 Picker("Priority", selection: $selectedPriority) {
@@ -271,7 +282,10 @@ struct AddNoteView: View {
                         .confirmationDialog("Remove Image?", isPresented: $showRemoveImageAlert, titleVisibility: .visible) {
                             Button("Remove", role: .destructive) { selectedImage = nil }
                             Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("This will remove the image from your note.")
                         }
+                    
                 }
 
                 AudioPickerButton(selectedAudioURL: $selectedAudioURL)
@@ -283,6 +297,8 @@ struct AddNoteView: View {
                         .confirmationDialog("Remove Audio?", isPresented: $showRemoveAudioAlert, titleVisibility: .visible) {
                             Button("Remove", role: .destructive) { selectedAudioURL = nil }
                             Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("This will remove the audio from your note.")
                         }
                 }
 
@@ -295,6 +311,8 @@ struct AddNoteView: View {
                         .confirmationDialog("Remove Video?", isPresented: $showRemoveVideoAlert, titleVisibility: .visible) {
                             Button("Remove", role: .destructive) { selectedVideoURL = nil }
                             Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("This will remove the video from your note.")
                         }
                 }
             }
