@@ -238,21 +238,6 @@ struct AddNoteView: View {
                     Text("Custom").tag(NoteCategory.custom("") as NoteCategory?)
                 }
                 .tint(.purple)
-                .alert("Custom Category", isPresented: $showCustomCategoryAlert, actions: {
-                    TextField("Enter custom category", text: $customCategoryInput)
-                    Button("OK") {
-                        if !customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            selectedCategory = .custom(customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines))
-                        } else {
-                            selectedCategory = previousCategory
-                        }
-                    }
-                    Button("Cancel", role: .cancel) {
-                        selectedCategory = previousCategory
-                    }
-                }, message: {
-                    Text("Please enter your custom category name.")
-                })
             }
 
             Section(header: Text("Attachments")) {
@@ -323,6 +308,22 @@ struct AddNoteView: View {
         } message: {
             Text("Your note will be activated and shown as per your selected date.")
         }
+        .alert("Custom Category", isPresented: $showCustomCategoryAlert, actions: {
+            TextField("Enter custom category", text: $customCategoryInput)
+            Button("OK") {
+                if !customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    selectedCategory = .custom(customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines))
+                } else {
+                    selectedCategory = previousCategory
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                selectedCategory = previousCategory
+            }
+        }, message: {
+            Text("Please enter your custom category name.")
+        })
+        .tint(.purple)
     }
 }
 
