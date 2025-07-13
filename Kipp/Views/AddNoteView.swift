@@ -39,6 +39,20 @@ struct AddNoteView: View {
     @State private var showRemoveAudioAlert = false
     @State private var showRemoveVideoAlert = false
     @State private var showRemoveBackgroundImageAlert = false
+    
+    // New attachment menu states
+    @State private var showImageMenu = false
+    @State private var showAudioMenu = false
+    @State private var showVideoMenu = false
+    @State private var showImagePicker = false
+    @State private var showVideoPicker = false
+    @State private var showAudioPicker = false
+    @State private var showAudioRecorder = false
+    @State private var isRecording = false
+    @State private var audioRecorder: AVAudioRecorder?
+    @State private var recordingURL: URL?
+    @State private var imageCoordinator: ImmersiveCameraCoordinator?
+    @State private var videoCoordinator: ImmersiveVideoCoordinator?
 
     let today = Date()
 
@@ -163,6 +177,61 @@ struct AddNoteView: View {
             showAddNote = false
         }
     }
+    
+    // MARK: - Attachment Helper Functions
+    private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        if sourceType == .camera {
+            guard let topVC = UIApplication.topViewController() else { return }
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            let newCoordinator = ImmersiveCameraCoordinator(
+                onImagePicked: { image in
+                    selectedImage = image
+                },
+                onDismiss: {}
+            )
+            picker.delegate = newCoordinator
+            imageCoordinator = newCoordinator
+            topVC.present(picker, animated: true)
+        } else {
+            // For photo library, we'll use the existing ImagePicker
+            // This will be handled by the sheet modifier
+        }
+    }
+    
+    private func presentVideoPicker(sourceType: UIImagePickerController.SourceType) {
+        if sourceType == .camera {
+            guard let topVC = UIApplication.topViewController() else { return }
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.mediaTypes = ["public.movie"]
+            picker.videoQuality = .typeHigh
+            let newCoordinator = ImmersiveVideoCoordinator(
+                onVideoPicked: { url in
+                    selectedVideoURL = url
+                },
+                onDismiss: {}
+            )
+            picker.delegate = newCoordinator
+            videoCoordinator = newCoordinator
+            topVC.present(picker, animated: true)
+        } else {
+            // For photo library, we'll use the existing VideoPicker
+            // This will be handled by the sheet modifier
+        }
+    }
+    
+    private func requestMicrophonePermission() {
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            DispatchQueue.main.async {
+                if granted {
+                    showAudioRecorder = true
+                } else {
+                    // Handle permission denied
+                }
+            }
+        }
+    }
 
     var body: some View {
         Form {
@@ -269,7 +338,26 @@ struct AddNoteView: View {
             }
 
             Section(header: Text("Attachments")) {
-                ImagePickerButton(selectedImage: $selectedImage)
+                // Image Attachment
+                Menu {
+                    Button {
+                        presentImagePicker(sourceType: .camera)
+                    } label: {
+                        Label("Camera", systemImage: "camera")
+                    }
+                    Button {
+                        showImagePicker = true
+                    } label: {
+                        Label("Photo Library", systemImage: "photo.on.rectangle")
+                    }
+                } label: {
+                    AttachmentRowView(
+                        title: "Image",
+                        systemIcon: "photo.fill",
+                        hasAttachment: selectedImage != nil,
+                        onTap: {}
+                    )
+                }
                 if let image = selectedImage {
                     Image(uiImage: image)
                         .resizable()
@@ -285,10 +373,28 @@ struct AddNoteView: View {
                         } message: {
                             Text("This will remove the image from your note.")
                         }
-                    
                 }
 
-                AudioPickerButton(selectedAudioURL: $selectedAudioURL)
+                // Audio Attachment
+                Menu {
+                    Button {
+                        requestMicrophonePermission()
+                    } label: {
+                        Label("Record Audio", systemImage: "mic")
+                    }
+                    Button {
+                        showAudioPicker = true
+                    } label: {
+                        Label("Choose File", systemImage: "music.note.list")
+                    }
+                } label: {
+                    AttachmentRowView(
+                        title: "Audio",
+                        systemIcon: "music.note",
+                        hasAttachment: selectedAudioURL != nil,
+                        onTap: {}
+                    )
+                }
                 if let audioURL = selectedAudioURL {
                     Text("Audio: \(audioURL.lastPathComponent)")
                         .onLongPressGesture {
@@ -302,7 +408,26 @@ struct AddNoteView: View {
                         }
                 }
 
-                VideoPickerButton(selectedVideoURL: $selectedVideoURL)
+                // Video Attachment
+                Menu {
+                    Button {
+                        presentVideoPicker(sourceType: .camera)
+                    } label: {
+                        Label("Camera", systemImage: "video")
+                    }
+                    Button {
+                        showVideoPicker = true
+                    } label: {
+                        Label("Photo Library", systemImage: "film")
+                    }
+                } label: {
+                    AttachmentRowView(
+                        title: "Video",
+                        systemIcon: "video.fill",
+                        hasAttachment: selectedVideoURL != nil,
+                        onTap: {}
+                    )
+                }
                 if let videoURL = selectedVideoURL {
                     Text("Video: \(videoURL.lastPathComponent)")
                         .onLongPressGesture {
@@ -358,6 +483,23 @@ struct AddNoteView: View {
         }, message: {
             Text("Please enter your custom category name.")
         })
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(image: $selectedImage, sourceType: .photoLibrary)
+        }
+        .sheet(isPresented: $showVideoPicker) {
+            VideoPicker(videoURL: $selectedVideoURL, sourceType: .photoLibrary)
+        }
+        .sheet(isPresented: $showAudioPicker) {
+            MediaPicker(mediaType: .audio, mediaURL: $selectedAudioURL)
+        }
+        .sheet(isPresented: $showAudioRecorder) {
+            AudioRecorderView(
+                isRecording: $isRecording,
+                audioRecorder: $audioRecorder,
+                recordingURL: $recordingURL,
+                selectedAudioURL: $selectedAudioURL
+            )
+        }
         .tint(.purple)
     }
 }
@@ -387,6 +529,29 @@ struct ColorRowView: View {
             Spacer()
             ColorPicker("", selection: $selectedColor)
                 .labelsHidden()
+        }
+    }
+}
+
+struct AttachmentRowView: View {
+    let title: String
+    let systemIcon: String
+    let hasAttachment: Bool
+    let onTap: () -> Void
+    
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundColor(.primary)
+            Spacer()
+            Image(systemName: systemIcon)
+                .resizable()
+                .frame(width: 24, height: 20)
+                .foregroundColor(.purple)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTap()
         }
     }
 }

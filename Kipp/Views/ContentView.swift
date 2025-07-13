@@ -50,7 +50,21 @@ struct ContentView: View {
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        filterButton
+                        if isSelecting {
+                            let currentNotes = showingArchivedNotes ? viewModel.archivedNotes : viewModel.filteredNotes
+                            let allSelected = !currentNotes.isEmpty && selectedNoteIDs.count == currentNotes.count
+                            
+                            Button(allSelected ? "Deselect All" : "Select All") {
+                                if allSelected {
+                                    selectedNoteIDs.removeAll()
+                                } else {
+                                    selectedNoteIDs = Set(currentNotes.map { $0.id })
+                                }
+                            }
+                            .foregroundColor(.purple)
+                        } else {
+                            filterButton
+                        }
                     }
                 }
                 .background(Color(.systemGroupedBackground))
