@@ -194,8 +194,7 @@ struct AddNoteView: View {
             imageCoordinator = newCoordinator
             topVC.present(picker, animated: true)
         } else {
-            // For photo library, we'll use the existing ImagePicker
-            // This will be handled by the sheet modifier
+            
         }
     }
     
@@ -216,8 +215,7 @@ struct AddNoteView: View {
             videoCoordinator = newCoordinator
             topVC.present(picker, animated: true)
         } else {
-            // For photo library, we'll use the existing VideoPicker
-            // This will be handled by the sheet modifier
+
         }
     }
     
@@ -280,7 +278,43 @@ struct AddNoteView: View {
             Section(header: Text("Customization")) {
                 ColorRowView(selectedColor: $selectedColor)
                 
-                BackgroundImagePickerButton(selectedBackgroundImage: $selectedBackgroundImage)
+                // Background Image Picker as floating menu
+                Menu {
+                    Button {
+                        // Camera
+                        if let topVC = UIApplication.topViewController() {
+                            let picker = UIImagePickerController()
+                            picker.sourceType = .camera
+                            let newCoordinator = ImmersiveCameraCoordinator(
+                                onImagePicked: { image in
+                                    selectedBackgroundImage = image
+                                },
+                                onDismiss: {}
+                            )
+                            picker.delegate = newCoordinator
+                            imageCoordinator = newCoordinator
+                            topVC.present(picker, animated: true)
+                        }
+                    } label: {
+                        Label("Camera", systemImage: "camera")
+                    }
+                    Button {
+                        showImagePicker = true // Reuse image picker for background
+                    } label: {
+                        Label("Photo Library", systemImage: "photo.on.rectangle")
+                    }
+                } label: {
+                    HStack {
+                        Text("Background Image")
+                            .foregroundColor(.black)
+                        Spacer()
+                        Image(systemName: "photo.artframe")
+                            .resizable()
+                            .frame(width: 24, height: 20)
+                            .foregroundColor(.purple)
+                    }
+                    .contentShape(Rectangle())
+                }
                 if let backgroundImage = selectedBackgroundImage {
                     Image(uiImage: backgroundImage)
                         .resizable()
@@ -300,7 +334,6 @@ struct AddNoteView: View {
                         } message: {
                             Text("This will remove the background image from your note.")
                         }
-                    
                 }
 
                 Picker("Priority", selection: $selectedPriority) {
@@ -338,7 +371,6 @@ struct AddNoteView: View {
             }
 
             Section(header: Text("Attachments")) {
-                // Image Attachment
                 Menu {
                     Button {
                         presentImagePicker(sourceType: .camera)
@@ -408,7 +440,6 @@ struct AddNoteView: View {
                         }
                 }
 
-                // Video Attachment
                 Menu {
                     Button {
                         presentVideoPicker(sourceType: .camera)
