@@ -52,7 +52,7 @@ struct StickyNoteView: View {
                         Button(action: { showFullText.toggle() }) {
                             Image(systemName: showFullText ? "chevron.up" : "chevron.down")
                                 .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(.white)
+                                .foregroundColor(note.colorValue.isWhite ? .black : .white)
                                 .padding(6)
                                 .background(Color.white.opacity(0.18))
                                 .clipShape(Circle())
