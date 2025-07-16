@@ -59,7 +59,29 @@ struct MediaPicker: UIViewControllerRepresentable {
         }
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            parent.mediaURL = urls.first
+            guard let pickedURL = urls.first else { return }
+            var didStartAccessing = false
+            if pickedURL.startAccessingSecurityScopedResource() {
+                didStartAccessing = true
+            }
+            defer {
+                if didStartAccessing {
+                    pickedURL.stopAccessingSecurityScopedResource()
+                }
+            }
+            let fileManager = FileManager.default
+            let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let newURL = documents.appendingPathComponent(pickedURL.lastPathComponent)
+            do {
+                if fileManager.fileExists(atPath: newURL.path) {
+                    try fileManager.removeItem(at: newURL)
+                }
+                try fileManager.copyItem(at: pickedURL, to: newURL)
+                parent.mediaURL = newURL
+            } catch {
+                print("Failed to copy audio file: \(error)")
+                parent.mediaURL = nil
+            }
         }
     }
 }

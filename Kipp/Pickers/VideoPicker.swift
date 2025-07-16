@@ -37,7 +37,20 @@ struct VideoPicker: UIViewControllerRepresentable {
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let url = info[.mediaURL] as? URL {
-                parent.videoURL = url
+                // Copy video to Documents directory
+                let fileManager = FileManager.default
+                let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let newURL = documents.appendingPathComponent(url.lastPathComponent)
+                do {
+                    if fileManager.fileExists(atPath: newURL.path) {
+                        try fileManager.removeItem(at: newURL)
+                    }
+                    try fileManager.copyItem(at: url, to: newURL)
+                    parent.videoURL = newURL
+                } catch {
+                    print("Failed to copy video: \(error)")
+                    parent.videoURL = nil
+                }
             }
             picker.dismiss(animated: true)
         }
@@ -58,8 +71,23 @@ class ImmersiveVideoCoordinator: NSObject, UINavigationControllerDelegate, UIIma
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let url = info[.mediaURL] as? URL
-        onVideoPicked(url)
+        if let url = info[.mediaURL] as? URL {
+            let fileManager = FileManager.default
+            let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let newURL = documents.appendingPathComponent(url.lastPathComponent)
+            do {
+                if fileManager.fileExists(atPath: newURL.path) {
+                    try fileManager.removeItem(at: newURL)
+                }
+                try fileManager.copyItem(at: url, to: newURL)
+                onVideoPicked(newURL)
+            } catch {
+                print("Failed to copy video: \(error)")
+                onVideoPicked(nil)
+            }
+        } else {
+            onVideoPicked(nil)
+        }
         picker.dismiss(animated: true, completion: onDismiss)
     }
     
