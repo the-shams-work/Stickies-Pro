@@ -39,6 +39,10 @@ struct AddNoteView: View {
     @State private var showRemoveAudioAlert = false
     @State private var showRemoveVideoAlert = false
     @State private var showRemoveBackgroundImageAlert = false
+    // New state to distinguish background image picking
+    @State private var isPickingBackgroundImage = false
+    // Separate state for background image picker
+    @State private var showBackgroundImagePicker = false
     
     // New attachment menu states
     @State private var showImageMenu = false
@@ -193,8 +197,8 @@ struct AddNoteView: View {
             picker.delegate = newCoordinator
             imageCoordinator = newCoordinator
             topVC.present(picker, animated: true)
-        } else {
-            
+        } else if sourceType == .photoLibrary {
+            showImagePicker = true
         }
     }
     
@@ -214,8 +218,8 @@ struct AddNoteView: View {
             picker.delegate = newCoordinator
             videoCoordinator = newCoordinator
             topVC.present(picker, animated: true)
-        } else {
-
+        } else if sourceType == .photoLibrary {
+            showVideoPicker = true
         }
     }
     
@@ -299,7 +303,7 @@ struct AddNoteView: View {
                         Label("Camera", systemImage: "camera")
                     }
                     Button {
-                        showImagePicker = true // Reuse image picker for background
+                        showBackgroundImagePicker = true
                     } label: {
                         Label("Photo Library", systemImage: "photo.on.rectangle")
                     }
@@ -514,6 +518,9 @@ struct AddNoteView: View {
         }, message: {
             Text("Please enter your custom category name.")
         })
+        .sheet(isPresented: $showBackgroundImagePicker) {
+            ImagePicker(image: $selectedBackgroundImage, sourceType: .photoLibrary)
+        }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $selectedImage, sourceType: .photoLibrary)
         }
