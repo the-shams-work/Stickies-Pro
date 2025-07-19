@@ -244,7 +244,7 @@ struct AddNoteView: View {
             }
 
             Section(header: Text("Date & Time"), footer: isTimeBounded ? AnyView(
-                Text("When 'Date Range' is enabled, you can set a start and end date for your note. The note will be active and visible only during this period.")
+                Text("When enabled, you can set a start and end date for your note. The note will be active and visible only during this period.")
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .padding(.top, 4)
