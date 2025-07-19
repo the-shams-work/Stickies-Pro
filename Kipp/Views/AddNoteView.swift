@@ -39,12 +39,8 @@ struct AddNoteView: View {
     @State private var showRemoveAudioAlert = false
     @State private var showRemoveVideoAlert = false
     @State private var showRemoveBackgroundImageAlert = false
-    // New state to distinguish background image picking
     @State private var isPickingBackgroundImage = false
-    // Separate state for background image picker
     @State private var showBackgroundImagePicker = false
-    
-    // New attachment menu states
     @State private var showImageMenu = false
     @State private var showAudioMenu = false
     @State private var showVideoMenu = false
@@ -229,7 +225,6 @@ struct AddNoteView: View {
                 if granted {
                     showAudioRecorder = true
                 } else {
-                    // Handle permission denied
                 }
             }
         }
@@ -282,10 +277,8 @@ struct AddNoteView: View {
             Section(header: Text("Customization")) {
                 ColorRowView(selectedColor: $selectedColor)
                 
-                // Background Image Picker as floating menu
                 Menu {
                     Button {
-                        // Camera
                         if let topVC = UIApplication.topViewController() {
                             let picker = UIImagePickerController()
                             picker.sourceType = .camera
