@@ -303,7 +303,7 @@ struct AddNoteView: View {
                 } label: {
                     HStack {
                         Text("Background Image")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color(UIColor.label))
                         Spacer()
                         Image(systemName: "photo.artframe")
                             .resizable()
