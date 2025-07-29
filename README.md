@@ -30,7 +30,7 @@ You can install Kipp directly from the App Store:
 
 
 ```bash
-Visit https://apps.apple.com/app/kipp/id6747926141
+https://apps.apple.com/app/kipp/id6747926141
 
 ```
 
