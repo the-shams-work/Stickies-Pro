@@ -500,6 +500,38 @@ struct FilterView: View {
                     Toggle("Only notes with attachments", isOn: $viewModel.showOnlyWithAttachments)
                     Toggle("Only notes with reminders", isOn: $viewModel.showOnlyWithReminders)
                 }
+                
+                Section(header: Text("Support")) {
+                    Button(action: {
+                        if let url = URL(string: "https://buymeacoffee.com/shams24x7") {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "cup.and.saucer.fill")
+                                .foregroundColor(.purple)
+                                .font(.system(size: 18))
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Buy a Coffee")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.primary)
+                                
+                                Text("Support the app development")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "arrow.up.right")
+                                .foregroundColor(.purple)
+                                .font(.system(size: 14))
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
             }
             .tint(.purple)
         }
