@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @Binding var hasSeenOnboarding: Bool
 
     let onboardingData: [(image: String, title: String, description: String)] = [
@@ -22,9 +23,9 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack {
-            Text("Welcome to Kipp")
+            Text("onboarding.title")
                 .font(.largeTitle.bold())
-                .foregroundColor(.purple)
+                .foregroundColor(themeManager.theme.color)
                 .padding(.top, 30)
                 .padding(.bottom, 10)
 
@@ -36,7 +37,7 @@ struct OnboardingView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 45, height: 45)
-                                .foregroundColor(.purple)
+                                .foregroundColor(themeManager.theme.color)
                                 .padding(.top, 8)
 
                             VStack(alignment: .leading, spacing: 8) {
@@ -63,11 +64,11 @@ struct OnboardingView: View {
             Button(action: {
                 hasSeenOnboarding = true
             }) {
-                Text("Get Started")
+                Text("onboarding.start")
                     .font(.system(size: 16, weight: .bold))
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.purple)
+                    .background(themeManager.theme.color)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .padding(.horizontal, 40)

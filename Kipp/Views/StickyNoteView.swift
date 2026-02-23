@@ -9,6 +9,7 @@ import SwiftUI
 import AVKit
 
 struct StickyNoteView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let note: StickyNote
     let markAsDone: () -> Void
     let onEdit: () -> Void
@@ -28,7 +29,7 @@ struct StickyNoteView: View {
             HStack {
                 if isSelecting {
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(isSelected ? .purple : .secondary)
+                        .foregroundColor(isSelected ? themeManager.theme.color : .secondary)
                         .font(.title2)
                         .transition(.scale)
                 }
@@ -69,7 +70,7 @@ struct StickyNoteView: View {
             }
 
             if !Calendar.current.isDate(note.startDate, inSameDayAs: note.endDate) {
-                Text("Start: \(formattedDate(note.startDate)) - End: \(formattedDate(note.endDate))")
+                Text(String(format: String(localized: "stickynote.start_end"), formattedDate(note.startDate), formattedDate(note.endDate)))
                     .font(.footnote)
                     .foregroundColor(note.colorValue.isWhite ? Color.black.opacity(0.8) : Color.white.opacity(0.8))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -85,7 +86,7 @@ struct StickyNoteView: View {
                                 .resizable()
                                 .frame(width: 30, height: 25)
                                 .foregroundColor(note.colorValue.isWhite ? .black : .white)
-                            Text("Image")
+                            Text("addnote.attachments.image.label")
                                 .font(.caption)
                                 .foregroundColor(note.colorValue.isWhite ? .black : .white)
                         }
@@ -107,7 +108,7 @@ struct StickyNoteView: View {
                                 .resizable()
                                 .frame(width: 30, height: 25)
                                 .foregroundColor(note.colorValue.isWhite ? .black : .white)
-                            Text("Video")
+                            Text("addnote.attachments.video.label")
                                 .font(.caption)
                                 .foregroundColor(note.colorValue.isWhite ? .black : .white)
                         }
@@ -129,7 +130,7 @@ struct StickyNoteView: View {
                                 .resizable()
                                 .frame(width: 30, height: 25)
                                 .foregroundColor(note.colorValue.isWhite ? .black : .white)
-                            Text("Audio")
+                            Text("addnote.attachments.audio.label")
                                 .font(.caption)
                                 .foregroundColor(note.colorValue.isWhite ? .black : .white)
                         }
@@ -168,36 +169,36 @@ struct StickyNoteView: View {
                 Button(action: {
                     markAsDone()
                 }) {
-                    Label("Mark as Active", systemImage: "arrow.clockwise")
+                    Label("stickynote.active.mark", systemImage: "arrow.clockwise")
                 }
                 Button(role: .destructive, action: {
                     showDeleteConfirmation = true
                 }) {
-                    Label("Delete", systemImage: "trash")
+                    Label("common.delete", systemImage: "trash")
                 }
             } else {
                 Button(action: {
                     onEdit()
                 }) {
-                    Label("Edit", systemImage: "pencil")
+                    Label("common.edit", systemImage: "pencil")
                 }
                 Button(action: {
                     markAsDone()
                 }) {
-                    Label("Archive", systemImage: "archivebox")
+                    Label("home.tab.archive", systemImage: "archivebox")
                 }
                 Button(role: .destructive, action: {
                     showDeleteConfirmation = true
                 }) {
-                    Label("Delete", systemImage: "trash")
+                    Label("common.delete", systemImage: "trash")
                 }
             }
         })
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(
-                title: Text("Delete Note"),
-                message: Text("Are you sure you want to delete this note? This action cannot be undone."),
-                primaryButton: .destructive(Text("Delete")) {
+                title: Text("stickynote.delete"),
+                message: Text("stickynote.delete.confirm"),
+                primaryButton: .destructive(Text("common.delete")) {
                     onDelete()
                 },
                 secondaryButton: .cancel()
@@ -213,6 +214,7 @@ struct StickyNoteView: View {
 }
 
 struct AudioPlayerSheet: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let audioURL: URL
     @Environment(\.dismiss) var dismiss
     @State private var audioPlayer: AVPlayer?
@@ -226,9 +228,9 @@ struct AudioPlayerSheet: View {
                 Image(systemName: "music.note")
                     .resizable()
                     .frame(width: 80, height: 80)
-                    .foregroundColor(.purple)
+                    .foregroundColor(themeManager.theme.color)
                 
-                Text("Audio Player")
+                Text("stickynote.audio.player")
                     .font(.title2)
                     .fontWeight(.bold)
                 
@@ -266,7 +268,7 @@ struct AudioPlayerSheet: View {
                             Image(systemName: isAudioPlaying ? "pause.circle.fill" : "play.circle.fill")
                                 .resizable()
                                 .frame(width: 60, height: 60)
-                                .foregroundColor(.purple)
+                                .foregroundColor(themeManager.theme.color)
                         }
                         
                         Spacer()
@@ -284,15 +286,15 @@ struct AudioPlayerSheet: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Audio Player")
+            .navigationTitle("stickynote.audio.player")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button("common.done") {
                         audioPlayer?.pause()
                         dismiss()
                     }
-                    .foregroundColor(.purple)
+                    .foregroundColor(themeManager.theme.color)
                 }
             }
             .onAppear {

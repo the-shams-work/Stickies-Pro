@@ -16,7 +16,7 @@ struct HistoryView: View {
                 if viewModel.notes.filter({ $0.isDone }).isEmpty {
                     VStack {
                         Spacer()
-                        Text("No Archived Notes Yet.")
+                        Text("home.archive.empty")
                             .font(.headline)
                             .foregroundColor(.gray)
                             .padding()
@@ -38,7 +38,7 @@ struct HistoryView: View {
                     }
                 }
             }
-            .navigationTitle("Archive")
+            .navigationTitle("home.tab.archive")
         }
     }
 }

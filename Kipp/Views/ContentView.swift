@@ -9,10 +9,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: NotesViewModel
     @State private var showAddNote = false
     @State private var editingNote: StickyNote?
     @State private var showFilters = false
+    @State private var showSettings = false
     @State private var isSearchFocused = false
     @State private var showingArchivedNotes = false
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
@@ -32,21 +34,21 @@ struct ContentView: View {
                     sortOptions
                     notesList
                 }
-                .navigationTitle(showingArchivedNotes ? "Archive" : "My Notes")
+                .navigationTitle(showingArchivedNotes ? LocalizedStringKey("home.tab.archive") : LocalizedStringKey("home.tab.mynotes"))
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         if isSelecting {
-                            Button("Cancel") {
+                            Button("common.cancel") {
                                 isSelecting = false
                                 selectedNoteIDs.removeAll()
                             }
-                            .foregroundColor(.purple)
+                            .foregroundColor(themeManager.theme.color)
                         } else {
-                            Button("Edit") {
+                            Button("common.edit") {
                                 isSelecting = true
                             }
-                            .foregroundColor(.purple)
+                            .foregroundColor(themeManager.theme.color)
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -61,9 +63,16 @@ struct ContentView: View {
                                     selectedNoteIDs = Set(currentNotes.map { $0.id })
                                 }
                             }
-                            .foregroundColor(.purple)
+                            .foregroundColor(themeManager.theme.color)
                         } else {
-                            filterButton
+                            HStack(spacing: 16) {
+                                filterButton
+                                Button(action: { showSettings = true }) {
+                                    Image(systemName: "gearshape")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(themeManager.theme.color)
+                                }
+                            }
                         }
                     }
                 }
@@ -76,7 +85,7 @@ struct ContentView: View {
                     Button(action: {
                         showDeleteAlert = true
                     }) {
-                        Text("Delete (\(selectedNoteIDs.count))")
+                        Text(String(format: String(localized: "common.delete.count"), "\(selectedNoteIDs.count)"))
                             .font(.headline)
                             .padding(.horizontal, 24)
                             .padding(.vertical, 10)
@@ -89,17 +98,20 @@ struct ContentView: View {
                     .transition(.move(edge: .bottom))
                     .animation(.easeInOut, value: isSelecting)
                     .alert("Delete Notes?", isPresented: $showDeleteAlert) {
-                        Button("Delete", role: .destructive) {
+                        Button("common.delete", role: .destructive) {
                             viewModel.deleteNotes(withIDs: selectedNoteIDs)
                             isSelecting = false
                             selectedNoteIDs.removeAll()
                         }
-                        Button("Cancel", role: .cancel) {}
+                        Button("common.cancel", role: .cancel) {}
                     } message: {
-                        Text("Are you sure you want to delete the selected notes? This action cannot be undone.")
+                        Text("common.delete.confirm")
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
         }
         .sheet(isPresented: $showAddNote, onDismiss: { editingNote = nil }) {
             NavigationStack {
@@ -125,7 +137,7 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
                     .font(.system(size: 16, weight: .medium))
                 
-                TextField("Search notes...", text: $viewModel.searchQuery)
+                TextField("common.search", text: $viewModel.searchQuery)
                     .textFieldStyle(PlainTextFieldStyle())
                     .font(.system(size: 16))
                     .onTapGesture {
@@ -148,15 +160,15 @@ struct ContentView: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSearchFocused ? Color.purple : Color.clear, lineWidth: 1)
+                    .stroke(isSearchFocused ? themeManager.theme.color : Color.clear, lineWidth: 1)
             )
             
             if !viewModel.searchQuery.isEmpty {
-                Button("Cancel") {
+                Button("common.cancel") {
                     viewModel.searchQuery = ""
                     isSearchFocused = false
                 }
-                .foregroundColor(.purple)
+                .foregroundColor(themeManager.theme.color)
             }
         }
         .padding(.horizontal, 16)
@@ -179,7 +191,7 @@ struct ContentView: View {
                     FilterChip(
                         title: category.rawValue,
                         systemImage: category.systemImage,
-                        color: .purple
+                        color: themeManager.theme.color
                     ) {
                         viewModel.selectedCategoryFilter = nil
                     }
@@ -189,7 +201,7 @@ struct ContentView: View {
                     FilterChip(
                         title: "With Attachments",
                         systemImage: "paperclip",
-                        color: .purple
+                        color: themeManager.theme.color
                     ) {
                         viewModel.showOnlyWithAttachments = false
                     }
@@ -199,7 +211,7 @@ struct ContentView: View {
                     FilterChip(
                         title: "With Reminders",
                         systemImage: "bell",
-                        color: .purple
+                        color: themeManager.theme.color
                     ) {
                         viewModel.showOnlyWithReminders = false
                     }
@@ -209,7 +221,7 @@ struct ContentView: View {
                     FilterChip(
                         title: viewModel.dateFilterOption.rawValue,
                         systemImage: viewModel.dateFilterOption.systemImage,
-                        color: .purple
+                        color: themeManager.theme.color
                     ) {
                         viewModel.dateFilterOption = .all
                     }
@@ -302,7 +314,7 @@ struct ContentView: View {
                                 .font(.system(size: 24, weight: .semibold))
                                 .foregroundColor(.white)
                                 .frame(width: 56, height: 56)
-                                .background(Color.purple)
+                                .background(themeManager.theme.color)
                                 .clipShape(Circle())
                                 .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                         }
@@ -335,19 +347,19 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
-    private func getEmptyStateTitle() -> String {
+    private func getEmptyStateTitle() -> LocalizedStringKey {
         if showingArchivedNotes {
-            return viewModel.searchQuery.isEmpty ? "No Archived Notes" : "No Results Found"
+            return viewModel.searchQuery.isEmpty ? "home.empty.archive" : "home.empty.search.title"
         } else {
-            return viewModel.searchQuery.isEmpty ? "No Notes Yet" : "No Results Found"
+            return viewModel.searchQuery.isEmpty ? "home.empty.notes.title" : "home.empty.search.title"
         }
     }
     
-    private func getEmptyStateMessage() -> String {
+    private func getEmptyStateMessage() -> LocalizedStringKey {
         if showingArchivedNotes {
-            return viewModel.searchQuery.isEmpty ? "Completed notes will appear here" : "Try adjusting your search or filters"
+            return viewModel.searchQuery.isEmpty ? "home.empty.archive.desc" : "home.empty.search.desc"
         } else {
-            return viewModel.searchQuery.isEmpty ? "Tap the + button to create your note" : "Try adjusting your search or filters"
+            return viewModel.searchQuery.isEmpty ? "home.empty.notes.desc" : "home.empty.search.desc"
         }
     }
     
@@ -358,7 +370,7 @@ struct ContentView: View {
         }) {
             Image(systemName: "line.3.horizontal.decrease.circle")
                 .font(.system(size: 20))
-                .foregroundColor(hasActiveFilters ? .purple : .primary)
+                .foregroundColor(themeManager.theme.color)
         }
     }
 }
@@ -375,7 +387,7 @@ struct FilterChip: View {
             Image(systemName: systemImage)
                 .font(.system(size: 12, weight: .medium))
             
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.system(size: 14, weight: .medium))
             
             Button(action: onRemove) {
@@ -392,17 +404,18 @@ struct FilterChip: View {
 }
 
 struct SortButton: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let title: String
     let isSelected: Bool
     let action: () -> Void
     
     var body: some View {
         Button(action: action) {
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.system(size: 14, weight: .medium))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? Color.purple : Color(.systemGray5))
+                .background(isSelected ? themeManager.theme.color : Color(.systemGray5))
                 .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(20)
         }
@@ -410,6 +423,7 @@ struct SortButton: View {
 }
 
 struct FilterView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     @ObservedObject var viewModel: NotesViewModel
     @Binding var showingArchivedNotes: Bool
     @Environment(\.presentationMode) var presentationMode
@@ -422,18 +436,18 @@ struct FilterView: View {
     var body: some View {
         VStack(spacing: 0) {
             Picker("View", selection: $showingArchivedNotes) {
-                Text("My Notes").tag(false)
-                Text("Archive").tag(true)
+                Text("home.tab.mynotes").tag(false)
+                Text("home.tab.archive").tag(true)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .tint(.purple)
+            .tint(themeManager.theme.color)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
             .background(Color(.systemGroupedBackground))
             
             Form {
-                Section(header: Text("Category")) {
-                    Picker("Category", selection: Binding(
+                Section(header: Text("addnote.category")) {
+                    Picker("addnote.category", selection: Binding(
                         get: { viewModel.selectedCategoryFilter },
                         set: { newValue in
                             if let newValue = newValue, case .custom = newValue {
@@ -445,50 +459,50 @@ struct FilterView: View {
                             }
                         }
                     )) {
-                        Text("All Categories").tag(nil as NoteCategory?)
+                        Text("home.filters.category.all").tag(nil as NoteCategory?)
                         Divider()
                         ForEach(NoteCategory.allCases, id: \.id) { category in
                             CategoryRowView(category: category)
                                 .tag(category as NoteCategory?)
                         }
                         Divider()
-                        Text("Custom").tag(NoteCategory.custom("") as NoteCategory?)
+                        Text("home.filters.category.custom").tag(NoteCategory.custom("") as NoteCategory?)
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .tint(.purple)
-                    .alert("Custom Category", isPresented: $showCustomCategoryAlert, actions: {
-                        TextField("Enter custom category", text: $customCategoryInput)
-                        Button("OK") {
+                    .tint(themeManager.theme.color)
+                    .alert("home.filters.category.custom.alert", isPresented: $showCustomCategoryAlert, actions: {
+                        TextField("home.filters.category.custom.placeholder", text: $customCategoryInput)
+                        Button("common.ok") {
                             if !customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                 viewModel.selectedCategoryFilter = .custom(customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines))
                             } else {
                                 viewModel.selectedCategoryFilter = previousCategory
                             }
                         }
-                        Button("Cancel", role: .cancel) {
+                        Button("common.cancel", role: .cancel) {
                             viewModel.selectedCategoryFilter = previousCategory
                         }
                     }, message: {
-                        Text("Please enter your custom category name.")
+                        Text("home.filters.category.custom.message")
                     })
                 }
                 
-                Section(header: Text("Date Range")) {
-                    Picker("Date Filter", selection: $viewModel.dateFilterOption) {
+                Section(header: Text("home.filters.date")) {
+                    Picker("home.filters.date", selection: $viewModel.dateFilterOption) {
                         HStack {
-                            Text(NotesViewModel.DateFilterOption.all.rawValue)
+                            Text(LocalizedStringKey(NotesViewModel.DateFilterOption.all.rawValue))
                             Spacer()
                             Image(systemName: NotesViewModel.DateFilterOption.all.systemImage)
-                                .foregroundColor(.purple)
+                                .foregroundColor(themeManager.theme.color)
                         }
                         .tag(NotesViewModel.DateFilterOption.all)
                         Divider()
                         ForEach(NotesViewModel.DateFilterOption.allCases.filter { $0 != .all }, id: \.self) { option in
                             HStack {
-                                Text(option.rawValue)
+                                Text(LocalizedStringKey(option.rawValue))
                                 Spacer()
                                 Image(systemName: option.systemImage)
-                                    .foregroundColor(.purple)
+                                    .foregroundColor(themeManager.theme.color)
                             }
                             .tag(option)
                         }
@@ -496,30 +510,30 @@ struct FilterView: View {
                     .pickerStyle(MenuPickerStyle())
                 }
                 
-                Section(header: Text("Content Type")) {
-                    Toggle("Only notes with attachments", isOn: $viewModel.showOnlyWithAttachments)
-                    Toggle("Only notes with reminders", isOn: $viewModel.showOnlyWithReminders)
+                Section(header: Text("home.filters.content")) {
+                    Toggle("home.filters.content.attachments", isOn: $viewModel.showOnlyWithAttachments)
+                    Toggle("home.filters.content.reminders", isOn: $viewModel.showOnlyWithReminders)
                 }
             }
-            .tint(.purple)
+            .tint(themeManager.theme.color)
         }
-        .navigationTitle("Filters")
+        .navigationTitle("home.filters.title")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button("Reset") {
+                Button("common.reset") {
                     viewModel.selectedCategoryFilter = nil
                     viewModel.showOnlyWithAttachments = false
                     viewModel.showOnlyWithReminders = false
                     viewModel.dateFilterOption = .all
                 }
-                .foregroundColor(.purple)
+                .foregroundColor(themeManager.theme.color)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Done") {
+                Button("common.done") {
                     presentationMode.wrappedValue.dismiss()
                 }
-                .foregroundColor(.purple)
+                .foregroundColor(themeManager.theme.color)
             }
         }
     }
