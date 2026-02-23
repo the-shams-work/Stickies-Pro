@@ -18,7 +18,9 @@ struct OnboardingView: View {
         ("clock.fill", "Auto-Delete", "Notes will be automatically deleted after the end date."),
         ("tray.full.fill", "History", "Keep track of completed notes."),
         ("magnifyingglass", "Intuitive Search", "Find notes easily with our smart search bar."),
-        ("hand.tap.fill", "Gesture Controls", "Long-press notes to edit, delete and do much more.")
+        ("hand.tap.fill", "Gesture Controls", "Long-press notes to edit, delete and do much more."),
+        ("paintpalette.fill", "Theme Customization", "Personalize Kipp with beautiful dynamic accent colors."),
+        ("globe", "Global Localization", "Experience Kipp seamlessly in over 10 different languages.")
     ]
 
     var body: some View {
@@ -41,11 +43,11 @@ struct OnboardingView: View {
                                 .padding(.top, 8)
 
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(onboardingData[index].title)
+                                Text(LocalizedStringKey(onboardingData[index].title))
                                     .font(.subheadline.bold())
                                     .foregroundColor(.black)
 
-                                Text(onboardingData[index].description)
+                                Text(LocalizedStringKey(onboardingData[index].description))
                                     .font(.footnote)
                                     .foregroundColor(.black.opacity(0.7))
                                     .lineLimit(nil)
@@ -70,7 +72,7 @@ struct OnboardingView: View {
                     .padding()
                     .background(themeManager.theme.color)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .clipShape(Capsule())
                     .padding(.horizontal, 40)
             }
             .padding(.bottom, 30)
