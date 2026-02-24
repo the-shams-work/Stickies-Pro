@@ -177,3 +177,8 @@
 "analytics.category.empty" = "尚未使用任何类别";
 "analytics.category.mostused" = "最常用的：";
 "analytics.title" = "分析";
+
+"settings.reset_all" = "重置设置";
+"settings.reset_all.title" = "重置设置";
+"settings.reset_all.message" = "您确定要将所有设置恢复为默认值吗？";
+"settings.reset_all.confirm" = "重置";

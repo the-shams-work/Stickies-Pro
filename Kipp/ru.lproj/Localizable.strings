@@ -177,3 +177,8 @@
 "analytics.category.empty" = "Категории пока не использовались";
 "analytics.category.mostused" = "Самая используемая:";
 "analytics.title" = "Аналитика";
+
+"settings.reset_all" = "Сброс настроек";
+"settings.reset_all.title" = "Сброс настроек";
+"settings.reset_all.message" = "Вы уверены, что хотите сбросить все настройки к значениям по умолчанию?";
+"settings.reset_all.confirm" = "Сбросить";

@@ -185,3 +185,8 @@
 "analytics.category.empty" = "अभी तक कोई श्रेणी उपयोग नहीं की गई है";
 "analytics.category.mostused" = "सबसे अधिक उपयोग किया गया:";
 "analytics.title" = "एनालिटिक्स";
+
+"settings.reset_all" = "सेटिंग्स रीसेट करें";
+"settings.reset_all.title" = "सेटिंग्स रीसेट करें";
+"settings.reset_all.message" = "क्या आप वाकई सभी सेटिंग्स को उनके डिफ़ॉल्ट मानों पर रीसेट करना चाहते हैं?";
+"settings.reset_all.confirm" = "रीसेट करें";

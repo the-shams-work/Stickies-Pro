@@ -11,6 +11,7 @@ struct SettingsView: View {
     @EnvironmentObject var languageManager: LanguageManager
     
     @State private var showRestartAlert = false
+    @State private var showResetAlert = false
     @State private var pendingLanguage: AppLanguage?
     
     var body: some View {
@@ -47,6 +48,30 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.navigationLink)
+                }
+                
+                Section {
+                    Button(role: .destructive, action: {
+                        showResetAlert = true
+                    }) {
+                        Text("settings.reset_all")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .alert("settings.reset_all.title", isPresented: $showResetAlert) {
+                        Button("common.cancel", role: .cancel) { }
+                        Button("settings.reset_all.confirm", role: .destructive) {
+                            // Reset preferences to default values
+                            themeManager.theme = .purple
+                            
+                            // Check if language is not system default, so we can reboot
+                            if languageManager.language != .system {
+                                pendingLanguage = .system
+                                showRestartAlert = true
+                            }
+                        }
+                    } message: {
+                        Text("settings.reset_all.message")
+                    }
                 }
             }
             .navigationTitle("settings.title")

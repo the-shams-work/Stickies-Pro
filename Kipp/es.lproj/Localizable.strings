@@ -177,3 +177,8 @@
 "analytics.category.empty" = "Aún no se han utilizado categorías";
 "analytics.category.mostused" = "Más utilizado:";
 "analytics.title" = "Analítica";
+
+"settings.reset_all" = "Restablecer configuración";
+"settings.reset_all.title" = "Restablecer configuración";
+"settings.reset_all.message" = "¿Estás seguro de que deseas restablecer todas las configuraciones a sus valores predeterminados?";
+"settings.reset_all.confirm" = "Restablecer";

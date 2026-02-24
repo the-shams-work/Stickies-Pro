@@ -177,3 +177,8 @@
 "analytics.category.empty" = "まだカテゴリが使用されていません";
 "analytics.category.mostused" = "最も使用されている:";
 "analytics.title" = "分析";
+
+"settings.reset_all" = "設定をリセット";
+"settings.reset_all.title" = "設定をリセット";
+"settings.reset_all.message" = "すべての設定をデフォルト値にリセットしてもよろしいですか？";
+"settings.reset_all.confirm" = "リセット";

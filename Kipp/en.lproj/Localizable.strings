@@ -50,7 +50,7 @@
 "settings.language" = "Language";
 "settings.language.app" = "App Language";
 "settings.restart.title" = "Restart Required";
-"settings.restart.message" = "Changing the language requires the app to restart. This action cannot be undone.";
+"settings.restart.message" = "Changing the language requires the app to restart.";
 "settings.restart.confirm" = "Restart Now";
 "onboarding.title" = "Welcome to Kipp";
 "onboarding.continue" = "Continue";
@@ -185,3 +185,8 @@
 "analytics.category.empty" = "No categories used yet";
 "analytics.category.mostused" = "Most Used:";
 "analytics.title" = "Analytics";
+
+"settings.reset_all" = "Reset Settings";
+"settings.reset_all.title" = "Reset Settings";
+"settings.reset_all.message" = "Are you sure you want to reset all settings to their default values?";
+"settings.reset_all.confirm" = "Reset";
