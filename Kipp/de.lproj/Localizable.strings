@@ -167,3 +167,13 @@
 "Category" = "Kategorie";
 "Priority" = "Priorität";
 "Recent" = "Zuletzt";
+
+"common.total" = "Gesamt";
+
+"analytics.active" = "Aktiv";
+
+"analytics.attachments.empty" = "Keine Anhänge gefunden";
+"analytics.category.breakdown" = "Kategorie-Aufschlüsselung";
+"analytics.category.empty" = "Noch keine Kategorien verwendet";
+"analytics.category.mostused" = "Meistgenutzt:";
+"analytics.title" = "Analytik";

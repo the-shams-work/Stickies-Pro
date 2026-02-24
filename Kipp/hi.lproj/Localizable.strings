@@ -175,3 +175,13 @@
 
 "Purple" = "बैंगनी";
 "Pink" = "गुलाबी";
+
+"common.total" = "कुल";
+
+"analytics.active" = "सक्रिय";
+
+"analytics.attachments.empty" = "कोई अटैचमेंट नहीं मिला";
+"analytics.category.breakdown" = "श्रेणी विवरण";
+"analytics.category.empty" = "अभी तक कोई श्रेणी उपयोग नहीं की गई है";
+"analytics.category.mostused" = "सबसे अधिक उपयोग किया गया:";
+"analytics.title" = "एनालिटिक्स";

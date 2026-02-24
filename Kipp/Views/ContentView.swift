@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var editingNote: StickyNote?
     @State private var showFilters = false
     @State private var showSettings = false
+    @State private var showAnalytics = false
     @State private var isSearchFocused = false
     @State private var showingArchivedNotes = false
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
@@ -66,6 +67,11 @@ struct ContentView: View {
                             .foregroundColor(themeManager.theme.color)
                         } else {
                             HStack(spacing: 16) {
+                                Button(action: { showAnalytics = true }) {
+                                    Image(systemName: "chart.bar")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(themeManager.theme.color)
+                                }
                                 filterButton
                                 Button(action: { showSettings = true }) {
                                     Image(systemName: "gearshape")
@@ -112,6 +118,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
+        }
+        .sheet(isPresented: $showAnalytics) {
+            AnalyticsView(viewModel: viewModel)
         }
         .sheet(isPresented: $showAddNote, onDismiss: { editingNote = nil }) {
             NavigationStack {

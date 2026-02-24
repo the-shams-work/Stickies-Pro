@@ -167,3 +167,13 @@
 "Category" = "类别";
 "Priority" = "优先级";
 "Recent" = "最近";
+
+"common.total" = "总计";
+
+"analytics.active" = "活跃";
+
+"analytics.attachments.empty" = "未找到附件";
+"analytics.category.breakdown" = "类别明细";
+"analytics.category.empty" = "尚未使用任何类别";
+"analytics.category.mostused" = "最常用的：";
+"analytics.title" = "分析";

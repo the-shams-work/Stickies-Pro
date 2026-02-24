@@ -167,3 +167,13 @@
 "Category" = "카테고리";
 "Priority" = "우선 순위";
 "Recent" = "최근";
+
+"common.total" = "합계";
+
+"analytics.active" = "활성화";
+
+"analytics.attachments.empty" = "첨부 파일을 찾을 수 없음";
+"analytics.category.breakdown" = "카테고리 분석";
+"analytics.category.empty" = "아직 사용된 카테고리가 없습니다";
+"analytics.category.mostused" = "가장 많이 사용된 항목:";
+"analytics.title" = "분석";

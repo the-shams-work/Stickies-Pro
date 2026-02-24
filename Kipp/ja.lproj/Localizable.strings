@@ -167,3 +167,13 @@
 "Category" = "カテゴリー";
 "Priority" = "優先順位";
 "Recent" = "最近";
+
+"common.total" = "合計";
+
+"analytics.active" = "アクティブ";
+
+"analytics.attachments.empty" = "添付ファイルが見つかりません";
+"analytics.category.breakdown" = "カテゴリの内訳";
+"analytics.category.empty" = "まだカテゴリが使用されていません";
+"analytics.category.mostused" = "最も使用されている:";
+"analytics.title" = "分析";

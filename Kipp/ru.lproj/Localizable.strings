@@ -167,3 +167,13 @@
 "Category" = "Категория";
 "Priority" = "Приоритет";
 "Recent" = "Недавние";
+
+"common.total" = "Всего";
+
+"analytics.active" = "Активный";
+
+"analytics.attachments.empty" = "Вложения не найдены";
+"analytics.category.breakdown" = "Разбивка по категориям";
+"analytics.category.empty" = "Категории пока не использовались";
+"analytics.category.mostused" = "Самая используемая:";
+"analytics.title" = "Аналитика";

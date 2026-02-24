@@ -175,3 +175,13 @@
 
 "Purple" = "Purple";
 "Pink" = "Pink";
+
+"common.total" = "Total";
+
+"analytics.active" = "Active";
+
+"analytics.attachments.empty" = "No attachments found";
+"analytics.category.breakdown" = "Category Breakdown";
+"analytics.category.empty" = "No categories used yet";
+"analytics.category.mostused" = "Most Used:";
+"analytics.title" = "Analytics";
