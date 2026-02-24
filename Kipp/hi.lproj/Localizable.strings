@@ -145,3 +145,33 @@
 "Overdue" = "विलंबित";
 "Reminder" = "रिमाइंडर";
 "My Notes" = "मेरे नोट्स";
+
+"common.start" = "प्रारंभ";
+"common.end" = "अंत";
+"addnote.validation.title" = "कृपया अपने नोट के लिए एक शीर्षक दर्ज करें।";
+"addnote.validation.content" = "कृपया अपने नोट के लिए सामग्री दर्ज करें।";
+"addnote.validation.category" = "कृपया अपने नोट के लिए एक श्रेणी चुनें।";
+"addnote.background.remove.title" = "पृष्ठभूमि छवि हटाएँ?";
+"addnote.newnote.title" = "नया नोट";
+"home.filters.repeat.never" = "कभी नहीं";
+"onboarding.feature1.title" = "स्टिकी नोट्स बनाएँ";
+"onboarding.feature1.desc" = "आसानी से टेक्स्ट, चित्र, ऑडियो और वीडियो जोड़ें।";
+"onboarding.feature2.title" = "व्यवस्थित और क्रमबद्ध करें";
+"onboarding.feature2.desc" = "नोट्स को वर्गीकृत करें और शीर्षक, दिनांक या श्रेणी के अनुसार क्रमबद्ध करें।";
+"onboarding.feature3.title" = "स्मार्ट रिमाइंडर";
+"onboarding.feature3.desc" = "महत्वपूर्ण कार्यों को कभी न भूलने के लिए रिमाइंडर सेट करें।";
+"onboarding.feature4.title" = "ऑटो-डिलीट";
+"onboarding.feature4.desc" = "अंतिम तिथि के बाद नोट्स स्वतः हटा दिए जाएंगे।";
+"onboarding.feature5.title" = "इतिहास";
+"onboarding.feature5.desc" = "पूरे किए गए नोट्स का ट्रैक रखें।";
+"onboarding.feature6.title" = "सहज खोज";
+"onboarding.feature6.desc" = "हमारे स्मार्ट सर्च बार के साथ आसानी से नोट्स खोजें।";
+"onboarding.feature7.title" = "जेस्चर नियंत्रण";
+"onboarding.feature7.desc" = "संपादित करने, हटाने और बहुत कुछ करने के लिए नोट्स पर लॉन्ग-प्रेस करें।";
+"onboarding.feature8.title" = "थीम अनुकूलन";
+"onboarding.feature8.desc" = "सुंदर गतिशील उच्चारण रंगों के साथ Kipp को वैयक्तिकृत करें।";
+"onboarding.feature9.title" = "वैश्विक स्थानीयकरण";
+"onboarding.feature9.desc" = "10 से अधिक विभिन्न भाषाओं में सहजता से Kipp का अनुभव करें।";
+
+"Purple" = "बैंगनी";
+"Pink" = "गुलाबी";

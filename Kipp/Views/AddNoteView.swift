@@ -87,19 +87,19 @@ struct AddNoteView: View {
     // MARK: - Validation Function
     private func validateNote() -> Bool {
         if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            validationMessage = "Please enter a title for your note."
+            validationMessage = "addnote.validation.title"
             showValidationAlert = true
             return false
         }
         
         if content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            validationMessage = "Please enter content for your note."
+            validationMessage = "addnote.validation.content"
             showValidationAlert = true
             return false
         }
         
         if selectedCategory == nil {
-            validationMessage = "Please select a category for your note."
+            validationMessage = "addnote.validation.category"
             showValidationAlert = true
             return false
         }
@@ -139,7 +139,7 @@ struct AddNoteView: View {
             if let reminderDate = useReminderDate {
                 NotificationManager.shared.removeNotification(identifier: editingNote.id.uuidString)
                 NotificationManager.shared.scheduleNotification(
-                    title: "Reminder: \(title)",
+                    title: "\(String(localized: "stickynote.reminder.set")): \(title)",
                     body: content,
                     date: reminderDate,
                     identifier: editingNote.id.uuidString
@@ -165,7 +165,7 @@ struct AddNoteView: View {
 
             if let reminderDate = useReminderDate, reminderDate > Date() {
                 NotificationManager.shared.scheduleNotification(
-                    title: "Reminder: \(title)",
+                    title: "\(String(localized: "stickynote.reminder.set")): \(title)",
                     body: content,
                     date: reminderDate,
                     identifier: newNote.id.uuidString
@@ -259,10 +259,10 @@ struct AddNoteView: View {
                 }
             ))
             if isTimeBounded {
-                DatePicker("Start", selection: $startDate, in: today..., displayedComponents: .date)
-                DatePicker("End", selection: $endDate, in: startDate..., displayedComponents: .date)
+                DatePicker("common.start", selection: $startDate, in: today..., displayedComponents: .date)
+                DatePicker("common.end", selection: $endDate, in: startDate..., displayedComponents: .date)
             }
-            Toggle("Reminder", isOn: $wantsReminder)
+            Toggle("stickynote.reminder", isOn: $wantsReminder)
             if wantsReminder {
                 DatePicker("addnote.datetime", selection: Binding(
                     get: { reminderDate ?? today },
@@ -332,7 +332,7 @@ struct AddNoteView: View {
                     .onTapGesture {
                         showRemoveBackgroundImageAlert = true
                     }
-                    .confirmationDialog("Remove Background Image?", isPresented: $showRemoveBackgroundImageAlert, titleVisibility: .visible) {
+                    .confirmationDialog("addnote.background.remove.title", isPresented: $showRemoveBackgroundImageAlert, titleVisibility: .visible) {
                         Button("common.remove", role: .destructive) { selectedBackgroundImage = nil }
                         Button("common.cancel", role: .cancel) { }
                     } message: {
@@ -489,7 +489,7 @@ struct AddNoteView: View {
             attachmentsSection
         }
         .tint(themeManager.theme.color)
-        .navigationBarTitle(editingNote == nil ? "New Note" : "Edit Sticky Note", displayMode: .inline)
+        .navigationBarTitle(editingNote == nil ? "addnote.newnote.title" : "stickynote.edit", displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("common.cancel") { 

@@ -145,3 +145,33 @@
 "Overdue" = "Overdue";
 "Reminder" = "Reminder";
 "My Notes" = "My Notes";
+
+"common.start" = "Start";
+"common.end" = "End";
+"addnote.validation.title" = "Please enter a title for your note.";
+"addnote.validation.content" = "Please enter content for your note.";
+"addnote.validation.category" = "Please select a category for your note.";
+"addnote.background.remove.title" = "Remove Background Image?";
+"addnote.newnote.title" = "New Note";
+"home.filters.repeat.never" = "Never";
+"onboarding.feature1.title" = "Create Sticky Notes";
+"onboarding.feature1.desc" = "Easily add text, images, audio, and videos.";
+"onboarding.feature2.title" = "Organize & Sort";
+"onboarding.feature2.desc" = "Categorize notes and sort by title, date, or category.";
+"onboarding.feature3.title" = "Smart Reminders";
+"onboarding.feature3.desc" = "Set reminders to never forget important tasks.";
+"onboarding.feature4.title" = "Auto-Delete";
+"onboarding.feature4.desc" = "Notes will be automatically deleted after the end date.";
+"onboarding.feature5.title" = "History";
+"onboarding.feature5.desc" = "Keep track of completed notes.";
+"onboarding.feature6.title" = "Intuitive Search";
+"onboarding.feature6.desc" = "Find notes easily with our smart search bar.";
+"onboarding.feature7.title" = "Gesture Controls";
+"onboarding.feature7.desc" = "Long-press notes to edit, delete and do much more.";
+"onboarding.feature8.title" = "Theme Customization";
+"onboarding.feature8.desc" = "Personalize Kipp with beautiful dynamic accent colors.";
+"onboarding.feature9.title" = "Global Localization";
+"onboarding.feature9.desc" = "Experience Kipp seamlessly in over 10 different languages.";
+
+"Purple" = "Purple";
+"Pink" = "Pink";

@@ -12,15 +12,15 @@ struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
 
     let onboardingData: [(image: String, title: String, description: String)] = [
-        ("note.text", "Create Sticky Notes", "Easily add text, images, audio, and videos."),
-        ("list.bullet", "Organize & Sort", "Categorize notes and sort by title, date, or category."),
-        ("bell.fill", "Smart Reminders", "Set reminders to never forget important tasks."),
-        ("clock.fill", "Auto-Delete", "Notes will be automatically deleted after the end date."),
-        ("tray.full.fill", "History", "Keep track of completed notes."),
-        ("magnifyingglass", "Intuitive Search", "Find notes easily with our smart search bar."),
-        ("hand.tap.fill", "Gesture Controls", "Long-press notes to edit, delete and do much more."),
-        ("paintpalette.fill", "Theme Customization", "Personalize Kipp with beautiful dynamic accent colors."),
-        ("globe", "Global Localization", "Experience Kipp seamlessly in over 10 different languages.")
+        ("note.text", "onboarding.feature1.title", "onboarding.feature1.desc"),
+        ("list.bullet", "onboarding.feature2.title", "onboarding.feature2.desc"),
+        ("bell.fill", "onboarding.feature3.title", "onboarding.feature3.desc"),
+        ("clock.fill", "onboarding.feature4.title", "onboarding.feature4.desc"),
+        ("tray.full.fill", "onboarding.feature5.title", "onboarding.feature5.desc"),
+        ("magnifyingglass", "onboarding.feature6.title", "onboarding.feature6.desc"),
+        ("hand.tap.fill", "onboarding.feature7.title", "onboarding.feature7.desc"),
+        ("paintpalette.fill", "onboarding.feature8.title", "onboarding.feature8.desc"),
+        ("globe", "onboarding.feature9.title", "onboarding.feature9.desc")
     ]
 
     var body: some View {
