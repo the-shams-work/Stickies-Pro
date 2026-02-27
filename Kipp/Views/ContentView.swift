@@ -115,6 +115,9 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationDestination(for: StickyNote.self) { note in
+                NoteDetailView(viewModel: viewModel, note: note)
+            }
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
@@ -281,27 +284,47 @@ struct ContentView: View {
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(currentNotes, id: \.id) { note in
-                            StickyNoteView(
-                                note: note,
-                                markAsDone: { viewModel.markAsDone(id: note.id) },
-                                onEdit: {
-                                    if !showingArchivedNotes && !isSelecting {
-                                        editingNote = note
-                                        showAddNote = true
-                                    }
-                                },
-                                onDelete: { viewModel.deleteNote(id: note.id) },
-                                isSelecting: isSelecting,
-                                isSelected: selectedNoteIDs.contains(note.id)
-                            )
-                            .padding(.horizontal, 16)
-                            .onTapGesture {
+                            VStack {
                                 if isSelecting {
-                                    if selectedNoteIDs.contains(note.id) {
-                                        selectedNoteIDs.remove(note.id)
-                                    } else {
-                                        selectedNoteIDs.insert(note.id)
+                                    StickyNoteView(
+                                        note: note,
+                                        markAsDone: { viewModel.markAsDone(id: note.id) },
+                                        onEdit: {
+                                            if !showingArchivedNotes {
+                                                editingNote = note
+                                                showAddNote = true
+                                            }
+                                        },
+                                        onDelete: { viewModel.deleteNote(id: note.id) },
+                                        isSelecting: isSelecting,
+                                        isSelected: selectedNoteIDs.contains(note.id)
+                                    )
+                                    .padding(.horizontal, 16)
+                                    .onTapGesture {
+                                        if selectedNoteIDs.contains(note.id) {
+                                            selectedNoteIDs.remove(note.id)
+                                        } else {
+                                            selectedNoteIDs.insert(note.id)
+                                        }
                                     }
+                                } else {
+                                    NavigationLink(value: note) {
+                                        StickyNoteView(
+                                            note: note,
+                                            markAsDone: { viewModel.markAsDone(id: note.id) },
+                                            onEdit: {
+                                                if !showingArchivedNotes {
+                                                    editingNote = note
+                                                    showAddNote = true
+                                                }
+                                            },
+                                            onDelete: { viewModel.deleteNote(id: note.id) },
+                                            isSelecting: isSelecting,
+                                            isSelected: selectedNoteIDs.contains(note.id)
+                                        )
+                                        .padding(.horizontal, 16)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
                                 }
                             }
                         }

@@ -94,7 +94,7 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
     }
 }
 
-enum Priority: String, CaseIterable, Identifiable, Codable {
+enum Priority: String, CaseIterable, Identifiable, Codable, Equatable, Hashable {
     case none = "None"
     case low = "Low"
     case medium = "Medium"
@@ -138,7 +138,7 @@ enum Priority: String, CaseIterable, Identifiable, Codable {
     }
 }
 
-enum ReminderRepeat: String, CaseIterable, Codable, Identifiable {
+enum ReminderRepeat: String, CaseIterable, Codable, Identifiable, Equatable, Hashable {
     case never = "Never"
     case daily = "Every Day"
     case weekly = "Every Week"
@@ -149,7 +149,7 @@ enum ReminderRepeat: String, CaseIterable, Codable, Identifiable {
     var id: String { self.rawValue }
 }
 
-struct StickyNote: Identifiable, Codable {
+struct StickyNote: Identifiable, Codable, Hashable {
     let id: UUID
     var title: String
     var content: String
@@ -252,7 +252,7 @@ struct StickyNote: Identifiable, Codable {
     }
 }
 
-struct ColorCodable: Codable {
+struct ColorCodable: Codable, Equatable, Hashable {
     let hex: String
     var color: Color { Color(hex: hex) }
     init(color: Color) { self.hex = color.toHex() ?? "#FFFF00" }
