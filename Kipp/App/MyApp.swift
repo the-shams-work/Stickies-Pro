@@ -13,7 +13,6 @@ struct MyApp: App {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
     @Environment(\.scenePhase) private var scenePhase
     
-    // Global Managers
     @StateObject private var themeManager = ThemeManager()
     @StateObject private var languageManager = LanguageManager()
 
@@ -22,7 +21,6 @@ struct MyApp: App {
             MainView()
                 .environmentObject(themeManager)
                 .environmentObject(languageManager)
-                // Force layout update when language changes
                 .id(languageManager.language.rawValue)
                 .environment(\.locale, languageManager.language.locale ?? Locale.current)
         }

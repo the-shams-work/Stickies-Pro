@@ -2,7 +2,7 @@
 //  NoteDetailView.swift
 //  Kipp
 //
-//  Created by Antigravity on 27/02/26.
+//  Created by Shams Tabrej Alam on 27/02/26.
 //
 
 import SwiftUI
@@ -24,7 +24,7 @@ struct NoteDetailView: View {
                 // Title Section
                 Text(note.title)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
-                    .foregroundColor(.primary)
+                    .foregroundColor(note.colorValue.isWhite ? .primary : .white)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 10)
                 
@@ -34,14 +34,15 @@ struct NoteDetailView: View {
                         .font(.footnote.weight(.medium))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
-                        .background(note.colorValue.opacity(0.15))
-                        .foregroundColor(note.colorValue)
+                        .background(note.colorValue.isWhite ? Color.primary.opacity(0.08) : Color.white.opacity(0.2))
+                        .foregroundColor(note.colorValue.isWhite ? .primary : .white)
                         .cornerRadius(8)
                     
                     if note.isTimeBounded {
                         Label(formattedDateRange(start: note.startDate, end: note.endDate), systemImage: "calendar")
                             .font(.footnote)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.8))
+                            .accentColor(themeManager.theme.color)
                     }
                     
                     Spacer()
@@ -61,7 +62,7 @@ struct NoteDetailView: View {
                 Text(note.content)
                     .font(.system(size: 18, weight: .regular, design: .serif))
                     .lineSpacing(6)
-                    .foregroundColor(.primary)
+                    .foregroundColor(note.colorValue.isWhite ? .primary : .white.opacity(0.95))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 // Attachments Section
@@ -69,7 +70,7 @@ struct NoteDetailView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("addnote.attachments.label")
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.8))
                             .padding(.top, 10)
                         
                         if let image = note.attachment {
@@ -83,16 +84,16 @@ struct NoteDetailView: View {
                                 
                                 Text("addnote.attachments.image.label")
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
                             }
                         }
                         
                         if let videoURL = note.videoURL {
-                            VideoAttachmentView(videoURL: videoURL)
+                            VideoAttachmentView(videoURL: videoURL, note: note)
                         }
                         
                         if let audioURL = note.audioURL {
-                            AudioAttachmentView(audioURL: audioURL)
+                            AudioAttachmentView(audioURL: audioURL, note: note)
                         }
                     }
                 }
@@ -102,32 +103,74 @@ struct NoteDetailView: View {
             .padding(.horizontal, 20)
         }
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color(.systemBackground))
+        .navigationBarBackButtonHidden(true)
+        .background(
+            ZStack {
+                if let backgroundImage = note.backgroundImage {
+                    Image(uiImage: backgroundImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .ignoresSafeArea()
+                        .overlay(
+                            Rectangle()
+                                .fill(note.colorValue.opacity(note.colorValue.isWhite ? 0.4 : 0.7))
+                                .ignoresSafeArea()
+                        )
+                } else {
+                    note.colorValue.ignoresSafeArea()
+                }
+            }
+        )
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button(action: { showEditNote = true }) {
-                    Image(systemName: "pencil")
-                }
-                
-                Button(action: { showShareSheet = true }) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                
-                Menu {
-                    Button(role: .destructive, action: { showDeleteConfirmation = true }) {
-                        Label("common.delete", systemImage: "trash")
-                    }
-                    
-                    Button(action: {
-                        viewModel.markAsDone(id: note.id)
-                        dismiss()
-                    }) {
-                        Label(note.isDone ? "stickynote.active.mark" : "home.tab.archive", 
-                              systemImage: note.isDone ? "arrow.clockwise" : "archivebox")
-                    }
+
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(themeManager.theme.color)
+                        .frame(width: 36, height: 36)
                 }
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack(spacing: 18) {
+
+                    Button(action: { showEditNote = true }) {
+                        Image(systemName: "pencil")
+                            .font(.system(size: 17, weight: .medium))
+                    }
+
+                    Button(action: { showShareSheet = true }) {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 17, weight: .medium))
+                    }
+
+                    Menu {
+                        Button(role: .destructive, action: {
+                            showDeleteConfirmation = true
+                        }) {
+                            Label("common.delete", systemImage: "trash")
+                        }
+
+                        Button(action: {
+                            viewModel.markAsDone(id: note.id)
+                            dismiss()
+                        }) {
+                            Label(
+                                note.isDone ? "stickynote.active.mark" : "home.tab.archive",
+                                systemImage: note.isDone ? "arrow.clockwise" : "archivebox"
+                            )
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 17, weight: .medium))
+                    }
+                }
+                .foregroundColor(themeManager.theme.color)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 8)
             }
         }
         .sheet(isPresented: $showEditNote) {
@@ -138,6 +181,7 @@ struct NoteDetailView: View {
                     editingNote: note
                 )
             }
+            .tint(themeManager.theme.color)
         }
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(items: [note.title, note.content])
@@ -179,6 +223,7 @@ struct NoteDetailView: View {
 
 struct VideoAttachmentView: View {
     let videoURL: URL
+    let note: StickyNote
     @State private var player: AVPlayer?
     
     var body: some View {
@@ -192,13 +237,15 @@ struct VideoAttachmentView: View {
             
             Text("addnote.attachments.video.label")
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
         }
     }
 }
 
 struct AudioAttachmentView: View {
+    @EnvironmentObject var themeManager: ThemeManager
     let audioURL: URL
+    let note: StickyNote
     @State private var isPlaying = false
     @State private var player: AVPlayer?
     
@@ -217,7 +264,7 @@ struct AudioAttachmentView: View {
             }) {
                 Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(themeManager.theme.color)
             }
             
             VStack(alignment: .leading) {
@@ -225,13 +272,13 @@ struct AudioAttachmentView: View {
                     .font(.subheadline.bold())
                 Text(audioURL.lastPathComponent)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
             }
             
             Spacer()
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(note.colorValue.isWhite ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
         .cornerRadius(12)
     }
 }
