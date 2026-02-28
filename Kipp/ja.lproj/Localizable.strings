@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "ノートの表示期間の開始日と終了日を設定できます。";
 "home.newnote" = "新しいノート";
 "common.edit" = "編集";
+"common.select" = "選択";
+"common.select.all" = "すべて選択";
+"common.deselect.all" = "すべて解除";
 "home.recent" = "最近";
 "addnote.category.select" = "カテゴリーを選択";
 "stickynote.audio.player" = "オーディオプレーヤー";

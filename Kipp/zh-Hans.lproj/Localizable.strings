@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "你可以为笔记设置可见的开始和结束日期。";
 "home.newnote" = "新建笔记";
 "common.edit" = "编辑";
+"common.select" = "选择";
+"common.select.all" = "全选";
+"common.deselect.all" = "取消全选";
 "home.recent" = "最近";
 "addnote.category.select" = "选择类别";
 "stickynote.audio.player" = "音频播放器";

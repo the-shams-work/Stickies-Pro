@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "Sie können ein Start- und Enddatum für die Sichtbarkeit festlegen.";
 "home.newnote" = "Neue Notiz";
 "common.edit" = "Bearbeiten";
+"common.select" = "Auswählen";
+"common.select.all" = "Alle auswählen";
+"common.deselect.all" = "Alle abwählen";
 "home.recent" = "Zuletzt";
 "addnote.category.select" = "Kategorie auswählen";
 "stickynote.audio.player" = "Audioplayer";

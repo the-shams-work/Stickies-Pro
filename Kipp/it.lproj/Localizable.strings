@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "Consente di impostare un intervallo di date.";
 "home.newnote" = "Nuova nota";
 "common.edit" = "Modifica";
+"common.select" = "Seleziona";
+"common.select.all" = "Seleziona tutto";
+"common.deselect.all" = "Deseleziona tutto";
 "home.recent" = "Recenti";
 "addnote.category.select" = "Seleziona categoria";
 "stickynote.audio.player" = "Lettore audio";

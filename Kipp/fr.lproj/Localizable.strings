@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "Permet de définir une plage de dates de visibilité.";
 "home.newnote" = "Nouvelle note";
 "common.edit" = "Modifier";
+"common.select" = "Sélectionner";
+"common.select.all" = "Tout sélectionner";
+"common.deselect.all" = "Tout désélectionner";
 "home.recent" = "Récent";
 "addnote.category.select" = "Sélectionner une catégorie";
 "stickynote.audio.player" = "Lecteur audio";

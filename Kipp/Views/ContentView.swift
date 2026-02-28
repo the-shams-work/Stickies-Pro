@@ -22,6 +22,7 @@ struct ContentView: View {
     @State private var isSelecting = false
     @State private var selectedNoteIDs = Set<UUID>()
     @State private var showDeleteAlert = false
+    @AppStorage("noteViewMode") private var isGridView: Bool = true
 
     var body: some View {
         NavigationStack {
@@ -46,7 +47,7 @@ struct ContentView: View {
                             }
                             .foregroundColor(themeManager.theme.color)
                         } else {
-                            Button("common.edit") {
+                            Button("common.select") {
                                 isSelecting = true
                             }
                             .foregroundColor(themeManager.theme.color)
@@ -57,7 +58,7 @@ struct ContentView: View {
                             let currentNotes = showingArchivedNotes ? viewModel.archivedNotes : viewModel.filteredNotes
                             let allSelected = !currentNotes.isEmpty && selectedNoteIDs.count == currentNotes.count
                             
-                            Button(allSelected ? "Deselect All" : "Select All") {
+                            Button(allSelected ? LocalizedStringKey("common.deselect.all") : LocalizedStringKey("common.select.all")) {
                                 if allSelected {
                                     selectedNoteIDs.removeAll()
                                 } else {
@@ -73,6 +74,15 @@ struct ContentView: View {
                                         .foregroundColor(themeManager.theme.color)
                                 }
                                 filterButton
+                                Button(action: {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        isGridView.toggle()
+                                    }
+                                }) {
+                                    Image(systemName: isGridView ? "square.grid.2x2" : "list.bullet")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(themeManager.theme.color)
+                                }
                                 Button(action: { showSettings = true }) {
                                     Image(systemName: "gearshape")
                                         .font(.system(size: 20))
@@ -277,15 +287,40 @@ struct ContentView: View {
     private var notesList: some View {
         ZStack {
             let currentNotes = showingArchivedNotes ? viewModel.archivedNotes : viewModel.filteredNotes
-            
+
             if currentNotes.isEmpty {
                 emptyStateView
-            } else {
+            } else if isGridView {
                 ScrollView {
-                    LazyVStack(spacing: 12) {
+                    LazyVGrid(
+                        columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)],
+                        spacing: 12
+                    ) {
                         ForEach(currentNotes, id: \.id) { note in
-                            VStack {
-                                if isSelecting {
+                            if isSelecting {
+                                StickyNoteView(
+                                    note: note,
+                                    markAsDone: { viewModel.markAsDone(id: note.id) },
+                                    onEdit: {
+                                        if !showingArchivedNotes {
+                                            editingNote = note
+                                            showAddNote = true
+                                        }
+                                    },
+                                    onDelete: { viewModel.deleteNote(id: note.id) },
+                                    isSelecting: isSelecting,
+                                    isSelected: selectedNoteIDs.contains(note.id)
+                                )
+                                .frame(minHeight: 110, maxHeight: 160)
+                                .onTapGesture {
+                                    if selectedNoteIDs.contains(note.id) {
+                                        selectedNoteIDs.remove(note.id)
+                                    } else {
+                                        selectedNoteIDs.insert(note.id)
+                                    }
+                                }
+                            } else {
+                                NavigationLink(value: note) {
                                     StickyNoteView(
                                         note: note,
                                         markAsDone: { viewModel.markAsDone(id: note.id) },
@@ -299,32 +334,57 @@ struct ContentView: View {
                                         isSelecting: isSelecting,
                                         isSelected: selectedNoteIDs.contains(note.id)
                                     )
-                                    .padding(.horizontal, 16)
-                                    .onTapGesture {
-                                        if selectedNoteIDs.contains(note.id) {
-                                            selectedNoteIDs.remove(note.id)
-                                        } else {
-                                            selectedNoteIDs.insert(note.id)
+                                    .frame(minHeight: 110, maxHeight: 160)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                }
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 10) {
+                        ForEach(currentNotes, id: \.id) { note in
+                            if isSelecting {
+                                NoteListRow(
+                                    note: note,
+                                    isSelecting: true,
+                                    isSelected: selectedNoteIDs.contains(note.id)
+                                )
+                                .onTapGesture {
+                                    if selectedNoteIDs.contains(note.id) {
+                                        selectedNoteIDs.remove(note.id)
+                                    } else {
+                                        selectedNoteIDs.insert(note.id)
+                                    }
+                                }
+                            } else {
+                                NavigationLink(value: note) {
+                                    NoteListRow(
+                                        note: note,
+                                        isSelecting: false,
+                                        isSelected: false
+                                    )
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .contextMenu {
+                                    Button(action: {
+                                        if !showingArchivedNotes {
+                                            editingNote = note
+                                            showAddNote = true
                                         }
+                                    }) {
+                                        Label("common.edit", systemImage: "pencil")
                                     }
-                                } else {
-                                    NavigationLink(value: note) {
-                                        StickyNoteView(
-                                            note: note,
-                                            markAsDone: { viewModel.markAsDone(id: note.id) },
-                                            onEdit: {
-                                                if !showingArchivedNotes {
-                                                    editingNote = note
-                                                    showAddNote = true
-                                                }
-                                            },
-                                            onDelete: { viewModel.deleteNote(id: note.id) },
-                                            isSelecting: isSelecting,
-                                            isSelected: selectedNoteIDs.contains(note.id)
-                                        )
-                                        .padding(.horizontal, 16)
+                                    Button(action: { viewModel.markAsDone(id: note.id) }) {
+                                        Label(note.isDone ? "stickynote.active.mark" : "home.tab.archive",
+                                              systemImage: note.isDone ? "arrow.clockwise" : "archivebox")
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                    Button(role: .destructive, action: { viewModel.deleteNote(id: note.id) }) {
+                                        Label("common.delete", systemImage: "trash")
+                                    }
                                 }
                             }
                         }
@@ -332,7 +392,7 @@ struct ContentView: View {
                     .padding(.vertical, 8)
                 }
             }
-            
+
             if !showingArchivedNotes {
                 VStack {
                     Spacer()
@@ -404,6 +464,96 @@ struct ContentView: View {
                 .font(.system(size: 20))
                 .foregroundColor(themeManager.theme.color)
         }
+    }
+}
+
+// MARK: - Note List Row (List View Mode)
+struct NoteListRow: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let note: StickyNote
+    var isSelecting: Bool = false
+    var isSelected: Bool = false
+
+    var body: some View {
+        HStack(spacing: 0) {
+            // Leading color swatch
+            Rectangle()
+                .fill(note.colorValue)
+                .frame(width: 6)
+                .cornerRadius(3)
+                .padding(.vertical, 14)
+                .padding(.leading, 16)
+
+            // Selection circle
+            if isSelecting {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(isSelected ? themeManager.theme.color : .secondary)
+                    .font(.title3)
+                    .padding(.leading, 12)
+                    .transition(.scale)
+            }
+
+            // Content
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Text(note.title)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .foregroundColor(.primary)
+
+                    if hasAttachments {
+                        Image(systemName: "paperclip")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+
+                    Spacer()
+
+                    if note.priority != .none {
+                        Circle()
+                            .fill(priorityColor(note.priority))
+                            .frame(width: 8, height: 8)
+                    }
+
+                    if note.isTimeBounded {
+                        Text(formattedDate(note.startDate))
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+                Text(note.content)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 16)
+        }
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.07), radius: 6, x: 0, y: 2)
+        .padding(.horizontal, 16)
+        .contentShape(Rectangle())
+    }
+
+    private var hasAttachments: Bool {
+        note.attachmentData != nil || note.audioURLString != nil || note.videoURLString != nil
+    }
+
+    private func priorityColor(_ priority: Priority) -> Color {
+        switch priority {
+        case .high:   return .red
+        case .medium: return .orange
+        case .low:    return .blue
+        case .none:   return .clear
+        }
+    }
+
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter.string(from: date)
     }
 }
 

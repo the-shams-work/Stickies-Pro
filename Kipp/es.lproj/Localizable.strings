@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "Puedes establecer fechas de inicio y fin para que tu nota sea visible.";
 "home.newnote" = "Nueva nota";
 "common.edit" = "Editar";
+"common.select" = "Seleccionar";
+"common.select.all" = "Seleccionar todo";
+"common.deselect.all" = "Deseleccionar todo";
 "home.recent" = "Recientes";
 "addnote.category.select" = "Seleccionar categoría";
 "stickynote.audio.player" = "Reproductor de audio";

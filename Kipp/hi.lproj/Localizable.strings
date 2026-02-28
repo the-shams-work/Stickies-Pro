@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "सक्षम होने पर, आप प्रारंभ और समाप्ति तिथि निर्धारित कर सकते हैं।";
 "home.newnote" = "नया नोट";
 "common.edit" = "संपादित करें";
+"common.select" = "चुनें";
+"common.select.all" = "सभी चुनें";
+"common.deselect.all" = "सभी हटाएं";
 "home.recent" = "हाल का";
 "addnote.category.select" = "श्रेणी चुनें";
 "stickynote.audio.player" = "ऑडियो प्लेयर";

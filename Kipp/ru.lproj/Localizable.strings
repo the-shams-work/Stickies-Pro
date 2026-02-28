@@ -81,6 +81,9 @@
 "addnote.datetime.info" = "Вы можете установить даты начала и окончания видимости заметки.";
 "home.newnote" = "Новая заметка";
 "common.edit" = "Изменить";
+"common.select" = "Выбрать";
+"common.select.all" = "Выбрать всё";
+"common.deselect.all" = "Снять выделение";
 "home.recent" = "Недавние";
 "addnote.category.select" = "Выберите категорию";
 "stickynote.audio.player" = "Аудиоплеер";
