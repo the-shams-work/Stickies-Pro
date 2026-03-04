@@ -55,41 +55,47 @@ struct AnalyticsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    HStack(spacing: 15) {
+                VStack(spacing: 16) {
+                    // Summary cards
+                    HStack(spacing: 12) {
                         MetricCard(title: "common.total", value: "\(totalNotesCount)", icon: "note.text", color: themeManager.theme.color)
-                        MetricCard(title: "analytics.active", value: "\(activeNotesCount)", icon: "doc.text", color: themeManager.theme.color)
-                        MetricCard(title: "home.tab.archive", value: "\(archivedNotesCount)", icon: "archivebox", color: themeManager.theme.color)
+                        MetricCard(title: "analytics.active", value: "\(activeNotesCount)", icon: "doc.text", color: .green)
+                        MetricCard(title: "home.tab.archive", value: "\(archivedNotesCount)", icon: "archivebox", color: .orange)
                     }
                     .padding(.horizontal)
                     
-                    VStack(alignment: .leading, spacing: 15) {
+                    // Attachments
+                    VStack(alignment: .leading, spacing: 12) {
                         Text("home.filters.content.attachments")
-                            .font(.headline)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.secondary)
+                            .textCase(.uppercase)
                         
                         if totalAttachmentsCount == 0 {
                             Text("analytics.attachments.empty")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.vertical, 20)
+                                .padding(.vertical, 16)
                         } else {
-                            HStack(spacing: 15) {
-                                AttachmentCard(title: "addnote.attachments.image.label", count: imageAttachmentCount, icon: "photo", color: themeManager.theme.color)
-                                AttachmentCard(title: "addnote.attachments.video.label", count: videoAttachmentCount, icon: "video", color: themeManager.theme.color)
-                                AttachmentCard(title: "addnote.attachments.audio.label", count: audioAttachmentCount, icon: "music.note", color: themeManager.theme.color)
+                            HStack(spacing: 12) {
+                                AttachmentCard(title: "addnote.attachments.image.label", count: imageAttachmentCount, icon: "photo", color: .blue)
+                                AttachmentCard(title: "addnote.attachments.video.label", count: videoAttachmentCount, icon: "video", color: .purple)
+                                AttachmentCard(title: "addnote.attachments.audio.label", count: audioAttachmentCount, icon: "music.note", color: .orange)
                             }
                         }
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(16)
                     .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(12)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     .padding(.horizontal)
                     
+                    // Category breakdown
                     VStack(alignment: .leading, spacing: 10) {
                         Text("analytics.category.breakdown")
-                            .font(.headline)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.secondary)
+                            .textCase(.uppercase)
                             .padding(.horizontal)
                         
                         if categoryCounts.isEmpty {
@@ -99,7 +105,7 @@ struct AnalyticsView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
                                 .background(Color(.secondarySystemGroupedBackground))
-                                .cornerRadius(12)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                                 .padding(.horizontal)
                         } else {
                             if let mostUsed = mostUsedCategory, let mostUsedCount = categoryCounts.first?.Count {
@@ -124,27 +130,28 @@ struct AnalyticsView: View {
                                     HStack {
                                         Image(systemName: item.Category.systemImage)
                                             .foregroundColor(themeManager.theme.color)
-                                            .frame(width: 30)
+                                            .frame(width: 28)
                                         
                                         Text(LocalizedStringKey(item.Category.rawValue))
+                                            .font(.body)
                                         
                                         Spacer()
                                         
                                         Text("\(item.Count)")
-                                            .fontWeight(.bold)
+                                            .font(.body.weight(.semibold))
                                             .foregroundColor(.secondary)
                                     }
-                                    .padding(.vertical, 12)
-                                    .padding(.horizontal)
+                                    .padding(.vertical, 11)
+                                    .padding(.horizontal, 16)
                                     
                                     if item.Category != categoryCounts.last?.Category {
                                         Divider()
-                                            .padding(.leading, 50)
+                                            .padding(.leading, 52)
                                     }
                                 }
                             }
                             .background(Color(.secondarySystemGroupedBackground))
-                            .cornerRadius(12)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                             .padding(.horizontal)
                         }
                     }
@@ -173,14 +180,14 @@ struct MetricCard: View {
     let color: Color
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             Image(systemName: icon)
-                .font(.system(size: 24))
+                .font(.system(size: 22))
                 .foregroundColor(color)
             
             Text(value)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.title2.weight(.bold))
+                .monospacedDigit()
             
             Text(title)
                 .font(.caption)
@@ -188,10 +195,9 @@ struct MetricCard: View {
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
+        .padding(.vertical, 14)
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 2, y: 1)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }
 
@@ -202,14 +208,14 @@ struct AttachmentCard: View {
     let color: Color
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             Image(systemName: icon)
-                .font(.system(size: 24))
+                .font(.system(size: 22))
                 .foregroundColor(color)
             
             Text("\(count)")
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.title2.weight(.bold))
+                .monospacedDigit()
             
             Text(title)
                 .font(.caption)
@@ -217,9 +223,8 @@ struct AttachmentCard: View {
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
+        .padding(.vertical, 14)
         .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 2, y: 1)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }

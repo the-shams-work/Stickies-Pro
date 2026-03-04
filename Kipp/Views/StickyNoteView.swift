@@ -21,7 +21,7 @@ struct StickyNoteView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
+            HStack(alignment: .center) {
                 if isSelecting {
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(isSelected ? themeManager.theme.color : .secondary)
@@ -30,43 +30,50 @@ struct StickyNoteView: View {
                 }
                 
                 Text(note.title)
-                    .font(.headline.bold())
-                    .foregroundColor(note.colorValue.isWhite ? .black : .white)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(note.colorValue.isWhite ? .primary : .white)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if hasAttachments {
                     Image(systemName: "paperclip")
-                        .font(.caption)
-                        .foregroundColor(note.colorValue.isWhite ? .black.opacity(0.6) : .white.opacity(0.6))
+                        .font(.caption2)
+                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
                 }
             }
 
             Text(note.content)
-                .font(.subheadline)
-                .foregroundColor(note.colorValue.isWhite ? .black.opacity(0.9) : .white.opacity(0.9))
+                .font(.caption)
+                .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.85))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
 
-            HStack {
+            Spacer(minLength: 0)
+
+            HStack(spacing: 6) {
                 if note.isTimeBounded {
                     Text(formattedDate(note.startDate))
                         .font(.caption2)
-                        .foregroundColor(note.colorValue.isWhite ? .black.opacity(0.7) : .white.opacity(0.7))
+                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
                 }
                 
                 Spacer()
                 
                 if note.priority != .none {
-                    Circle()
-                        .fill(priorityColor(note.priority))
-                        .frame(width: 8, height: 8)
+                    Text(note.priority.rawValue)
+                        .font(.system(size: 9, weight: .bold))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            Capsule()
+                                .fill(priorityColor(note.priority).opacity(0.2))
+                        )
+                        .foregroundColor(priorityColor(note.priority))
                 }
             }
-            .padding(.top, 4)
         }
-        .padding(14)
+        .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             ZStack {
@@ -79,12 +86,16 @@ struct StickyNoteView: View {
                             Rectangle()
                                 .fill(note.colorValue.opacity(0.75))
                         )
+                } else if note.backgroundStyle != .none {
+                    note.backgroundStyle.backgroundColor
+                    BackgroundPatternOverlay(style: note.backgroundStyle)
                 } else {
                     note.colorValue
                 }
             }
         )
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
         .contextMenu(isSelecting ? nil : ContextMenu {
             Button(action: { onEdit() }) {
                 Label("common.edit", systemImage: "pencil")

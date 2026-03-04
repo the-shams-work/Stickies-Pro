@@ -75,6 +75,62 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
         }
     }
 
+    var iconColor: Color {
+        switch self {
+        case .todo: return .blue
+        case .journal: return .purple
+        case .ideas: return .yellow
+        case .study: return .indigo
+        case .finance: return .green
+        case .work: return .blue
+        case .goals: return .orange
+        case .important: return .red
+        case .projects: return .teal
+        case .music: return .pink
+        case .books: return .brown
+        case .movies: return .purple
+        case .art: return .mint
+        case .writing: return .indigo
+        case .diet: return .green
+        case .mental: return .cyan
+        case .health: return .red
+        case .travel: return .blue
+        case .memories: return .pink
+        case .urgent: return .red
+        case .home: return .orange
+        case .shopping: return .green
+        case .custom: return .gray
+        }
+    }
+
+    var subtitle: String {
+        switch self {
+        case .todo: return "Tasks and to-do items"
+        case .journal: return "Daily journal entries"
+        case .ideas: return "Creative ideas and thoughts"
+        case .study: return "Study notes and materials"
+        case .finance: return "Financial records and budgets"
+        case .work: return "Work-related notes"
+        case .goals: return "Personal and professional goals"
+        case .important: return "High-importance items"
+        case .projects: return "Project planning and tracking"
+        case .music: return "Songs, lyrics, and playlists"
+        case .books: return "Book summaries and reviews"
+        case .movies: return "Movie reviews and watchlist"
+        case .art: return "Art ideas and design notes"
+        case .writing: return "Blog posts and drafts"
+        case .diet: return "Diet plans and fitness logs"
+        case .mental: return "Mindfulness and wellness"
+        case .health: return "Medical records and notes"
+        case .travel: return "Travel plans and itineraries"
+        case .memories: return "Special moments and memories"
+        case .urgent: return "Time-sensitive items"
+        case .home: return "Household and family notes"
+        case .shopping: return "Shopping lists and wishlists"
+        case .custom: return "Your custom category"
+        }
+    }
+
     static func == (lhs: NoteCategory, rhs: NoteCategory) -> Bool {
         switch (lhs, rhs) {
         case let (.custom(a), .custom(b)): return a == b
@@ -136,6 +192,33 @@ enum Priority: String, CaseIterable, Identifiable, Codable, Equatable, Hashable 
             return .orange
         }
     }
+
+    var iconColor: Color {
+        switch self {
+        case .none: return .gray
+        case .low: return .green
+        case .medium: return .orange
+        case .high: return .red
+        }
+    }
+
+    var flagIcon: String {
+        switch self {
+        case .none: return "minus"
+        case .low: return "flag.fill"
+        case .medium: return "flag.fill"
+        case .high: return "flag.fill"
+        }
+    }
+
+    var subtitle: String {
+        switch self {
+        case .none: return "No priority assigned"
+        case .low: return "Can wait, no rush"
+        case .medium: return "Should be addressed soon"
+        case .high: return "Needs immediate attention"
+        }
+    }
 }
 
 enum ReminderRepeat: String, CaseIterable, Codable, Identifiable, Equatable, Hashable {
@@ -147,6 +230,95 @@ enum ReminderRepeat: String, CaseIterable, Codable, Identifiable, Equatable, Has
     // case custom = "Custom" // For future advanced support
 
     var id: String { self.rawValue }
+}
+
+// MARK: - Background Style
+
+enum NoteBackgroundStyle: String, CaseIterable, Identifiable, Codable, Equatable, Hashable {
+    case none = "None"
+    case lined = "Lined"
+    case grid = "Grid"
+    case dotted = "Dotted"
+    case ruled = "Ruled"
+    case dashed = "Dashed"
+    case crosshatch = "Cross-hatch"
+    case columns = "Columns"
+    case checkerboard = "Checkerboard"
+    case diagonal = "Diagonal"
+    case diamond = "Diamond"
+    case honeycomb = "Honeycomb"
+    case zigzag = "Zigzag"
+    case waves = "Waves"
+    case plusGrid = "Plus Grid"
+    case circles = "Circles"
+    case herringbone = "Herringbone"
+    case brickwork = "Brickwork"
+    case wideRuled = "Wide Ruled"
+    case thinGrid = "Tight Grid"
+
+    var id: String { rawValue }
+
+    /// Background fill color for the style
+    var backgroundColor: Color {
+        switch self {
+        case .none:         return .clear
+        case .ruled, .wideRuled:
+                            return Color(red: 0.99, green: 0.97, blue: 0.93)
+        default:            return Color(.systemBackground)
+        }
+    }
+
+    /// Overlay stroke / dot / fill color
+    var overlayColor: Color {
+        switch self {
+        case .none:         return .clear
+        case .lined:        return Color(.separator)
+        case .grid:         return Color(.separator).opacity(0.6)
+        case .dotted:       return Color(.separator).opacity(0.7)
+        case .ruled:        return Color(.separator)
+        case .dashed:       return Color(.separator).opacity(0.7)
+        case .crosshatch:   return Color(.separator).opacity(0.4)
+        case .columns:      return Color(.separator).opacity(0.5)
+        case .checkerboard: return Color(.separator).opacity(0.08)
+        case .diagonal:     return Color(.separator).opacity(0.45)
+        case .diamond:      return Color(.separator).opacity(0.4)
+        case .honeycomb:    return Color(.separator).opacity(0.35)
+        case .zigzag:       return Color(.separator).opacity(0.5)
+        case .waves:        return Color(.separator).opacity(0.45)
+        case .plusGrid:     return Color(.separator).opacity(0.5)
+        case .circles:      return Color(.separator).opacity(0.35)
+        case .herringbone:  return Color(.separator).opacity(0.4)
+        case .brickwork:    return Color(.separator).opacity(0.4)
+        case .wideRuled:    return Color(.separator)
+        case .thinGrid:     return Color(.separator).opacity(0.4)
+        }
+    }
+
+    /// SF Symbol to represent in the picker grid
+    var systemImage: String {
+        switch self {
+        case .none:          return "rectangle.slash"
+        case .lined:         return "line.3.horizontal"
+        case .grid:          return "grid"
+        case .dotted:        return "circle.grid.3x3"
+        case .ruled:         return "list.bullet"
+        case .dashed:        return "line.3.horizontal"
+        case .crosshatch:    return "xmark"
+        case .columns:       return "rectangle.split.3x1"
+        case .checkerboard:  return "checkerboard.rectangle"
+        case .diagonal:      return "line.diagonal"
+        case .diamond:       return "diamond"
+        case .honeycomb:     return "hexagon"
+        case .zigzag:        return "point.topleft.down.to.point.bottomright.curvepath"
+        case .waves:         return "water.waves"
+        case .plusGrid:      return "plus"
+        case .circles:       return "circle"
+        case .herringbone:   return "chevron.up"
+        case .brickwork:     return "rectangle.split.3x3"
+        case .wideRuled:     return "list.dash"
+        case .thinGrid:      return "squareshape.split.3x3"
+        }
+    }
 }
 
 struct StickyNote: Identifiable, Codable, Hashable {
@@ -166,6 +338,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
     var isTimeBounded: Bool
     var priority: Priority
     var reminderRepeat: ReminderRepeat
+    var backgroundStyle: NoteBackgroundStyle
 
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
@@ -188,7 +361,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none) {
         self.id = id
         self.title = title
         self.content = content
@@ -205,10 +378,11 @@ struct StickyNote: Identifiable, Codable, Hashable {
         self.isTimeBounded = isTimeBounded
         self.priority = priority
         self.reminderRepeat = reminderRepeat
+        self.backgroundStyle = backgroundStyle
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle
     }
 
     init(from decoder: Decoder) throws {
@@ -229,6 +403,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         isTimeBounded = try container.decodeIfPresent(Bool.self, forKey: .isTimeBounded) ?? false
         priority = try container.decodeIfPresent(Priority.self, forKey: .priority) ?? .medium
         reminderRepeat = try container.decodeIfPresent(ReminderRepeat.self, forKey: .reminderRepeat) ?? .never
+        backgroundStyle = try container.decodeIfPresent(NoteBackgroundStyle.self, forKey: .backgroundStyle) ?? .none
     }
 
     func encode(to encoder: Encoder) throws {
@@ -249,6 +424,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         try container.encode(isTimeBounded, forKey: .isTimeBounded)
         try container.encode(priority, forKey: .priority)
         try container.encode(reminderRepeat, forKey: .reminderRepeat)
+        try container.encode(backgroundStyle, forKey: .backgroundStyle)
     }
 }
 

@@ -181,7 +181,7 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) -> StickyNote {
+    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) -> StickyNote {
         let newNote = StickyNote(
             title: title,
             content: content,
@@ -197,13 +197,14 @@ class NotesViewModel: ObservableObject {
             reminderDate: reminderDate,
             isTimeBounded: isTimeBounded,
             priority: priority,
-            reminderRepeat: reminderRepeat
+            reminderRepeat: reminderRepeat,
+            backgroundStyle: backgroundStyle
         )
         notes.append(newNote)
         return newNote
     }
 
-    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat) {
+    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].title = title
             notes[index].content = content
@@ -219,6 +220,7 @@ class NotesViewModel: ObservableObject {
             notes[index].isTimeBounded = isTimeBounded
             notes[index].priority = priority
             notes[index].reminderRepeat = reminderRepeat
+            notes[index].backgroundStyle = backgroundStyle
         }
     }
 

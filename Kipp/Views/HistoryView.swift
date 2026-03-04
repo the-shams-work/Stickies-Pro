@@ -11,20 +11,17 @@ struct HistoryView: View {
     @ObservedObject var viewModel: NotesViewModel
 
     var body: some View {
-        NavigationView {
-            VStack {
+        NavigationStack {
+            Group {
                 if viewModel.notes.filter({ $0.isDone }).isEmpty {
-                    VStack {
-                        Spacer()
-                        Text("home.archive.empty")
-                            .font(.headline)
-                            .foregroundColor(.gray)
-                            .padding()
-                        Spacer()
-                    }
+                    HIGEmptyStateView(
+                        icon: "archivebox",
+                        title: "home.empty.archive",
+                        message: "home.empty.archive.desc"
+                    )
                 } else {
                     ScrollView {
-                        VStack(spacing: 10) {
+                        LazyVStack(spacing: 10) {
                             ForEach(viewModel.notes.filter { $0.isDone }) { note in
                                 StickyNoteView(
                                     note: note,
@@ -35,10 +32,12 @@ struct HistoryView: View {
                                 .padding(.horizontal)
                             }
                         }
+                        .padding(.vertical, 8)
                     }
                 }
             }
             .navigationTitle("home.tab.archive")
+            .background(Color(.systemGroupedBackground))
         }
     }
 }

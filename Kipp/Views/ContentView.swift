@@ -16,7 +16,6 @@ struct ContentView: View {
     @State private var showFilters = false
     @State private var showSettings = false
     @State private var showAnalytics = false
-    @State private var isSearchFocused = false
     @State private var showingArchivedNotes = false
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @State private var isSelecting = false
@@ -28,8 +27,6 @@ struct ContentView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 VStack(spacing: 0) {
-                    searchBar
-                    
                     if hasActiveFilters {
                         filterChips
                     }
@@ -38,6 +35,7 @@ struct ContentView: View {
                 }
                 .navigationTitle(showingArchivedNotes ? LocalizedStringKey("home.tab.archive") : LocalizedStringKey("home.tab.mynotes"))
                 .navigationBarTitleDisplayMode(.large)
+                .searchable(text: $viewModel.searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: "common.search")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         if isSelecting {
@@ -67,27 +65,30 @@ struct ContentView: View {
                             }
                             .foregroundColor(themeManager.theme.color)
                         } else {
-                            HStack(spacing: 16) {
-                                Button(action: { showAnalytics = true }) {
-                                    Image(systemName: "chart.bar")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(themeManager.theme.color)
+                            Menu {
+                                Button { showAnalytics = true } label: {
+                                    Label("analytics.title", systemImage: "chart.bar")
                                 }
-                                filterButton
-                                Button(action: {
+                                Button {
                                     withAnimation(.easeInOut(duration: 0.2)) {
                                         isGridView.toggle()
                                     }
-                                }) {
-                                    Image(systemName: isGridView ? "square.grid.2x2" : "list.bullet")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(themeManager.theme.color)
+                                } label: {
+                                    Label(
+                                        isGridView ? "List View" : "Grid View",
+                                        systemImage: isGridView ? "list.bullet" : "square.grid.2x2"
+                                    )
                                 }
-                                Button(action: { showSettings = true }) {
-                                    Image(systemName: "gearshape")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(themeManager.theme.color)
+                                Button { showFilters = true } label: {
+                                    Label("home.filters.title", systemImage: "line.3.horizontal.decrease.circle")
                                 }
+                                Button { showSettings = true } label: {
+                                    Label("settings.title", systemImage: "gearshape")
+                                }
+                            } label: {
+                                Image(systemName: "ellipsis.circle")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(themeManager.theme.color)
                             }
                         }
                     }
@@ -151,53 +152,6 @@ struct ContentView: View {
         }
     }
     
-    // MARK: - Search Bar
-    private var searchBar: some View {
-        HStack(spacing: 12) {
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.secondary)
-                    .font(.system(size: 16, weight: .medium))
-                
-                TextField("common.search", text: $viewModel.searchQuery)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .font(.system(size: 16))
-                    .onTapGesture {
-                        isSearchFocused = true
-                    }
-                
-                if !viewModel.searchQuery.isEmpty {
-                    Button(action: {
-                        viewModel.searchQuery = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.secondary)
-                            .font(.system(size: 16))
-                    }
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background(Color(.systemBackground))
-            .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSearchFocused ? themeManager.theme.color : Color.clear, lineWidth: 1)
-            )
-            
-            if !viewModel.searchQuery.isEmpty {
-                Button("common.cancel") {
-                    viewModel.searchQuery = ""
-                    isSearchFocused = false
-                }
-                .foregroundColor(themeManager.theme.color)
-            }
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .background(Color(.systemGroupedBackground))
-    }
-    
     // MARK: - Filter Chips
     private var hasActiveFilters: Bool {
         viewModel.selectedCategoryFilter != nil ||
@@ -256,29 +210,22 @@ struct ContentView: View {
     
     // MARK: - Sort Options
     private var sortOptions: some View {
-        HStack {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    SortButton(title: "Recent", isSelected: viewModel.sortOption == .dateCreated) {
-                        viewModel.sortOption = .dateCreated
-                    }
-                    
-                    SortButton(title: "Title", isSelected: viewModel.sortOption == .title) {
-                        viewModel.sortOption = .title
-                    }
-                    
-                    SortButton(title: "Category", isSelected: viewModel.sortOption == .category) {
-                        viewModel.sortOption = .category
-                    }
-                    
-                    SortButton(title: "Priority", isSelected: viewModel.sortOption == .priority) {
-                        viewModel.sortOption = .priority
-                    }
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                SortButton(title: "Recent", isSelected: viewModel.sortOption == .dateCreated) {
+                    viewModel.sortOption = .dateCreated
                 }
-                .padding(.horizontal, 16)
+                SortButton(title: "Title", isSelected: viewModel.sortOption == .title) {
+                    viewModel.sortOption = .title
+                }
+                SortButton(title: "Category", isSelected: viewModel.sortOption == .category) {
+                    viewModel.sortOption = .category
+                }
+                SortButton(title: "Priority", isSelected: viewModel.sortOption == .priority) {
+                    viewModel.sortOption = .priority
+                }
             }
-            
-            Spacer()
+            .padding(.horizontal, 16)
         }
         .padding(.vertical, 8)
     }
@@ -403,12 +350,12 @@ struct ContentView: View {
                             showAddNote = true
                         }) {
                             Image(systemName: "plus")
-                                .font(.system(size: 24, weight: .semibold))
+                                .font(.system(size: 22, weight: .semibold))
                                 .foregroundColor(.white)
                                 .frame(width: 56, height: 56)
                                 .background(themeManager.theme.color)
                                 .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                                .shadow(color: themeManager.theme.color.opacity(0.3), radius: 10, x: 0, y: 5)
                         }
                         .padding(.trailing, 20)
                         .padding(.bottom, 30)
@@ -420,23 +367,11 @@ struct ContentView: View {
     
     // MARK: - Empty State
     private var emptyStateView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: showingArchivedNotes ? "clock" : "note.text")
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
-            
-            Text(getEmptyStateTitle())
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-            
-            Text(getEmptyStateMessage())
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        HIGEmptyStateView(
+            icon: showingArchivedNotes ? "clock" : "note.text",
+            title: getEmptyStateTitle(),
+            message: getEmptyStateMessage()
+        )
     }
     
     private func getEmptyStateTitle() -> LocalizedStringKey {
@@ -460,7 +395,7 @@ struct ContentView: View {
         Button(action: {
             showFilters = true
         }) {
-            Image(systemName: "line.3.horizontal.decrease.circle")
+            Image(systemName: hasActiveFilters ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                 .font(.system(size: 20))
                 .foregroundColor(themeManager.theme.color)
         }
@@ -477,10 +412,9 @@ struct NoteListRow: View {
     var body: some View {
         HStack(spacing: 0) {
             // Leading color swatch
-            Rectangle()
+            RoundedRectangle(cornerRadius: 3, style: .continuous)
                 .fill(note.colorValue)
-                .frame(width: 6)
-                .cornerRadius(3)
+                .frame(width: 5)
                 .padding(.vertical, 14)
                 .padding(.leading, 16)
 
@@ -494,10 +428,10 @@ struct NoteListRow: View {
             }
 
             // Content
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     Text(note.title)
-                        .font(.headline)
+                        .font(.body.weight(.semibold))
                         .lineLimit(1)
                         .foregroundColor(.primary)
 
@@ -530,9 +464,9 @@ struct NoteListRow: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 16)
         }
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.07), radius: 6, x: 0, y: 2)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
         .padding(.horizontal, 16)
         .contentShape(Rectangle())
     }
@@ -567,21 +501,24 @@ struct FilterChip: View {
     var body: some View {
         HStack(spacing: 6) {
             Image(systemName: systemImage)
-                .font(.system(size: 12, weight: .medium))
+                .font(.system(size: 11, weight: .semibold))
             
             Text(LocalizedStringKey(title))
-                .font(.system(size: 14, weight: .medium))
+                .font(.subheadline.weight(.medium))
             
             Button(action: onRemove) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 10, weight: .bold))
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(color.opacity(0.6))
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .background(color.opacity(0.1))
+        .background(
+            Capsule()
+                .fill(color.opacity(0.12))
+        )
         .foregroundColor(color)
-        .cornerRadius(16)
     }
 }
 
@@ -594,13 +531,16 @@ struct SortButton: View {
     var body: some View {
         Button(action: action) {
             Text(LocalizedStringKey(title))
-                .font(.system(size: 14, weight: .medium))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(isSelected ? themeManager.theme.color : Color(.systemGray5))
+                .font(.subheadline.weight(.medium))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 7)
+                .background(
+                    Capsule()
+                        .fill(isSelected ? themeManager.theme.color : Color(.systemGray5))
+                )
                 .foregroundColor(isSelected ? .white : .primary)
-                .cornerRadius(20)
         }
+        .buttonStyle(.plain)
     }
 }
 
@@ -628,8 +568,8 @@ struct FilterView: View {
             .background(Color(.systemGroupedBackground))
             
             Form {
-                Section(header: Text("addnote.category")) {
-                    Picker("addnote.category", selection: Binding(
+                Section {
+                    Picker(selection: Binding(
                         get: { viewModel.selectedCategoryFilter },
                         set: { newValue in
                             if let newValue = newValue, case .custom = newValue {
@@ -649,6 +589,11 @@ struct FilterView: View {
                         }
                         Divider()
                         Text("home.filters.category.custom").tag(NoteCategory.custom("") as NoteCategory?)
+                    } label: {
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "tag.fill", color: .green)
+                            Text("addnote.category")
+                        }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .tint(themeManager.theme.color)
@@ -667,10 +612,12 @@ struct FilterView: View {
                     }, message: {
                         Text("home.filters.category.custom.message")
                     })
+                } header: {
+                    Text("addnote.category")
                 }
                 
-                Section(header: Text("home.filters.date")) {
-                    Picker("home.filters.date", selection: $viewModel.dateFilterOption) {
+                Section {
+                    Picker(selection: $viewModel.dateFilterOption) {
                         HStack {
                             Text(LocalizedStringKey(NotesViewModel.DateFilterOption.all.rawValue))
                             Spacer()
@@ -688,13 +635,32 @@ struct FilterView: View {
                             }
                             .tag(option)
                         }
+                    } label: {
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "calendar", color: .blue)
+                            Text("home.filters.date")
+                        }
                     }
                     .pickerStyle(MenuPickerStyle())
+                } header: {
+                    Text("home.filters.date")
                 }
                 
-                Section(header: Text("home.filters.content")) {
-                    Toggle("home.filters.content.attachments", isOn: $viewModel.showOnlyWithAttachments)
-                    Toggle("home.filters.content.reminders", isOn: $viewModel.showOnlyWithReminders)
+                Section {
+                    Toggle(isOn: $viewModel.showOnlyWithAttachments) {
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "paperclip", color: .orange)
+                            Text("home.filters.content.attachments")
+                        }
+                    }
+                    Toggle(isOn: $viewModel.showOnlyWithReminders) {
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "bell.fill", color: .red)
+                            Text("home.filters.content.reminders")
+                        }
+                    }
+                } header: {
+                    Text("home.filters.content")
                 }
             }
             .tint(themeManager.theme.color)

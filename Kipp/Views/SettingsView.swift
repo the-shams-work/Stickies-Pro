@@ -17,8 +17,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("settings.appearance")) {
-                    Picker("settings.appearance.theme", selection: $themeManager.theme) {
+                Section {
+                    Picker(selection: $themeManager.theme) {
                         ForEach(AppTheme.allCases) { theme in
                             HStack {
                                 Circle()
@@ -28,12 +28,19 @@ struct SettingsView: View {
                             }
                             .tag(theme)
                         }
+                    } label: {
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "paintpalette.fill", color: .purple)
+                            Text("settings.appearance.theme")
+                        }
                     }
                     .pickerStyle(.navigationLink)
+                } header: {
+                    Text("settings.appearance")
                 }
                 
-                Section(header: Text("settings.language")) {
-                    Picker("settings.language.app", selection: Binding(
+                Section {
+                    Picker(selection: Binding(
                         get: { pendingLanguage ?? languageManager.language },
                         set: { newLanguage in
                             if newLanguage != languageManager.language {
@@ -46,24 +53,31 @@ struct SettingsView: View {
                             Text(language.displayName)
                                 .tag(language)
                         }
+                    } label: {
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "globe", color: .blue)
+                            Text("settings.language.app")
+                        }
                     }
                     .pickerStyle(.navigationLink)
+                } header: {
+                    Text("settings.language")
                 }
                 
                 Section {
                     Button(role: .destructive, action: {
                         showResetAlert = true
                     }) {
-                        Text("settings.reset_all")
-                            .frame(maxWidth: .infinity, alignment: .center)
+                        HStack(spacing: 14) {
+                            HIGIcon(systemName: "arrow.counterclockwise", color: .red)
+                            Text("settings.reset_all")
+                                .foregroundColor(.red)
+                        }
                     }
                     .alert("settings.reset_all.title", isPresented: $showResetAlert) {
                         Button("common.cancel", role: .cancel) { }
                         Button("settings.reset_all.confirm", role: .destructive) {
-                            // Reset preferences to default values
                             themeManager.theme = .purple
-                            
-                            // Check if language is not system default, so we can reboot
                             if languageManager.language != .system {
                                 pendingLanguage = .system
                                 showRestartAlert = true

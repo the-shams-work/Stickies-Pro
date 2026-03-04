@@ -33,27 +33,8 @@ struct AddNoteView: View {
     @State private var showValidationAlert = false
     @State private var validationMessage = ""
     @State private var showFutureNoteAlert = false
-    @State private var showCustomCategoryAlert = false
-    @State private var customCategoryInput = ""
-    @State private var previousCategory: NoteCategory? = nil
-    @State private var showRemoveImageAlert = false
-    @State private var showRemoveAudioAlert = false
-    @State private var showRemoveVideoAlert = false
-    @State private var showRemoveBackgroundImageAlert = false
-    @State private var isPickingBackgroundImage = false
-    @State private var showBackgroundImagePicker = false
-    @State private var showImageMenu = false
-    @State private var showAudioMenu = false
-    @State private var showVideoMenu = false
-    @State private var showImagePicker = false
-    @State private var showVideoPicker = false
-    @State private var showAudioPicker = false
-    @State private var showAudioRecorder = false
-    @State private var isRecording = false
-    @State private var audioRecorder: AVAudioRecorder?
-    @State private var recordingURL: URL?
-    @State private var imageCoordinator: ImmersiveCameraCoordinator?
-    @State private var videoCoordinator: ImmersiveVideoCoordinator?
+    @State private var selectedFileURL: URL?
+    @State private var selectedBackgroundStyle: NoteBackgroundStyle
 
     let today = Date()
 
@@ -82,6 +63,7 @@ struct AddNoteView: View {
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
         _selectedPriority = State(initialValue: editingNote?.priority ?? .none)
         _selectedRepeat = State(initialValue: editingNote?.reminderRepeat ?? .never)
+        _selectedBackgroundStyle = State(initialValue: editingNote?.backgroundStyle ?? .none)
     }
 
     // MARK: - Validation Function
@@ -133,7 +115,8 @@ struct AddNoteView: View {
                 reminderDate: useReminderDate,
                 isTimeBounded: isTimeBounded,
                 priority: selectedPriority,
-                reminderRepeat: selectedRepeat
+                reminderRepeat: selectedRepeat,
+                backgroundStyle: selectedBackgroundStyle
             )
 
             if let reminderDate = useReminderDate {
@@ -160,7 +143,8 @@ struct AddNoteView: View {
                 reminderDate: useReminderDate,
                 isTimeBounded: isTimeBounded,
                 priority: selectedPriority,
-                reminderRepeat: selectedRepeat
+                reminderRepeat: selectedRepeat,
+                backgroundStyle: selectedBackgroundStyle
             )
 
             if let reminderDate = useReminderDate, reminderDate > Date() {
@@ -179,90 +163,58 @@ struct AddNoteView: View {
         }
     }
     
-    // MARK: - Attachment Helper Functions
-    private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
-        if sourceType == .camera {
-            guard let topVC = UIApplication.topViewController() else { return }
-            let picker = UIImagePickerController()
-            picker.sourceType = .camera
-            let newCoordinator = ImmersiveCameraCoordinator(
-                onImagePicked: { image in
-                    selectedImage = image
-                },
-                onDismiss: {}
-            )
-            picker.delegate = newCoordinator
-            imageCoordinator = newCoordinator
-            topVC.present(picker, animated: true)
-        } else if sourceType == .photoLibrary {
-            showImagePicker = true
-        }
-    }
-    
-    private func presentVideoPicker(sourceType: UIImagePickerController.SourceType) {
-        if sourceType == .camera {
-            guard let topVC = UIApplication.topViewController() else { return }
-            let picker = UIImagePickerController()
-            picker.sourceType = .camera
-            picker.mediaTypes = ["public.movie"]
-            picker.videoQuality = .typeHigh
-            let newCoordinator = ImmersiveVideoCoordinator(
-                onVideoPicked: { url in
-                    selectedVideoURL = url
-                },
-                onDismiss: {}
-            )
-            picker.delegate = newCoordinator
-            videoCoordinator = newCoordinator
-            topVC.present(picker, animated: true)
-        } else if sourceType == .photoLibrary {
-            showVideoPicker = true
-        }
-    }
-    
-    private func requestMicrophonePermission() {
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            DispatchQueue.main.async {
-                if granted {
-                    showAudioRecorder = true
-                } else {
-                }
-            }
-        }
-    }
-
     @ViewBuilder
     private var noteDetailsSection: some View {
-        Section(header: Text("addnote.details")) {
+        Section {
             TextField("addnote.title.field", text: $title)
-            TextField("addnote.content.field",text: $content, axis: .vertical)
+                .font(.body)
+            TextField("addnote.content.field", text: $content, axis: .vertical)
                 .lineLimit(5, reservesSpace: true)
+        } header: {
+            Text("addnote.details")
         }
     }
 
     @ViewBuilder
     private var dateTimeSection: some View {
-        Section(header: Text("addnote.datetime"), footer: isTimeBounded ? AnyView(
-            Text("addnote.datetime.info")
-                .font(.footnote)
-                .foregroundColor(.secondary)
-                .padding(.top, 4)
-        ) : AnyView(EmptyView())) {
-            Toggle("home.filters.date", isOn: Binding(
+        Section {
+            Toggle(isOn: Binding(
                 get: { isTimeBounded },
                 set: { newValue in
-                    isTimeBounded = newValue
-                    if !newValue {
-                        startDate = today
-                        endDate = today
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        isTimeBounded = newValue
+                        if !newValue {
+                            startDate = today
+                            endDate = today
+                        }
                     }
                 }
-            ))
+            )) {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "calendar", color: .blue)
+                    Text("home.filters.date")
+                }
+            }
+
             if isTimeBounded {
                 DatePicker("common.start", selection: $startDate, in: today..., displayedComponents: .date)
                 DatePicker("common.end", selection: $endDate, in: startDate..., displayedComponents: .date)
             }
-            Toggle("stickynote.reminder", isOn: $wantsReminder)
+
+            Toggle(isOn: Binding(
+                get: { wantsReminder },
+                set: { newValue in
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        wantsReminder = newValue
+                    }
+                }
+            )) {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "bell.badge.fill", color: .purple)
+                    Text("stickynote.reminder")
+                }
+            }
+
             if wantsReminder {
                 DatePicker("addnote.datetime", selection: Binding(
                     get: { reminderDate ?? today },
@@ -276,208 +228,222 @@ struct AddNoteView: View {
                     }
                 }
             }
+        } footer: {
+            if isTimeBounded {
+                Text("addnote.datetime.info")
+            }
         }
     }
 
     @ViewBuilder
     private var customizationSection: some View {
-        Section(header: Text("addnote.customization")) {
-            ColorRowView(selectedColor: $selectedColor)
-            
-            Menu {
-                Button {
-                    if let topVC = UIApplication.topViewController() {
-                        let picker = UIImagePickerController()
-                        picker.sourceType = .camera
-                        let newCoordinator = ImmersiveCameraCoordinator(
-                            onImagePicked: { image in
-                                selectedBackgroundImage = image
-                            },
-                            onDismiss: {}
-                        )
-                        picker.delegate = newCoordinator
-                        imageCoordinator = newCoordinator
-                        topVC.present(picker, animated: true)
-                    }
-                } label: {
-                    Label("addnote.attachments.camera", systemImage: "camera")
-                }
-                Button {
-                    showBackgroundImagePicker = true
-                } label: {
-                    Label("addnote.attachments.library", systemImage: "photo.on.rectangle")
-                }
+        Section {
+            // Note Color
+            NavigationLink {
+                NoteColorPickerView(selectedColor: $selectedColor)
             } label: {
-                HStack {
-                    Text("addnote.background")
-                        .foregroundColor(Color(UIColor.label))
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "paintpalette.fill", color: .orange)
+                    Text("addnote.color")
+                        .foregroundColor(.primary)
                     Spacer()
-                    Image(systemName: "photo.artframe")
-                        .resizable()
-                        .frame(width: 24, height: 20)
-                        .foregroundColor(themeManager.theme.color)
+                    if selectedColor == .clear {
+                        Circle()
+                            .stroke(Color(.separator), lineWidth: 1)
+                            .frame(width: 22, height: 22)
+                            .overlay(
+                                Rectangle()
+                                    .fill(Color(.separator))
+                                    .frame(width: 1, height: 16)
+                                    .rotationEffect(.degrees(45))
+                            )
+                    } else {
+                        Circle()
+                            .fill(selectedColor == .white ? Color.blue : selectedColor)
+                            .frame(width: 22, height: 22)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color(.separator), lineWidth: selectedColor == .white ? 1 : 0)
+                            )
+                    }
                 }
-                .contentShape(Rectangle())
-            }
-            if let backgroundImage = selectedBackgroundImage {
-                Image(uiImage: backgroundImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 100)
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                    )
-                    .onTapGesture {
-                        showRemoveBackgroundImageAlert = true
-                    }
-                    .confirmationDialog("addnote.background.remove.title", isPresented: $showRemoveBackgroundImageAlert, titleVisibility: .visible) {
-                        Button("common.remove", role: .destructive) { selectedBackgroundImage = nil }
-                        Button("common.cancel", role: .cancel) { }
-                    } message: {
-                        Text("addnote.background.remove.message")
-                    }
             }
 
-            Picker("addnote.priority", selection: $selectedPriority) {
-                Text("None").tag(Priority.none)
-                Divider()
-                ForEach(Priority.allCases.filter { $0 != .none }) { priority in
-                    PriorityRowView(priority: priority)
-                        .tag(priority)
-                }
-            }
-            .tint(themeManager.theme.color)
-            
-            Picker("addnote.category", selection: Binding(
-                get: { selectedCategory },
-                set: { newValue in
-                    if let newValue = newValue, case .custom = newValue {
-                        previousCategory = selectedCategory
-                        customCategoryInput = ""
-                        showCustomCategoryAlert = true
-                    } else {
-                        selectedCategory = newValue
+            // Background Image
+            NavigationLink {
+                AddPhotoView(selectedImage: $selectedBackgroundImage)
+                    .navigationTitle("Background Image")
+            } label: {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "photo.on.rectangle.angled", color: .blue)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("addnote.background")
+                            .foregroundColor(.primary)
+                        if selectedBackgroundImage != nil {
+                            Text("1 image selected")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    Spacer()
+                    if selectedBackgroundImage != nil {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 16))
                     }
                 }
-            )) {
-                Text("addnote.category.select").tag(nil as NoteCategory?)
-                Divider()
-                ForEach(NoteCategory.allCases, id: \.id) { category in
-                    CategoryRowView(category: category)
-                        .tag(category as NoteCategory?)
-                }
-                Divider()
-                Text("home.filters.category.custom").tag(NoteCategory.custom("") as NoteCategory?)
             }
-            .tint(themeManager.theme.color)
+
+            // Background Style
+            NavigationLink {
+                BackgroundStylePickerView(selectedStyle: $selectedBackgroundStyle)
+            } label: {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "rectangle.3.group.fill", color: .purple)
+                    Text("Background Style")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text(selectedBackgroundStyle.rawValue)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            // Priority
+            NavigationLink {
+                PriorityPickerView(selectedPriority: $selectedPriority)
+            } label: {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "flag.fill", color: Color(.systemPink))
+                    Text("addnote.priority")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text(selectedPriority.rawValue)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            // Category
+            NavigationLink {
+                CategoryPickerView(selectedCategory: $selectedCategory)
+            } label: {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "tag.fill", color: .green)
+                    Text("addnote.category")
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text(selectedCategory?.rawValue ?? String(localized: "addnote.category.select"))
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                }
+            }
+        } header: {
+            Text("addnote.customization")
         }
     }
 
     @ViewBuilder
     private var attachmentsSection: some View {
-        Section(header: Text("addnote.attachments.title")) {
-            Menu {
-                Button {
-                    presentImagePicker(sourceType: .camera)
-                } label: {
-                    Label("addnote.attachments.camera", systemImage: "camera")
-                }
-                Button {
-                    showImagePicker = true
-                } label: {
-                    Label("addnote.attachments.library", systemImage: "photo.on.rectangle")
-                }
+        Section {
+            // Photo
+            NavigationLink {
+                AddPhotoView(selectedImage: $selectedImage)
             } label: {
-                AttachmentRowView(
-                    title: "Image",
-                    systemIcon: "photo.fill",
-                    hasAttachment: selectedImage != nil,
-                    onTap: {}
-                )
-            }
-            if let image = selectedImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 150)
-                    .cornerRadius(8)
-                    .onLongPressGesture {
-                        showRemoveImageAlert = true
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "camera.fill", color: .blue)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Photo")
+                            .foregroundColor(.primary)
+                        if selectedImage != nil {
+                            Text("1 photo selected")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                     }
-                    .confirmationDialog("addnote.attachments.image.remove.title", isPresented: $showRemoveImageAlert, titleVisibility: .visible) {
-                        Button("common.remove", role: .destructive) { selectedImage = nil }
-                        Button("common.cancel", role: .cancel) { }
-                    } message: {
-                        Text("addnote.attachments.image.remove.message")
+                    Spacer()
+                    if selectedImage != nil {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 16))
                     }
+                }
             }
 
-            // Audio Attachment
-            Menu {
-                Button {
-                    requestMicrophonePermission()
-                } label: {
-                    Label("addnote.attachments.audio.record", systemImage: "mic")
-                }
-                Button {
-                    showAudioPicker = true
-                } label: {
-                    Label("addnote.attachments.audio.file", systemImage: "music.note.list")
-                }
+            // Audio
+            NavigationLink {
+                AddAudioView(selectedAudioURL: $selectedAudioURL)
             } label: {
-                AttachmentRowView(
-                    title: "Audio",
-                    systemIcon: "music.note",
-                    hasAttachment: selectedAudioURL != nil,
-                    onTap: {}
-                )
-            }
-            if let audioURL = selectedAudioURL {
-                Text(String(localized: "addnote.attachments.audio.label") + ": " + audioURL.lastPathComponent)
-                    .onLongPressGesture {
-                        showRemoveAudioAlert = true
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "mic.fill", color: .orange)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Audio")
+                            .foregroundColor(.primary)
+                        if let audioURL = selectedAudioURL {
+                            Text(audioURL.lastPathComponent)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                        }
                     }
-                    .confirmationDialog("addnote.attachments.audio.remove.title", isPresented: $showRemoveAudioAlert, titleVisibility: .visible) {
-                        Button("common.remove", role: .destructive) { selectedAudioURL = nil }
-                        Button("common.cancel", role: .cancel) { }
-                    } message: {
-                        Text("addnote.attachments.audio.remove.message")
+                    Spacer()
+                    if selectedAudioURL != nil {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 16))
                     }
+                }
             }
 
-            Menu {
-                Button {
-                    presentVideoPicker(sourceType: .camera)
-                } label: {
-                    Label("addnote.attachments.camera", systemImage: "video")
-                }
-                Button {
-                    showVideoPicker = true
-                } label: {
-                    Label("addnote.attachments.library", systemImage: "film")
-                }
+            // Video
+            NavigationLink {
+                AddVideoView(selectedVideoURL: $selectedVideoURL)
             } label: {
-                AttachmentRowView(
-                    title: "Video",
-                    systemIcon: "video.fill",
-                    hasAttachment: selectedVideoURL != nil,
-                    onTap: {}
-                )
-            }
-            if let videoURL = selectedVideoURL {
-                Text(String(localized: "addnote.attachments.video.label") + ": " + videoURL.lastPathComponent)
-                    .onLongPressGesture {
-                        showRemoveVideoAlert = true
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "video.fill", color: .purple)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Video")
+                            .foregroundColor(.primary)
+                        if let videoURL = selectedVideoURL {
+                            Text(videoURL.lastPathComponent)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                        }
                     }
-                    .confirmationDialog("addnote.attachments.video.remove.title", isPresented: $showRemoveVideoAlert, titleVisibility: .visible) {
-                        Button("common.remove", role: .destructive) { selectedVideoURL = nil }
-                        Button("common.cancel", role: .cancel) { }
-                    } message: {
-                        Text("addnote.attachments.video.remove.message")
+                    Spacer()
+                    if selectedVideoURL != nil {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 16))
                     }
+                }
             }
+
+            // File
+            NavigationLink {
+                AddFileView(selectedFileURL: $selectedFileURL)
+            } label: {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "paperclip", color: Color(.systemGray))
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("File")
+                            .foregroundColor(.primary)
+                        if let fileURL = selectedFileURL {
+                            Text(fileURL.lastPathComponent)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
+                    Spacer()
+                    if selectedFileURL != nil {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 16))
+                    }
+                }
+            }
+        } header: {
+            Text("addnote.attachments.title")
         }
     }
 
@@ -491,17 +457,29 @@ struct AddNoteView: View {
         .tint(themeManager.theme.color)
         .navigationBarTitle(editingNote == nil ? "addnote.newnote.title" : "stickynote.edit", displayMode: .inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("common.cancel") { 
-                    showAddNote = false 
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    showAddNote = false
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 12, weight: .bold))
+                        Text("common.cancel")
+                    }
+                    .foregroundColor(themeManager.theme.color)
                 }
-                .foregroundColor(themeManager.theme.color)
             }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("common.save") {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
                     saveNote()
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 12, weight: .bold))
+                        Text("common.save")
+                    }
+                    .foregroundColor(themeManager.theme.color)
                 }
-                .foregroundColor(themeManager.theme.color)
             }
         }
         .alert("common.error.validation", isPresented: $showValidationAlert) {
@@ -514,44 +492,10 @@ struct AddNoteView: View {
         } message: {
             Text("addnote.datetime.active")
         }
-        .alert("home.filters.category.custom.alert", isPresented: $showCustomCategoryAlert, actions: {
-            TextField("home.filters.category.custom.placeholder", text: $customCategoryInput)
-            Button("common.ok") {
-                if !customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    selectedCategory = .custom(customCategoryInput.trimmingCharacters(in: .whitespacesAndNewlines))
-                } else {
-                    selectedCategory = previousCategory
-                }
-            }
-            Button("common.cancel", role: .cancel) {
-                selectedCategory = previousCategory
-            }
-        }, message: {
-            Text("home.filters.category.custom.message")
-        })
-        .sheet(isPresented: $showBackgroundImagePicker) {
-            ImagePicker(image: $selectedBackgroundImage, sourceType: .photoLibrary)
-        }
-        .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $selectedImage, sourceType: .photoLibrary)
-        }
-        .sheet(isPresented: $showVideoPicker) {
-            VideoPicker(videoURL: $selectedVideoURL, sourceType: .photoLibrary)
-        }
-        .sheet(isPresented: $showAudioPicker) {
-            MediaPicker(mediaType: .audio, mediaURL: $selectedAudioURL)
-        }
-        .sheet(isPresented: $showAudioRecorder) {
-            AudioRecorderView(
-                isRecording: $isRecording,
-                audioRecorder: $audioRecorder,
-                recordingURL: $recordingURL,
-                selectedAudioURL: $selectedAudioURL
-            )
-        }
-        .tint(themeManager.theme.color)
     }
 }
+
+// MARK: - Supporting Row Views
 
 struct CategoryRowView: View {
     let category: NoteCategory
@@ -568,41 +512,3 @@ struct PriorityRowView: View {
         Label(LocalizedStringKey(priority.rawValue), systemImage: priority.systemImage)
     }
 }
-
-struct ColorRowView: View {
-    @Binding var selectedColor: Color
-
-    var body: some View {
-        HStack {
-            Text("addnote.color")
-            Spacer()
-            ColorPicker("", selection: $selectedColor)
-                .labelsHidden()
-        }
-    }
-}
-
-struct AttachmentRowView: View {
-    @EnvironmentObject var themeManager: ThemeManager
-    let title: String
-    let systemIcon: String
-    let hasAttachment: Bool
-    let onTap: () -> Void
-    
-    var body: some View {
-        HStack {
-            Text(LocalizedStringKey(title))
-                .foregroundColor(.primary)
-            Spacer()
-            Image(systemName: systemIcon)
-                .resizable()
-                .frame(width: 24, height: 20)
-                .foregroundColor(themeManager.theme.color)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            onTap()
-        }
-    }
-}
-
