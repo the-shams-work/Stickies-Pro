@@ -41,6 +41,12 @@ struct NoteDetailView: View {
                         isWhite: currentNote.colorValue.isWhite
                     )
                     
+                    MetadataChip(
+                        icon: "clock",
+                        text: formattedCreatedDate(currentNote.startDate),
+                        isWhite: currentNote.colorValue.isWhite
+                    )
+                    
                     if currentNote.isTimeBounded {
                         MetadataChip(
                             icon: "calendar",
@@ -53,8 +59,7 @@ struct NoteDetailView: View {
                         MetadataChip(
                             icon: currentNote.priority.systemImage,
                             text: currentNote.priority.rawValue,
-                            isWhite: currentNote.colorValue.isWhite,
-                            tintColor: priorityColor(currentNote.priority)
+                            isWhite: currentNote.colorValue.isWhite
                         )
                     }
                 }
@@ -216,6 +221,24 @@ struct NoteDetailView: View {
             return formatter.string(from: start)
         } else {
             return "\(formatter.string(from: start)) - \(formatter.string(from: end))"
+        }
+    }
+
+    private func formattedCreatedDate(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        if calendar.isDateInToday(date) {
+            formatter.timeStyle = .short
+            formatter.dateStyle = .none
+            return "Today, \(formatter.string(from: date))"
+        } else if calendar.isDateInYesterday(date) {
+            formatter.timeStyle = .short
+            formatter.dateStyle = .none
+            return "Yesterday, \(formatter.string(from: date))"
+        } else {
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            return formatter.string(from: date)
         }
     }
     

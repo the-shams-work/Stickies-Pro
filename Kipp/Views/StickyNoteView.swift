@@ -52,11 +52,9 @@ struct StickyNoteView: View {
             Spacer(minLength: 0)
 
             HStack(spacing: 6) {
-                if note.isTimeBounded {
-                    Text(formattedDate(note.startDate))
-                        .font(.caption2)
-                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
-                }
+                Text(formattedTime(note.startDate))
+                    .font(.caption2)
+                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
                 
                 Spacer()
                 
@@ -67,9 +65,9 @@ struct StickyNoteView: View {
                         .padding(.vertical, 2)
                         .background(
                             Capsule()
-                                .fill(priorityColor(note.priority).opacity(0.2))
+                                .fill(note.colorValue.isWhite ? Color.primary.opacity(0.07) : Color.white.opacity(0.2))
                         )
-                        .foregroundColor(priorityColor(note.priority))
+                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
                 }
             }
         }
@@ -133,9 +131,18 @@ struct StickyNoteView: View {
         }
     }
 
-    private func formattedDate(_ date: Date) -> String {
+    private func formattedTime(_ date: Date) -> String {
+        let calendar = Calendar.current
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
+        if calendar.isDateInToday(date) {
+            formatter.timeStyle = .short
+            formatter.dateStyle = .none
+        } else if calendar.isDateInYesterday(date) {
+            return "Yesterday"
+        } else {
+            formatter.dateStyle = .short
+            formatter.timeStyle = .none
+        }
         return formatter.string(from: date)
     }
 }
