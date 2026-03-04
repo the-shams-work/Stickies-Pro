@@ -88,7 +88,12 @@ struct StickyNoteView: View {
                     note.backgroundStyle.backgroundColor
                     BackgroundPatternOverlay(style: note.backgroundStyle)
                 } else {
-                    note.colorValue
+                    // Transparent ("None") → use system background; otherwise show the color
+                    if UIColor(note.colorValue).cgColor.alpha < 0.05 {
+                        Color(.systemBackground)
+                    } else {
+                        note.colorValue
+                    }
                 }
             }
         )

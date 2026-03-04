@@ -462,15 +462,41 @@ extension Color {
     func toHex() -> String? {
         let uiColor = UIColor(self)
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-        guard uiColor.getRed(&r, green: &g, blue: &b, alpha: &a) else { return nil }
-        let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        return String(format: "#%06x", rgb)
+        // Try getRed first; fall back to cgColor components for system/P3 colors
+        if !uiColor.getRed(&r, green: &g, blue: &b, alpha: &a) {
+            guard let components = uiColor.cgColor.components else { return nil }
+            if components.count >= 4 {
+                r = components[0]; g = components[1]; b = components[2]; a = components[3]
+            } else if components.count >= 2 {
+                r = components[0]; g = components[0]; b = components[0]; a = components[1]
+            } else {
+                return nil
+            }
+        }
+        // Clamp to 0...1
+        r = min(max(r, 0), 1)
+        g = min(max(g, 0), 1)
+        b = min(max(b, 0), 1)
+        a = min(max(a, 0), 1)
+        // Use 8-char ARGB hex to preserve alpha (needed for Color.clear / "None")
+        let argb: Int = (Int)(a*255)<<24 | (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format: "#%08x", argb)
     }
 
+    /// Whether this color should be treated as "light" for text-contrast purposes.
+    /// Transparent ("None") and white both return true so dark text is used.
     var isWhite: Bool {
         let uiColor = UIColor(self)
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-        guard uiColor.getRed(&r, green: &g, blue: &b, alpha: &a) else { return false }
+        if !uiColor.getRed(&r, green: &g, blue: &b, alpha: &a) {
+            if let c = uiColor.cgColor.components, c.count >= 4 {
+                r = c[0]; g = c[1]; b = c[2]; a = c[3]
+            } else {
+                return false
+            }
+        }
+        // Transparent / clear → treat as white (system background)
+        if a < 0.05 { return true }
         return abs(r - 1.0) < 0.01 && abs(g - 1.0) < 0.01 && abs(b - 1.0) < 0.01 && a > 0.95
     }
 }

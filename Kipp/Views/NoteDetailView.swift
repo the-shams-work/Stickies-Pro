@@ -132,7 +132,12 @@ struct NoteDetailView: View {
                     BackgroundPatternOverlay(style: currentNote.backgroundStyle)
                         .ignoresSafeArea()
                 } else {
-                    currentNote.colorValue.ignoresSafeArea()
+                    // Transparent ("None") → use system background; otherwise show the color
+                    if UIColor(currentNote.colorValue).cgColor.alpha < 0.05 {
+                        Color(.systemBackground).ignoresSafeArea()
+                    } else {
+                        currentNote.colorValue.ignoresSafeArea()
+                    }
                 }
             }
         )

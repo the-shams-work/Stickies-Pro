@@ -47,7 +47,7 @@ struct AddNoteView: View {
         _content = State(initialValue: editingNote?.content ?? "")
         _startDate = State(initialValue: editingNote?.startDate ?? Date())
         _endDate = State(initialValue: editingNote?.endDate ?? Date())
-        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.white)
+        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.blue)
         _selectedCategory = State(initialValue: editingNote?.category)
         _selectedImage = State(initialValue: editingNote?.attachment)
         _selectedAudioURL = State(initialValue: editingNote?.audioURL)
@@ -247,7 +247,8 @@ struct AddNoteView: View {
                     Text("addnote.color")
                         .foregroundColor(.primary)
                     Spacer()
-                    if selectedColor == .clear {
+                    if UIColor(selectedColor).cgColor.alpha < 0.05 {
+                        // "None" — show slash indicator
                         Circle()
                             .stroke(Color(.separator), lineWidth: 1)
                             .frame(width: 22, height: 22)
@@ -259,12 +260,8 @@ struct AddNoteView: View {
                             )
                     } else {
                         Circle()
-                            .fill(selectedColor == .white ? Color.blue : selectedColor)
+                            .fill(selectedColor)
                             .frame(width: 22, height: 22)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color(.separator), lineWidth: selectedColor == .white ? 1 : 0)
-                            )
                     }
                 }
             }

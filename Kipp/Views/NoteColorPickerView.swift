@@ -16,7 +16,7 @@ struct NoteColorOption: Identifiable, Equatable {
 
     static let allOptions: [NoteColorOption] = [
         NoteColorOption(id: "none", name: "None", color: .clear),
-        NoteColorOption(id: "default", name: "Default", color: .white),
+        NoteColorOption(id: "default", name: "Default", color: .blue),
         NoteColorOption(id: "rose", name: "Rose", color: Color(red: 0.91, green: 0.30, blue: 0.40)),
         NoteColorOption(id: "orange", name: "Orange", color: .orange),
         NoteColorOption(id: "amber", name: "Amber", color: Color(red: 0.93, green: 0.70, blue: 0.13)),
@@ -127,8 +127,8 @@ private struct ColorCircleButton: View {
                         .overlay(
                             Circle()
                                 .stroke(
-                                    option.id == "default" || option.id == "none" ? Color(.separator) : Color.clear,
-                                    lineWidth: option.id == "default" || option.id == "none" ? 1 : 0
+                                    option.id == "none" ? Color(.separator) : Color.clear,
+                                    lineWidth: option.id == "none" ? 1 : 0
                                 )
                         )
 
@@ -144,7 +144,7 @@ private struct ColorCircleButton: View {
                     if isSelected {
                         Image(systemName: "checkmark")
                             .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(option.id == "default" || option.id == "none" ? .blue : .white)
+                            .foregroundColor(option.id == "none" ? .blue : .white)
                     }
                 }
                 .frame(width: 60, height: 60)
@@ -159,7 +159,6 @@ private struct ColorCircleButton: View {
 
     private var displayColor: Color {
         if option.id == "none" { return Color(.systemBackground) }
-        if option.id == "default" { return .blue }
         return option.color
     }
 }
@@ -176,12 +175,7 @@ private struct NotePreviewCard: View {
         return alpha < 0.01
     }
 
-    private var isWhite: Bool {
-        let uiColor = UIColor(color)
-        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-        uiColor.getRed(&r, green: &g, blue: &b, alpha: &a)
-        return a > 0.99 && r > 0.98 && g > 0.98 && b > 0.98
-    }
+    private var isWhite: Bool { color.isWhite }
 
     private var previewBackground: Color {
         if isNone { return Color(.systemGray6) }
@@ -191,7 +185,6 @@ private struct NotePreviewCard: View {
 
     private var accentColor: Color {
         if isNone { return Color(.systemGray3) }
-        if isWhite { return .blue }
         return color
     }
 
