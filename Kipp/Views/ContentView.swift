@@ -27,6 +27,7 @@ struct ContentView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 VStack(spacing: 0) {
+                    searchBar
                     if hasActiveFilters {
                         filterChips
                     }
@@ -35,7 +36,6 @@ struct ContentView: View {
                 }
                 .navigationTitle(showingArchivedNotes ? LocalizedStringKey("home.tab.archive") : LocalizedStringKey("home.tab.mynotes"))
                 .navigationBarTitleDisplayMode(.large)
-                .searchable(text: $viewModel.searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: "common.search")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         if isSelecting {
@@ -208,6 +208,36 @@ struct ContentView: View {
         .padding(.vertical, 8)
     }
     
+    // MARK: - Search Bar
+    private var searchBar: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.secondary)
+                .font(.system(size: 16))
+            TextField(String(localized: "common.search"), text: $viewModel.searchQuery)
+                .font(.body)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            if !viewModel.searchQuery.isEmpty {
+                Button {
+                    viewModel.searchQuery = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 16))
+                }
+            }
+        }
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(.tertiarySystemFill))
+        )
+        .padding(.horizontal, 16)
+        .padding(.top, 4)
+        .padding(.bottom, 4)
+    }
+
     // MARK: - Sort Options
     private var sortOptions: some View {
         ScrollView(.horizontal, showsIndicators: false) {
