@@ -22,7 +22,7 @@ class NotesViewModel: ObservableObject {
     @Published var dateFilterOption: DateFilterOption = .all
 
     enum SortOption {
-        case dateCreated, title, category, priority
+        case dateCreated, title, category, priority, pinned
     }
     
     enum DateFilterOption: String, CaseIterable {
@@ -58,6 +58,10 @@ class NotesViewModel: ObservableObject {
     var filteredNotes: [StickyNote] {
         var notes = self.notes.filter { !$0.isDone && $0.startDate <= Date() }
         
+        if sortOption == .pinned {
+            notes = notes.filter { $0.isPinned }
+        }
+        
         if !searchQuery.isEmpty {
             notes = notes.filter {
                 $0.title.localizedCaseInsensitiveContains(searchQuery) ||
@@ -102,6 +106,8 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.category.rawValue < $1.category.rawValue }
         case .priority:
             notes.sort { $0.priority.sortOrder > $1.priority.sortOrder }
+        case .pinned:
+            notes.sort { $0.startDate > $1.startDate }
         }
         
         // Pinned notes always float to the top
@@ -113,6 +119,10 @@ class NotesViewModel: ObservableObject {
     var archivedNotes: [StickyNote] {
         var notes = self.notes.filter { $0.isDone }
         
+        if sortOption == .pinned {
+            notes = notes.filter { $0.isPinned }
+        }
+        
         if !searchQuery.isEmpty {
             notes = notes.filter {
                 $0.title.localizedCaseInsensitiveContains(searchQuery) ||
@@ -157,6 +167,8 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.category.rawValue < $1.category.rawValue }
         case .priority:
             notes.sort { $0.priority.sortOrder > $1.priority.sortOrder }
+        case .pinned:
+            notes.sort { $0.startDate > $1.startDate }
         }
         
         // Pinned notes always float to the top

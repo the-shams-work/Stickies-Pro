@@ -254,6 +254,9 @@ struct ContentView: View {
                 SortButton(title: "Priority", isSelected: viewModel.sortOption == .priority) {
                     viewModel.sortOption = .priority
                 }
+                SortButton(title: "Pinned", isSelected: viewModel.sortOption == .pinned) {
+                    viewModel.sortOption = .pinned
+                }
             }
             .padding(.horizontal, 16)
         }
