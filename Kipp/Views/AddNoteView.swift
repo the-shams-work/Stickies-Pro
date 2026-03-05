@@ -47,7 +47,7 @@ struct AddNoteView: View {
         _content = State(initialValue: editingNote?.content ?? "")
         _startDate = State(initialValue: editingNote?.startDate ?? Date())
         _endDate = State(initialValue: editingNote?.endDate ?? Date())
-        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.blue)
+        _selectedColor = State(initialValue: editingNote?.colorValue ?? Color.clear)
         _selectedCategory = State(initialValue: editingNote?.category)
         _selectedImage = State(initialValue: editingNote?.attachment)
         _selectedAudioURL = State(initialValue: editingNote?.audioURL)
