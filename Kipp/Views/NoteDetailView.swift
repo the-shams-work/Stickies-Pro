@@ -127,8 +127,17 @@ struct NoteDetailView: View {
                                 .fill(currentNote.colorValue.opacity(currentNote.colorValue.isWhite ? 0.4 : 0.7))
                                 .ignoresSafeArea()
                         )
+                    if currentNote.backgroundStyle != .none {
+                        BackgroundPatternOverlay(style: currentNote.backgroundStyle)
+                            .ignoresSafeArea()
+                    }
                 } else if currentNote.backgroundStyle != .none {
-                    currentNote.backgroundStyle.backgroundColor.ignoresSafeArea()
+                    // If note has a color, use it as base; otherwise use style background
+                    if UIColor(currentNote.colorValue).cgColor.alpha < 0.05 {
+                        currentNote.backgroundStyle.backgroundColor.ignoresSafeArea()
+                    } else {
+                        currentNote.colorValue.ignoresSafeArea()
+                    }
                     BackgroundPatternOverlay(style: currentNote.backgroundStyle)
                         .ignoresSafeArea()
                 } else {
