@@ -193,3 +193,7 @@
 "settings.reset_all.title" = "Reset Settings";
 "settings.reset_all.message" = "Are you sure you want to reset all settings to their default values?";
 "settings.reset_all.confirm" = "Reset";
+
+/* Pin */
+"stickynote.pin" = "Pin Note";
+"stickynote.unpin" = "Unpin Note";

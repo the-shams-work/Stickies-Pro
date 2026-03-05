@@ -185,3 +185,7 @@
 "settings.reset_all.title" = "設定をリセット";
 "settings.reset_all.message" = "すべての設定をデフォルト値にリセットしてもよろしいですか？";
 "settings.reset_all.confirm" = "リセット";
+
+/* Pin */
+"stickynote.pin" = "ノートをピン固定";
+"stickynote.unpin" = "ピン固定を解除";

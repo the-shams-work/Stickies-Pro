@@ -14,6 +14,7 @@ struct StickyNoteView: View {
     let markAsDone: () -> Void
     let onEdit: () -> Void
     let onDelete: () -> Void
+    let onTogglePin: () -> Void
     var isSelecting: Bool = false
     var isSelected: Bool = false
 
@@ -35,6 +36,12 @@ struct StickyNoteView: View {
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
+                if note.isPinned {
+                    Image(systemName: "pin.fill")
+                        .font(.caption2)
+                        .foregroundColor(note.colorValue.isWhite ? .orange : .yellow)
+                }
+
                 if hasAttachments {
                     Image(systemName: "paperclip")
                         .font(.caption2)
@@ -108,6 +115,12 @@ struct StickyNoteView: View {
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
         .contextMenu(isSelecting ? nil : ContextMenu {
+            Button(action: { onTogglePin() }) {
+                Label(
+                    note.isPinned ? "stickynote.unpin" : "stickynote.pin",
+                    systemImage: note.isPinned ? "pin.slash" : "pin"
+                )
+            }
             Button(action: { onEdit() }) {
                 Label("common.edit", systemImage: "pencil")
             }

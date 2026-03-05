@@ -27,11 +27,20 @@ struct NoteDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Title
-                Text(currentNote.title)
-                    .font(.largeTitle.weight(.bold))
-                    .foregroundColor(currentNote.colorValue.isWhite ? .primary : .white)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 8)
+                HStack(alignment: .top, spacing: 8) {
+                    Text(currentNote.title)
+                        .font(.largeTitle.weight(.bold))
+                        .foregroundColor(currentNote.colorValue.isWhite ? .primary : .white)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    if currentNote.isPinned {
+                        Image(systemName: "pin.fill")
+                            .font(.title2)
+                            .foregroundColor(currentNote.colorValue.isWhite ? .orange : .yellow)
+                            .padding(.top, 6)
+                    }
+                }
+                .padding(.top, 8)
                 
                 // Metadata chips
                 FlowLayout(spacing: 8) {
@@ -177,6 +186,15 @@ struct NoteDetailView: View {
                     }
 
                     Menu {
+                        Button(action: {
+                            viewModel.togglePin(id: currentNote.id)
+                        }) {
+                            Label(
+                                currentNote.isPinned ? "stickynote.unpin" : "stickynote.pin",
+                                systemImage: currentNote.isPinned ? "pin.slash" : "pin"
+                            )
+                        }
+
                         Button(action: {
                             viewModel.markAsDone(id: currentNote.id)
                             dismiss()

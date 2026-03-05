@@ -27,7 +27,8 @@ struct HistoryView: View {
                                     note: note,
                                     markAsDone: { viewModel.markAsDone(id: note.id) },
                                     onEdit: {},
-                                    onDelete: { viewModel.deleteNote(id: note.id) }
+                                    onDelete: { viewModel.deleteNote(id: note.id) },
+                                    onTogglePin: { viewModel.togglePin(id: note.id) }
                                 )
                                 .padding(.horizontal)
                             }

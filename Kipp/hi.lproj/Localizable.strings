@@ -193,3 +193,7 @@
 "settings.reset_all.title" = "सेटिंग्स रीसेट करें";
 "settings.reset_all.message" = "क्या आप वाकई सभी सेटिंग्स को उनके डिफ़ॉल्ट मानों पर रीसेट करना चाहते हैं?";
 "settings.reset_all.confirm" = "रीसेट करें";
+
+/* Pin */
+"stickynote.pin" = "नोट पिन करें";
+"stickynote.unpin" = "नोट अनपिन करें";

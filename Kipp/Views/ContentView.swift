@@ -285,6 +285,7 @@ struct ContentView: View {
                                         }
                                     },
                                     onDelete: { viewModel.deleteNote(id: note.id) },
+                                    onTogglePin: { viewModel.togglePin(id: note.id) },
                                     isSelecting: isSelecting,
                                     isSelected: selectedNoteIDs.contains(note.id)
                                 )
@@ -308,6 +309,7 @@ struct ContentView: View {
                                             }
                                         },
                                         onDelete: { viewModel.deleteNote(id: note.id) },
+                                        onTogglePin: { viewModel.togglePin(id: note.id) },
                                         isSelecting: isSelecting,
                                         isSelected: selectedNoteIDs.contains(note.id)
                                     )
@@ -347,6 +349,12 @@ struct ContentView: View {
                                 }
                                 .buttonStyle(PlainButtonStyle())
                                 .contextMenu {
+                                    Button(action: { viewModel.togglePin(id: note.id) }) {
+                                        Label(
+                                            note.isPinned ? "stickynote.unpin" : "stickynote.pin",
+                                            systemImage: note.isPinned ? "pin.slash" : "pin"
+                                        )
+                                    }
                                     Button(action: {
                                         if !showingArchivedNotes {
                                             editingNote = note
@@ -464,6 +472,12 @@ struct NoteListRow: View {
                         .font(.body.weight(.semibold))
                         .lineLimit(1)
                         .foregroundColor(.primary)
+
+                    if note.isPinned {
+                        Image(systemName: "pin.fill")
+                            .font(.caption)
+                            .foregroundColor(.orange)
+                    }
 
                     if hasAttachments {
                         Image(systemName: "paperclip")

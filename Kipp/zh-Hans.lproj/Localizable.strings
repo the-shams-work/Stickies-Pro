@@ -185,3 +185,7 @@
 "settings.reset_all.title" = "重置设置";
 "settings.reset_all.message" = "您确定要将所有设置恢复为默认值吗？";
 "settings.reset_all.confirm" = "重置";
+
+/* Pin */
+"stickynote.pin" = "置顶笔记";
+"stickynote.unpin" = "取消置顶";

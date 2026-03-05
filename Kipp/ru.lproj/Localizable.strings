@@ -185,3 +185,7 @@
 "settings.reset_all.title" = "Сброс настроек";
 "settings.reset_all.message" = "Вы уверены, что хотите сбросить все настройки к значениям по умолчанию?";
 "settings.reset_all.confirm" = "Сбросить";
+
+/* Pin */
+"stickynote.pin" = "Закрепить заметку";
+"stickynote.unpin" = "Открепить заметку";

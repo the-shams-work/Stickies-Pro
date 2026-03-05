@@ -185,3 +185,7 @@
 "settings.reset_all.title" = "Ripristina impostazioni";
 "settings.reset_all.message" = "Sei sicuro di voler ripristinare tutte le impostazioni ai valori predefiniti?";
 "settings.reset_all.confirm" = "Ripristina";
+
+/* Pin */
+"stickynote.pin" = "Fissa nota";
+"stickynote.unpin" = "Togli dalla cima";

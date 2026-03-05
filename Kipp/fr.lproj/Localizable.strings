@@ -185,3 +185,7 @@
 "settings.reset_all.title" = "Réinitialiser les paramètres";
 "settings.reset_all.message" = "Êtes-vous sûr de vouloir réinitialiser tous les paramètres à leurs valeurs par défaut ?";
 "settings.reset_all.confirm" = "Réinitialiser";
+
+/* Pin */
+"stickynote.pin" = "Épingler la note";
+"stickynote.unpin" = "Désépingler la note";

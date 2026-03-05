@@ -104,6 +104,9 @@ class NotesViewModel: ObservableObject {
             notes.sort { $0.priority.sortOrder > $1.priority.sortOrder }
         }
         
+        // Pinned notes always float to the top
+        notes.sort { $0.isPinned && !$1.isPinned }
+        
         return notes
     }
     
@@ -155,6 +158,9 @@ class NotesViewModel: ObservableObject {
         case .priority:
             notes.sort { $0.priority.sortOrder > $1.priority.sortOrder }
         }
+        
+        // Pinned notes always float to the top
+        notes.sort { $0.isPinned && !$1.isPinned }
         
         return notes
     }
@@ -237,6 +243,13 @@ class NotesViewModel: ObservableObject {
                 NotificationManager.shared.removeNotification(identifier: id.uuidString)
             }
             
+            objectWillChange.send()
+        }
+    }
+
+    func togglePin(id: UUID) {
+        if let index = notes.firstIndex(where: { $0.id == id }) {
+            notes[index].isPinned.toggle()
             objectWillChange.send()
         }
     }

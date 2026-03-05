@@ -339,6 +339,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
     var priority: Priority
     var reminderRepeat: ReminderRepeat
     var backgroundStyle: NoteBackgroundStyle
+    var isPinned: Bool
 
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
@@ -361,7 +362,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none, isPinned: Bool = false) {
         self.id = id
         self.title = title
         self.content = content
@@ -379,10 +380,11 @@ struct StickyNote: Identifiable, Codable, Hashable {
         self.priority = priority
         self.reminderRepeat = reminderRepeat
         self.backgroundStyle = backgroundStyle
+        self.isPinned = isPinned
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle, isPinned
     }
 
     init(from decoder: Decoder) throws {
@@ -404,6 +406,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         priority = try container.decodeIfPresent(Priority.self, forKey: .priority) ?? .medium
         reminderRepeat = try container.decodeIfPresent(ReminderRepeat.self, forKey: .reminderRepeat) ?? .never
         backgroundStyle = try container.decodeIfPresent(NoteBackgroundStyle.self, forKey: .backgroundStyle) ?? .none
+        isPinned = try container.decodeIfPresent(Bool.self, forKey: .isPinned) ?? false
     }
 
     func encode(to encoder: Encoder) throws {
@@ -425,6 +428,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         try container.encode(priority, forKey: .priority)
         try container.encode(reminderRepeat, forKey: .reminderRepeat)
         try container.encode(backgroundStyle, forKey: .backgroundStyle)
+        try container.encode(isPinned, forKey: .isPinned)
     }
 }
 
