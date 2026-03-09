@@ -461,24 +461,18 @@ struct AddNoteView: View {
                 Button {
                     showAddNote = false
                 } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .bold))
-                        Text("common.cancel")
-                    }
-                    .foregroundColor(themeManager.theme.color)
+                    Text("common.cancel")
+                        .fontWeight(.regular)
+                        .foregroundColor(themeManager.theme.color)
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button {
                     saveNote()
                 } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 12, weight: .bold))
-                        Text("common.save")
-                    }
-                    .foregroundColor(themeManager.theme.color)
+                    Text("common.save")
+                        .fontWeight(.regular)
+                        .foregroundColor(themeManager.theme.color)
                 }
             }
         }
