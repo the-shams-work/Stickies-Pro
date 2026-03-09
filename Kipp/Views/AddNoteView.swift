@@ -224,7 +224,7 @@ struct AddNoteView: View {
                     set: { reminderDate = $0 }
                 ), in: today..., displayedComponents: [.date, .hourAndMinute])
                 Picker("addnote.reminders.repeat", selection: $selectedRepeat) {
-                    Text("Never").tag(ReminderRepeat.never)
+                    Text("addnote.reminders.never").tag(ReminderRepeat.never)
                     Divider()
                     ForEach(ReminderRepeat.allCases.filter { $0 != .never }) { repeatOption in
                         Text(LocalizedStringKey(repeatOption.rawValue)).tag(repeatOption)
@@ -272,7 +272,7 @@ struct AddNoteView: View {
             // Background Image
             NavigationLink {
                 AddPhotoView(selectedImage: $selectedBackgroundImage)
-                    .navigationTitle("Background Image")
+                    .navigationTitle(String(localized: "addnote.background.image.title"))
             } label: {
                 HStack(spacing: 14) {
                     HIGIcon(systemName: "photo.on.rectangle.angled", color: .blue)
@@ -280,7 +280,7 @@ struct AddNoteView: View {
                         Text("addnote.background")
                             .foregroundColor(.primary)
                         if selectedBackgroundImage != nil {
-                            Text("1 image selected")
+                            Text("addnote.selected.image")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -300,10 +300,10 @@ struct AddNoteView: View {
             } label: {
                 HStack(spacing: 14) {
                     HIGIcon(systemName: "rectangle.3.group.fill", color: .purple)
-                    Text("Background Style")
+                    Text("addnote.background.style")
                         .foregroundColor(.primary)
                     Spacer()
-                    Text(selectedBackgroundStyle.rawValue)
+                    Text(LocalizedStringKey(selectedBackgroundStyle.rawValue))
                         .foregroundColor(.secondary)
                 }
             }
@@ -317,7 +317,7 @@ struct AddNoteView: View {
                     Text("addnote.priority")
                         .foregroundColor(.primary)
                     Spacer()
-                    Text(selectedPriority.rawValue)
+                    Text(LocalizedStringKey(selectedPriority.rawValue))
                         .foregroundColor(.secondary)
                 }
             }
@@ -351,10 +351,10 @@ struct AddNoteView: View {
                 HStack(spacing: 14) {
                     HIGIcon(systemName: "camera.fill", color: .blue)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Photo")
+                        Text("addnote.attachments.photo")
                             .foregroundColor(.primary)
                         if selectedImage != nil {
-                            Text("1 photo selected")
+                            Text("addnote.selected.photo")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -375,7 +375,7 @@ struct AddNoteView: View {
                 HStack(spacing: 14) {
                     HIGIcon(systemName: "mic.fill", color: .orange)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Audio")
+                        Text("addnote.attachments.audio.label")
                             .foregroundColor(.primary)
                         if let audioURL = selectedAudioURL {
                             Text(audioURL.lastPathComponent)
@@ -400,7 +400,7 @@ struct AddNoteView: View {
                 HStack(spacing: 14) {
                     HIGIcon(systemName: "video.fill", color: .purple)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Video")
+                        Text("addnote.attachments.video.label")
                             .foregroundColor(.primary)
                         if let videoURL = selectedVideoURL {
                             Text(videoURL.lastPathComponent)
@@ -425,7 +425,7 @@ struct AddNoteView: View {
                 HStack(spacing: 14) {
                     HIGIcon(systemName: "paperclip", color: Color(.systemGray))
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("File")
+                        Text("addnote.attachments.file.label")
                             .foregroundColor(.primary)
                         if let fileURL = selectedFileURL {
                             Text(fileURL.lastPathComponent)

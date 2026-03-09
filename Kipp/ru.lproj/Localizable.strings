@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "Библиотека фото";
 "addnote.attachments.image.remove.title" = "Удалить изображение?";
 "addnote.attachments.image.remove.message" = "Это удалит изображение из вашей заметки.";
+"addnote.attachments.photo" = "Фото";
+"addnote.reminders.never" = "Никогда";
 "common.remove" = "Удалить";
 "addnote.reminders.title" = "Напоминания";
 "addnote.reminders.schedule" = "Запланировать напоминание";
@@ -190,3 +192,174 @@
 /* Pin */
 "stickynote.pin" = "Закрепить заметку";
 "stickynote.unpin" = "Открепить заметку";
+
+/* AddAudioView */
+"addaudio.source.record" = "Записать аудио";
+"addaudio.source.record.subtitle" = "Записать через микрофон";
+"addaudio.source.audiofiles" = "Аудиофайлы";
+"addaudio.source.audiofiles.subtitle" = "Выбрать из музыки";
+"addaudio.source.browse" = "Обзор файлов";
+"addaudio.source.browse.subtitle" = "Выбрать из файлов";
+"addaudio.section.source" = "ИСТОЧНИК";
+"addaudio.selected.audiofile" = "Аудиофайл";
+"addaudio.selected.remove" = "Удалить аудио";
+"addaudio.section.selected" = "ВЫБРАННОЕ АУДИО";
+"addaudio.title" = "Добавить аудио";
+
+/* AddFileView */
+"addfile.type.document" = "Документ";
+"addfile.type.document.subtitle" = "PDF, DOCX, TXT";
+"addfile.type.image" = "Изображение";
+"addfile.type.image.subtitle" = "PNG, JPG, SVG";
+"addfile.type.archive" = "Архив";
+"addfile.type.archive.subtitle" = "ZIP, RAR, 7Z";
+"addfile.type.other" = "Другое";
+"addfile.type.other.subtitle" = "Любой тип файла";
+"addfile.section.filetype" = "ТИП ФАЙЛА";
+"addfile.browse" = "Обзор для прикрепления";
+"addfile.browse.subtitle" = "Поддерживает все распространённые типы";
+"addfile.selected.remove" = "Удалить файл";
+"addfile.section.selected" = "ВЫБРАННЫЙ ФАЙЛ";
+"addfile.title" = "Добавить файл";
+"addfile.selected.suffix" = "файл";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "Сделать фото";
+"addphoto.source.camera.subtitle" = "Открыть камеру для съёмки";
+"addphoto.source.library" = "Фотобиблиотека";
+"addphoto.source.library.subtitle" = "Выбрать из фотографий";
+"addphoto.source.browse" = "Обзор файлов";
+"addphoto.source.browse.subtitle" = "Выбрать из файлов";
+"addphoto.selected.remove" = "Удалить фото";
+"addphoto.section.selected" = "ВЫБРАННОЕ ФОТО";
+"addphoto.section.recent" = "НЕДАВНИЕ ФОТО";
+"addphoto.title" = "Добавить фото";
+
+/* AddVideoView */
+"addvideo.source.record" = "Записать видео";
+"addvideo.source.record.subtitle" = "Открыть камеру для записи";
+"addvideo.source.library" = "Видеобиблиотека";
+"addvideo.source.library.subtitle" = "Выбрать из видео";
+"addvideo.source.browse" = "Обзор файлов";
+"addvideo.source.browse.subtitle" = "Выбрать из файлов";
+"addvideo.selected.remove" = "Удалить видео";
+"addvideo.section.selected" = "ВЫБРАННОЕ ВИДЕО";
+"addvideo.section.recent" = "НЕДАВНИЕ ВИДЕО";
+"addvideo.title" = "Добавить видео";
+
+/* AddNoteView */
+"addnote.background.style" = "Стиль фона";
+"addnote.background.image.title" = "Фоновое изображение";
+"addnote.selected.image" = "1 изображение выбрано";
+"addnote.selected.photo" = "1 фото выбрано";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "СТИЛЬ";
+"backgroundstyle.title" = "Стиль фона";
+"backgroundstyle.preview" = "Предпросмотр";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "Линованный";
+"Grid" = "Сетка";
+"Dotted" = "Точечный";
+"Ruled" = "В линейку";
+"Dashed" = "Пунктирный";
+"Cross-hatch" = "Перекрёстная штриховка";
+"Columns" = "Колонки";
+"Checkerboard" = "Шахматный";
+"Diagonal" = "Диагональный";
+"Diamond" = "Ромб";
+"Honeycomb" = "Соты";
+"Zigzag" = "Зигзаг";
+"Waves" = "Волны";
+"Plus Grid" = "Плюс-сетка";
+"Circles" = "Круги";
+"Herringbone" = "Ёлочка";
+"Brickwork" = "Кирпичная кладка";
+"Wide Ruled" = "Широкая линейка";
+"Tight Grid" = "Мелкая сетка";
+
+/* CategoryPickerView */
+"category.section.select" = "ВЫБЕРИТЕ КАТЕГОРИЮ";
+"category.custom" = "Своя категория";
+"category.custom.subtitle" = "Создайте собственную категорию";
+"category.section.custom" = "ПОЛЬЗОВАТЕЛЬСКОЕ";
+"category.title" = "Категория";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "ВЫБЕРИТЕ ЦВЕТ";
+"notecolor.title" = "Цвет заметки";
+"color.none" = "Нет";
+"color.default" = "По умолчанию";
+"color.rose" = "Розовый";
+"color.orange" = "Оранжевый";
+"color.amber" = "Янтарный";
+"color.emerald" = "Изумрудный";
+"color.teal" = "Бирюзовый";
+"color.cyan" = "Голубой";
+"color.violet" = "Фиолетовый";
+"color.fuchsia" = "Фуксия";
+"color.pink" = "Розовый";
+"color.slate" = "Сланцевый";
+"color.stone" = "Каменный";
+
+/* PriorityPickerView */
+"priority.section.select" = "ВЫБЕРИТЕ ПРИОРИТЕТ";
+"priority.title" = "Приоритет";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "Приоритет не назначен";
+"priority.subtitle.low" = "Может подождать, не срочно";
+"priority.subtitle.medium" = "Следует решить в ближайшее время";
+"priority.subtitle.high" = "Требует немедленного внимания";
+
+/* Category subtitles */
+"category.subtitle.todo" = "Задачи и список дел";
+"category.subtitle.journal" = "Ежедневные записи в дневнике";
+"category.subtitle.ideas" = "Творческие идеи и мысли";
+"category.subtitle.study" = "Учебные заметки и материалы";
+"category.subtitle.finance" = "Финансовые записи и бюджеты";
+"category.subtitle.work" = "Рабочие заметки";
+"category.subtitle.goals" = "Личные и профессиональные цели";
+"category.subtitle.important" = "Элементы высокого приоритета";
+"category.subtitle.projects" = "Планирование и отслеживание проектов";
+"category.subtitle.music" = "Песни, тексты и плейлисты";
+"category.subtitle.books" = "Краткое содержание и обзоры книг";
+"category.subtitle.movies" = "Обзоры фильмов и список к просмотру";
+"category.subtitle.art" = "Художественные идеи и заметки по дизайну";
+"category.subtitle.writing" = "Записи в блоге и черновики";
+"category.subtitle.diet" = "Планы питания и фитнес-трекинг";
+"category.subtitle.mental" = "Осознанность и благополучие";
+"category.subtitle.health" = "Медицинские записи";
+"category.subtitle.travel" = "Планы путешествий и маршруты";
+"category.subtitle.memories" = "Особые моменты и воспоминания";
+"category.subtitle.urgent" = "Срочные элементы";
+"category.subtitle.home" = "Домашние и семейные заметки";
+"category.subtitle.shopping" = "Списки покупок и желаний";
+"category.subtitle.custom" = "Ваша собственная категория";
+
+/* ContentView */
+"content.view.list" = "Список";
+"content.view.grid" = "Сетка";
+"content.delete.notes" = "Удалить заметки?";
+"content.filter.attachments" = "С вложениями";
+"content.filter.reminders" = "С напоминаниями";
+"content.sort.recent" = "Недавние";
+"content.sort.title" = "Заголовок";
+"content.sort.category" = "Категория";
+"content.sort.priority" = "Приоритет";
+"content.sort.pinned" = "Закреплённые";
+"content.filter.view" = "Вид";
+
+/* NoteDetailView */
+"common.back" = "Назад";
+"common.today" = "Сегодня, %@";
+"common.yesterday" = "Вчера, %@";
+
+/* AudioRecorderView */
+"recorder.title" = "Аудиорекордер";
+"recorder.recording" = "Запись...";
+"recorder.tap" = "Нажмите для записи";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "Вчера";

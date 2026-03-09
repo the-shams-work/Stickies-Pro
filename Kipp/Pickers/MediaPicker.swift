@@ -147,7 +147,7 @@ struct AudioRecorderView: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            Text("Audio Recorder")
+            Text(String(localized: "recorder.title"))
                 .font(.title)
                 .fontWeight(.bold)
             
@@ -158,7 +158,7 @@ struct AudioRecorderView: View {
                 .scaleEffect(isRecording ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: isRecording)
             
-            Text(isRecording ? "Recording..." : "Tap to start recording")
+            Text(isRecording ? String(localized: "recorder.recording") : String(localized: "recorder.tap"))
                 .font(.headline)
                 .foregroundColor(isRecording ? .red : .primary)
             
@@ -191,7 +191,7 @@ struct AudioRecorderView: View {
             
             Spacer()
             
-            Button("Cancel") {
+            Button(String(localized: "common.cancel")) {
                 dismiss()
             }
             .foregroundColor(.purple)

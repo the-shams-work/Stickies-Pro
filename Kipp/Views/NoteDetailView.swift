@@ -46,7 +46,7 @@ struct NoteDetailView: View {
                 FlowLayout(spacing: 8) {
                     MetadataChip(
                         icon: currentNote.category.systemImage,
-                        text: currentNote.category.rawValue,
+                        text: String(localized: String.LocalizationValue(currentNote.category.rawValue)),
                         isWhite: currentNote.colorValue.isWhite
                     )
                     
@@ -67,7 +67,7 @@ struct NoteDetailView: View {
                     if currentNote.priority != .none {
                         MetadataChip(
                             icon: currentNote.priority.systemImage,
-                            text: currentNote.priority.rawValue,
+                            text: String(localized: String.LocalizationValue(currentNote.priority.rawValue)),
                             isWhite: currentNote.colorValue.isWhite
                         )
                     }
@@ -171,7 +171,7 @@ struct NoteDetailView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .semibold))
-                        Text("Back")
+                        Text(String(localized: "common.back"))
                     }
                     .foregroundColor(themeManager.theme.color)
                 }
@@ -266,11 +266,11 @@ struct NoteDetailView: View {
         if calendar.isDateInToday(date) {
             formatter.timeStyle = .short
             formatter.dateStyle = .none
-            return "Today, \(formatter.string(from: date))"
+            return String(format: String(localized: "common.today"), formatter.string(from: date))
         } else if calendar.isDateInYesterday(date) {
             formatter.timeStyle = .short
             formatter.dateStyle = .none
-            return "Yesterday, \(formatter.string(from: date))"
+            return String(format: String(localized: "common.yesterday"), formatter.string(from: date))
         } else {
             formatter.dateStyle = .medium
             formatter.timeStyle = .short
@@ -373,7 +373,7 @@ struct FileAttachmentView: View {
                         .font(.subheadline.weight(.medium))
                         .foregroundColor(note.colorValue.isWhite ? .primary : .white)
                         .lineLimit(1)
-                    Text(fileURL.pathExtension.uppercased() + " file")
+                    Text(fileURL.pathExtension.uppercased() + " " + String(localized: "addfile.selected.suffix"))
                         .font(.caption)
                         .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
                 }

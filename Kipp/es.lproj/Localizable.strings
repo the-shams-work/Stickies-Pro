@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "Fototeca";
 "addnote.attachments.image.remove.title" = "¿Eliminar imagen?";
 "addnote.attachments.image.remove.message" = "Esto eliminará la imagen de tu nota.";
+"addnote.attachments.photo" = "Foto";
+"addnote.reminders.never" = "Nunca";
 "common.remove" = "Eliminar";
 "addnote.reminders.title" = "Recordatorios";
 "addnote.reminders.schedule" = "Programar recordatorio";
@@ -190,3 +192,174 @@
 /* Pin */
 "stickynote.pin" = "Fijar nota";
 "stickynote.unpin" = "Soltar nota";
+
+/* AddAudioView */
+"addaudio.source.record" = "Grabar audio";
+"addaudio.source.record.subtitle" = "Grabar con el micrófono";
+"addaudio.source.audiofiles" = "Archivos de audio";
+"addaudio.source.audiofiles.subtitle" = "Elegir de tu música";
+"addaudio.source.browse" = "Explorar archivos";
+"addaudio.source.browse.subtitle" = "Seleccionar de tus archivos";
+"addaudio.section.source" = "FUENTE";
+"addaudio.selected.audiofile" = "Archivo de audio";
+"addaudio.selected.remove" = "Eliminar audio";
+"addaudio.section.selected" = "AUDIO SELECCIONADO";
+"addaudio.title" = "Agregar audio";
+
+/* AddFileView */
+"addfile.type.document" = "Documento";
+"addfile.type.document.subtitle" = "PDF, DOCX, TXT";
+"addfile.type.image" = "Imagen";
+"addfile.type.image.subtitle" = "PNG, JPG, SVG";
+"addfile.type.archive" = "Archivo comprimido";
+"addfile.type.archive.subtitle" = "ZIP, RAR, 7Z";
+"addfile.type.other" = "Otro";
+"addfile.type.other.subtitle" = "Cualquier tipo de archivo";
+"addfile.section.filetype" = "TIPO DE ARCHIVO";
+"addfile.browse" = "Explorar para adjuntar";
+"addfile.browse.subtitle" = "Compatible con todos los tipos comunes";
+"addfile.selected.remove" = "Eliminar archivo";
+"addfile.section.selected" = "ARCHIVO SELECCIONADO";
+"addfile.title" = "Agregar archivo";
+"addfile.selected.suffix" = "archivo";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "Tomar foto";
+"addphoto.source.camera.subtitle" = "Abrir cámara para capturar";
+"addphoto.source.library" = "Fototeca";
+"addphoto.source.library.subtitle" = "Elegir de tus fotos";
+"addphoto.source.browse" = "Explorar archivos";
+"addphoto.source.browse.subtitle" = "Seleccionar de tus archivos";
+"addphoto.selected.remove" = "Eliminar foto";
+"addphoto.section.selected" = "FOTO SELECCIONADA";
+"addphoto.section.recent" = "FOTOS RECIENTES";
+"addphoto.title" = "Agregar foto";
+
+/* AddVideoView */
+"addvideo.source.record" = "Grabar video";
+"addvideo.source.record.subtitle" = "Abrir cámara para grabar";
+"addvideo.source.library" = "Videoteca";
+"addvideo.source.library.subtitle" = "Elegir de tus videos";
+"addvideo.source.browse" = "Explorar archivos";
+"addvideo.source.browse.subtitle" = "Seleccionar de tus archivos";
+"addvideo.selected.remove" = "Eliminar video";
+"addvideo.section.selected" = "VIDEO SELECCIONADO";
+"addvideo.section.recent" = "VIDEOS RECIENTES";
+"addvideo.title" = "Agregar video";
+
+/* AddNoteView */
+"addnote.background.style" = "Estilo de fondo";
+"addnote.background.image.title" = "Imagen de fondo";
+"addnote.selected.image" = "1 imagen seleccionada";
+"addnote.selected.photo" = "1 foto seleccionada";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "ESTILO";
+"backgroundstyle.title" = "Estilo de fondo";
+"backgroundstyle.preview" = "Vista previa";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "Rayado";
+"Grid" = "Cuadrícula";
+"Dotted" = "Punteado";
+"Ruled" = "Reglado";
+"Dashed" = "Guiones";
+"Cross-hatch" = "Tramado cruzado";
+"Columns" = "Columnas";
+"Checkerboard" = "Ajedrez";
+"Diagonal" = "Diagonal";
+"Diamond" = "Diamante";
+"Honeycomb" = "Panal";
+"Zigzag" = "Zigzag";
+"Waves" = "Olas";
+"Plus Grid" = "Cuadrícula plus";
+"Circles" = "Círculos";
+"Herringbone" = "Espiga";
+"Brickwork" = "Ladrillo";
+"Wide Ruled" = "Reglado ancho";
+"Tight Grid" = "Cuadrícula ajustada";
+
+/* CategoryPickerView */
+"category.section.select" = "SELECCIONAR CATEGORÍA";
+"category.custom" = "Categoría personalizada";
+"category.custom.subtitle" = "Crea tu propia categoría";
+"category.section.custom" = "PERSONALIZADO";
+"category.title" = "Categoría";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "ELEGIR UN COLOR";
+"notecolor.title" = "Color de nota";
+"color.none" = "Ninguno";
+"color.default" = "Predeterminado";
+"color.rose" = "Rosa";
+"color.orange" = "Naranja";
+"color.amber" = "Ámbar";
+"color.emerald" = "Esmeralda";
+"color.teal" = "Turquesa";
+"color.cyan" = "Cian";
+"color.violet" = "Violeta";
+"color.fuchsia" = "Fucsia";
+"color.pink" = "Rosa";
+"color.slate" = "Pizarra";
+"color.stone" = "Piedra";
+
+/* PriorityPickerView */
+"priority.section.select" = "SELECCIONAR PRIORIDAD";
+"priority.title" = "Prioridad";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "Sin prioridad asignada";
+"priority.subtitle.low" = "Puede esperar, sin prisa";
+"priority.subtitle.medium" = "Debería atenderse pronto";
+"priority.subtitle.high" = "Necesita atención inmediata";
+
+/* Category subtitles */
+"category.subtitle.todo" = "Tareas y lista de pendientes";
+"category.subtitle.journal" = "Entradas de diario diarias";
+"category.subtitle.ideas" = "Ideas y pensamientos creativos";
+"category.subtitle.study" = "Notas de estudio y materiales";
+"category.subtitle.finance" = "Registros financieros y presupuestos";
+"category.subtitle.work" = "Notas relacionadas con el trabajo";
+"category.subtitle.goals" = "Metas personales y profesionales";
+"category.subtitle.important" = "Elementos de alta prioridad";
+"category.subtitle.projects" = "Planificación y seguimiento de proyectos";
+"category.subtitle.music" = "Canciones, letras y listas de reproducción";
+"category.subtitle.books" = "Resúmenes y reseñas de libros";
+"category.subtitle.movies" = "Reseñas de películas y lista por ver";
+"category.subtitle.art" = "Ideas artísticas y notas de diseño";
+"category.subtitle.writing" = "Publicaciones de blog y borradores";
+"category.subtitle.diet" = "Planes de comida y seguimiento fitness";
+"category.subtitle.mental" = "Mindfulness y bienestar";
+"category.subtitle.health" = "Registros médicos";
+"category.subtitle.travel" = "Planes de viaje e itinerarios";
+"category.subtitle.memories" = "Momentos especiales y recuerdos";
+"category.subtitle.urgent" = "Elementos urgentes";
+"category.subtitle.home" = "Notas del hogar y familia";
+"category.subtitle.shopping" = "Listas de compras y deseos";
+"category.subtitle.custom" = "Tu propia categoría";
+
+/* ContentView */
+"content.view.list" = "Vista de lista";
+"content.view.grid" = "Vista de cuadrícula";
+"content.delete.notes" = "¿Eliminar notas?";
+"content.filter.attachments" = "Con adjuntos";
+"content.filter.reminders" = "Con recordatorios";
+"content.sort.recent" = "Reciente";
+"content.sort.title" = "Título";
+"content.sort.category" = "Categoría";
+"content.sort.priority" = "Prioridad";
+"content.sort.pinned" = "Fijado";
+"content.filter.view" = "Vista";
+
+/* NoteDetailView */
+"common.back" = "Atrás";
+"common.today" = "Hoy, %@";
+"common.yesterday" = "Ayer, %@";
+
+/* AudioRecorderView */
+"recorder.title" = "Grabadora de audio";
+"recorder.recording" = "Grabando...";
+"recorder.tap" = "Toca para grabar";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "Ayer";

@@ -66,7 +66,7 @@ struct StickyNoteView: View {
                 Spacer()
                 
                 if note.priority != .none {
-                    Text(note.priority.rawValue)
+                    Text(LocalizedStringKey(note.priority.rawValue))
                         .font(.system(size: 9, weight: .bold))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -164,7 +164,7 @@ struct StickyNoteView: View {
             formatter.timeStyle = .short
             formatter.dateStyle = .none
         } else if calendar.isDateInYesterday(date) {
-            return "Yesterday"
+            return String(localized: "stickynote.yesterday")
         } else {
             formatter.dateStyle = .short
             formatter.timeStyle = .none

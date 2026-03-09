@@ -105,29 +105,29 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
 
     var subtitle: String {
         switch self {
-        case .todo: return "Tasks and to-do items"
-        case .journal: return "Daily journal entries"
-        case .ideas: return "Creative ideas and thoughts"
-        case .study: return "Study notes and materials"
-        case .finance: return "Financial records and budgets"
-        case .work: return "Work-related notes"
-        case .goals: return "Personal and professional goals"
-        case .important: return "High-importance items"
-        case .projects: return "Project planning and tracking"
-        case .music: return "Songs, lyrics, and playlists"
-        case .books: return "Book summaries and reviews"
-        case .movies: return "Movie reviews and watchlist"
-        case .art: return "Art ideas and design notes"
-        case .writing: return "Blog posts and drafts"
-        case .diet: return "Diet plans and fitness logs"
-        case .mental: return "Mindfulness and wellness"
-        case .health: return "Medical records and notes"
-        case .travel: return "Travel plans and itineraries"
-        case .memories: return "Special moments and memories"
-        case .urgent: return "Time-sensitive items"
-        case .home: return "Household and family notes"
-        case .shopping: return "Shopping lists and wishlists"
-        case .custom: return "Your custom category"
+        case .todo: return String(localized: "category.subtitle.todo")
+        case .journal: return String(localized: "category.subtitle.journal")
+        case .ideas: return String(localized: "category.subtitle.ideas")
+        case .study: return String(localized: "category.subtitle.study")
+        case .finance: return String(localized: "category.subtitle.finance")
+        case .work: return String(localized: "category.subtitle.work")
+        case .goals: return String(localized: "category.subtitle.goals")
+        case .important: return String(localized: "category.subtitle.important")
+        case .projects: return String(localized: "category.subtitle.projects")
+        case .music: return String(localized: "category.subtitle.music")
+        case .books: return String(localized: "category.subtitle.books")
+        case .movies: return String(localized: "category.subtitle.movies")
+        case .art: return String(localized: "category.subtitle.art")
+        case .writing: return String(localized: "category.subtitle.writing")
+        case .diet: return String(localized: "category.subtitle.diet")
+        case .mental: return String(localized: "category.subtitle.mental")
+        case .health: return String(localized: "category.subtitle.health")
+        case .travel: return String(localized: "category.subtitle.travel")
+        case .memories: return String(localized: "category.subtitle.memories")
+        case .urgent: return String(localized: "category.subtitle.urgent")
+        case .home: return String(localized: "category.subtitle.home")
+        case .shopping: return String(localized: "category.subtitle.shopping")
+        case .custom: return String(localized: "category.subtitle.custom")
         }
     }
 
@@ -213,10 +213,10 @@ enum Priority: String, CaseIterable, Identifiable, Codable, Equatable, Hashable 
 
     var subtitle: String {
         switch self {
-        case .none: return "No priority assigned"
-        case .low: return "Can wait, no rush"
-        case .medium: return "Should be addressed soon"
-        case .high: return "Needs immediate attention"
+        case .none: return String(localized: "priority.subtitle.none")
+        case .low: return String(localized: "priority.subtitle.low")
+        case .medium: return String(localized: "priority.subtitle.medium")
+        case .high: return String(localized: "priority.subtitle.high")
         }
     }
 }

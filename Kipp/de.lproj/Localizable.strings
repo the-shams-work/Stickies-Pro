@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "Fotomediathek";
 "addnote.attachments.image.remove.title" = "Bild entfernen?";
 "addnote.attachments.image.remove.message" = "Dadurch wird das Bild aus Ihrer Notiz entfernt.";
+"addnote.attachments.photo" = "Foto";
+"addnote.reminders.never" = "Nie";
 "common.remove" = "Entfernen";
 "addnote.reminders.title" = "Erinnerungen";
 "addnote.reminders.schedule" = "Erinnerung planen";
@@ -190,3 +192,174 @@
 /* Pin */
 "stickynote.pin" = "Notiz anheften";
 "stickynote.unpin" = "Notiz lösen";
+
+/* AddAudioView */
+"addaudio.source.record" = "Audio aufnehmen";
+"addaudio.source.record.subtitle" = "Mit Mikrofon aufnehmen";
+"addaudio.source.audiofiles" = "Audiodateien";
+"addaudio.source.audiofiles.subtitle" = "Aus Ihrer Musik wählen";
+"addaudio.source.browse" = "Dateien durchsuchen";
+"addaudio.source.browse.subtitle" = "Aus Ihren Dateien wählen";
+"addaudio.section.source" = "QUELLE";
+"addaudio.selected.audiofile" = "Audiodatei";
+"addaudio.selected.remove" = "Audio entfernen";
+"addaudio.section.selected" = "AUSGEWÄHLTES AUDIO";
+"addaudio.title" = "Audio hinzufügen";
+
+/* AddFileView */
+"addfile.type.document" = "Dokument";
+"addfile.type.document.subtitle" = "PDF, DOCX, TXT";
+"addfile.type.image" = "Bild";
+"addfile.type.image.subtitle" = "PNG, JPG, SVG";
+"addfile.type.archive" = "Archiv";
+"addfile.type.archive.subtitle" = "ZIP, RAR, 7Z";
+"addfile.type.other" = "Sonstige";
+"addfile.type.other.subtitle" = "Jeder Dateityp";
+"addfile.section.filetype" = "DATEITYP";
+"addfile.browse" = "Zum Anhängen durchsuchen";
+"addfile.browse.subtitle" = "Unterstützt alle gängigen Dateitypen";
+"addfile.selected.remove" = "Datei entfernen";
+"addfile.section.selected" = "AUSGEWÄHLTE DATEI";
+"addfile.title" = "Datei hinzufügen";
+"addfile.selected.suffix" = "Datei";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "Foto aufnehmen";
+"addphoto.source.camera.subtitle" = "Kamera zum Aufnehmen öffnen";
+"addphoto.source.library" = "Fotomediathek";
+"addphoto.source.library.subtitle" = "Aus Ihren Fotos wählen";
+"addphoto.source.browse" = "Dateien durchsuchen";
+"addphoto.source.browse.subtitle" = "Aus Ihren Dateien wählen";
+"addphoto.selected.remove" = "Foto entfernen";
+"addphoto.section.selected" = "AUSGEWÄHLTES FOTO";
+"addphoto.section.recent" = "AKTUELLE FOTOS";
+"addphoto.title" = "Foto hinzufügen";
+
+/* AddVideoView */
+"addvideo.source.record" = "Video aufnehmen";
+"addvideo.source.record.subtitle" = "Kamera zum Aufnehmen öffnen";
+"addvideo.source.library" = "Videomediathek";
+"addvideo.source.library.subtitle" = "Aus Ihren Videos wählen";
+"addvideo.source.browse" = "Dateien durchsuchen";
+"addvideo.source.browse.subtitle" = "Aus Ihren Dateien wählen";
+"addvideo.selected.remove" = "Video entfernen";
+"addvideo.section.selected" = "AUSGEWÄHLTES VIDEO";
+"addvideo.section.recent" = "AKTUELLE VIDEOS";
+"addvideo.title" = "Video hinzufügen";
+
+/* AddNoteView */
+"addnote.background.style" = "Hintergrundstil";
+"addnote.background.image.title" = "Hintergrundbild";
+"addnote.selected.image" = "1 Bild ausgewählt";
+"addnote.selected.photo" = "1 Foto ausgewählt";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "STIL";
+"backgroundstyle.title" = "Hintergrundstil";
+"backgroundstyle.preview" = "Vorschau";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "Liniert";
+"Grid" = "Gitter";
+"Dotted" = "Gepunktet";
+"Ruled" = "Liniert";
+"Dashed" = "Gestrichelt";
+"Cross-hatch" = "Kreuzschraffur";
+"Columns" = "Spalten";
+"Checkerboard" = "Schachbrett";
+"Diagonal" = "Diagonal";
+"Diamond" = "Raute";
+"Honeycomb" = "Wabe";
+"Zigzag" = "Zickzack";
+"Waves" = "Wellen";
+"Plus Grid" = "Plusgitter";
+"Circles" = "Kreise";
+"Herringbone" = "Fischgrät";
+"Brickwork" = "Mauerwerk";
+"Wide Ruled" = "Breit liniert";
+"Tight Grid" = "Enges Gitter";
+
+/* CategoryPickerView */
+"category.section.select" = "KATEGORIE WÄHLEN";
+"category.custom" = "Eigene Kategorie";
+"category.custom.subtitle" = "Erstellen Sie Ihre eigene Kategorie";
+"category.section.custom" = "BENUTZERDEFINIERT";
+"category.title" = "Kategorie";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "FARBE WÄHLEN";
+"notecolor.title" = "Notizfarbe";
+"color.none" = "Keine";
+"color.default" = "Standard";
+"color.rose" = "Rose";
+"color.orange" = "Orange";
+"color.amber" = "Bernstein";
+"color.emerald" = "Smaragd";
+"color.teal" = "Blaugrün";
+"color.cyan" = "Cyan";
+"color.violet" = "Violett";
+"color.fuchsia" = "Fuchsia";
+"color.pink" = "Rosa";
+"color.slate" = "Schiefer";
+"color.stone" = "Stein";
+
+/* PriorityPickerView */
+"priority.section.select" = "PRIORITÄT WÄHLEN";
+"priority.title" = "Priorität";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "Keine Priorität zugewiesen";
+"priority.subtitle.low" = "Kann warten, keine Eile";
+"priority.subtitle.medium" = "Sollte bald bearbeitet werden";
+"priority.subtitle.high" = "Braucht sofortige Aufmerksamkeit";
+
+/* Category subtitles */
+"category.subtitle.todo" = "Aufgaben und To-Do-Punkte";
+"category.subtitle.journal" = "Tägliche Tagebucheinträge";
+"category.subtitle.ideas" = "Kreative Ideen und Gedanken";
+"category.subtitle.study" = "Lernnotizen und Materialien";
+"category.subtitle.finance" = "Finanzunterlagen und Budgets";
+"category.subtitle.work" = "Arbeitsbezogene Notizen";
+"category.subtitle.goals" = "Persönliche und berufliche Ziele";
+"category.subtitle.important" = "Hochprioritäre Elemente";
+"category.subtitle.projects" = "Projektplanung und -verfolgung";
+"category.subtitle.music" = "Lieder, Texte und Playlists";
+"category.subtitle.books" = "Buchzusammenfassungen und Rezensionen";
+"category.subtitle.movies" = "Filmkritiken und Watchlist";
+"category.subtitle.art" = "Kunstideen und Designnotizen";
+"category.subtitle.writing" = "Blogbeiträge und Entwürfe";
+"category.subtitle.diet" = "Ernährungspläne und Fitnessprotokolle";
+"category.subtitle.mental" = "Achtsamkeit und Wohlbefinden";
+"category.subtitle.health" = "Medizinische Aufzeichnungen";
+"category.subtitle.travel" = "Reisepläne und Reiserouten";
+"category.subtitle.memories" = "Besondere Momente und Erinnerungen";
+"category.subtitle.urgent" = "Zeitkritische Elemente";
+"category.subtitle.home" = "Haushalt- und Familiennotizen";
+"category.subtitle.shopping" = "Einkaufslisten und Wunschlisten";
+"category.subtitle.custom" = "Ihre eigene Kategorie";
+
+/* ContentView */
+"content.view.list" = "Listenansicht";
+"content.view.grid" = "Gitteransicht";
+"content.delete.notes" = "Notizen löschen?";
+"content.filter.attachments" = "Mit Anhängen";
+"content.filter.reminders" = "Mit Erinnerungen";
+"content.sort.recent" = "Zuletzt";
+"content.sort.title" = "Titel";
+"content.sort.category" = "Kategorie";
+"content.sort.priority" = "Priorität";
+"content.sort.pinned" = "Angeheftet";
+"content.filter.view" = "Ansicht";
+
+/* NoteDetailView */
+"common.back" = "Zurück";
+"common.today" = "Heute, %@";
+"common.yesterday" = "Gestern, %@";
+
+/* AudioRecorderView */
+"recorder.title" = "Audiorekorder";
+"recorder.recording" = "Aufnahme...";
+"recorder.tap" = "Tippen, um aufzunehmen";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "Gestern";

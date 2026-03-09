@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "사진 보관함";
 "addnote.attachments.image.remove.title" = "이미지 삭제?";
 "addnote.attachments.image.remove.message" = "메모에서 이미지가 삭제됩니다.";
+"addnote.attachments.photo" = "사진";
+"addnote.reminders.never" = "안 함";
 "common.remove" = "삭제";
 "addnote.reminders.title" = "알림";
 "addnote.reminders.schedule" = "알림 예약";
@@ -190,3 +192,174 @@
 /* Pin */
 "stickynote.pin" = "메모 고정";
 "stickynote.unpin" = "고정 해제";
+
+/* AddAudioView */
+"addaudio.source.record" = "오디오 녹음";
+"addaudio.source.record.subtitle" = "마이크로 녹음";
+"addaudio.source.audiofiles" = "오디오 파일";
+"addaudio.source.audiofiles.subtitle" = "음악에서 선택";
+"addaudio.source.browse" = "파일 탐색";
+"addaudio.source.browse.subtitle" = "파일에서 선택";
+"addaudio.section.source" = "소스";
+"addaudio.selected.audiofile" = "오디오 파일";
+"addaudio.selected.remove" = "오디오 삭제";
+"addaudio.section.selected" = "선택된 오디오";
+"addaudio.title" = "오디오 추가";
+
+/* AddFileView */
+"addfile.type.document" = "문서";
+"addfile.type.document.subtitle" = "PDF, DOCX, TXT";
+"addfile.type.image" = "이미지";
+"addfile.type.image.subtitle" = "PNG, JPG, SVG";
+"addfile.type.archive" = "아카이브";
+"addfile.type.archive.subtitle" = "ZIP, RAR, 7Z";
+"addfile.type.other" = "기타";
+"addfile.type.other.subtitle" = "모든 파일 유형";
+"addfile.section.filetype" = "파일 유형";
+"addfile.browse" = "첨부할 파일 탐색";
+"addfile.browse.subtitle" = "모든 일반 파일 형식 지원";
+"addfile.selected.remove" = "파일 삭제";
+"addfile.section.selected" = "선택된 파일";
+"addfile.title" = "파일 추가";
+"addfile.selected.suffix" = "파일";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "사진 촬영";
+"addphoto.source.camera.subtitle" = "카메라를 열어 촬영";
+"addphoto.source.library" = "사진 보관함";
+"addphoto.source.library.subtitle" = "사진에서 선택";
+"addphoto.source.browse" = "파일 탐색";
+"addphoto.source.browse.subtitle" = "파일에서 선택";
+"addphoto.selected.remove" = "사진 삭제";
+"addphoto.section.selected" = "선택된 사진";
+"addphoto.section.recent" = "최근 사진";
+"addphoto.title" = "사진 추가";
+
+/* AddVideoView */
+"addvideo.source.record" = "동영상 녹화";
+"addvideo.source.record.subtitle" = "카메라를 열어 녹화";
+"addvideo.source.library" = "비디오 보관함";
+"addvideo.source.library.subtitle" = "동영상에서 선택";
+"addvideo.source.browse" = "파일 탐색";
+"addvideo.source.browse.subtitle" = "파일에서 선택";
+"addvideo.selected.remove" = "동영상 삭제";
+"addvideo.section.selected" = "선택된 동영상";
+"addvideo.section.recent" = "최근 동영상";
+"addvideo.title" = "동영상 추가";
+
+/* AddNoteView */
+"addnote.background.style" = "배경 스타일";
+"addnote.background.image.title" = "배경 이미지";
+"addnote.selected.image" = "이미지 1개 선택됨";
+"addnote.selected.photo" = "사진 1개 선택됨";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "스타일";
+"backgroundstyle.title" = "배경 스타일";
+"backgroundstyle.preview" = "미리보기";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "줄";
+"Grid" = "격자";
+"Dotted" = "점선";
+"Ruled" = "줄 간격";
+"Dashed" = "파선";
+"Cross-hatch" = "교차 해칭";
+"Columns" = "열";
+"Checkerboard" = "체커보드";
+"Diagonal" = "대각선";
+"Diamond" = "다이아몬드";
+"Honeycomb" = "벌집";
+"Zigzag" = "지그재그";
+"Waves" = "파도";
+"Plus Grid" = "플러스 격자";
+"Circles" = "원";
+"Herringbone" = "헤링본";
+"Brickwork" = "벽돌";
+"Wide Ruled" = "넓은 줄";
+"Tight Grid" = "촘촘한 격자";
+
+/* CategoryPickerView */
+"category.section.select" = "카테고리 선택";
+"category.custom" = "사용자 정의 카테고리";
+"category.custom.subtitle" = "나만의 카테고리 만들기";
+"category.section.custom" = "사용자 정의";
+"category.title" = "카테고리";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "색상 선택";
+"notecolor.title" = "메모 색상";
+"color.none" = "없음";
+"color.default" = "기본값";
+"color.rose" = "로즈";
+"color.orange" = "오렌지";
+"color.amber" = "앰버";
+"color.emerald" = "에메랄드";
+"color.teal" = "틸";
+"color.cyan" = "시안";
+"color.violet" = "바이올렛";
+"color.fuchsia" = "푸크시아";
+"color.pink" = "핑크";
+"color.slate" = "슬레이트";
+"color.stone" = "스톤";
+
+/* PriorityPickerView */
+"priority.section.select" = "우선순위 선택";
+"priority.title" = "우선순위";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "우선순위 미지정";
+"priority.subtitle.low" = "급하지 않음";
+"priority.subtitle.medium" = "곧 처리해야 함";
+"priority.subtitle.high" = "즉시 주의 필요";
+
+/* Category subtitles */
+"category.subtitle.todo" = "할 일 및 작업 목록";
+"category.subtitle.journal" = "일일 일기";
+"category.subtitle.ideas" = "창의적인 아이디어와 생각";
+"category.subtitle.study" = "학습 노트 및 자료";
+"category.subtitle.finance" = "재무 기록 및 예산";
+"category.subtitle.work" = "업무 관련 메모";
+"category.subtitle.goals" = "개인 및 직업 목표";
+"category.subtitle.important" = "높은 우선순위 항목";
+"category.subtitle.projects" = "프로젝트 계획 및 추적";
+"category.subtitle.music" = "노래, 가사 및 재생목록";
+"category.subtitle.books" = "도서 요약 및 리뷰";
+"category.subtitle.movies" = "영화 리뷰 및 관람 목록";
+"category.subtitle.art" = "예술 아이디어 및 디자인 노트";
+"category.subtitle.writing" = "블로그 글 및 초안";
+"category.subtitle.diet" = "식단 계획 및 운동 기록";
+"category.subtitle.mental" = "마음챙김 및 웰빙";
+"category.subtitle.health" = "의료 기록";
+"category.subtitle.travel" = "여행 계획 및 일정";
+"category.subtitle.memories" = "특별한 순간과 추억";
+"category.subtitle.urgent" = "긴급 항목";
+"category.subtitle.home" = "가사 및 가족 메모";
+"category.subtitle.shopping" = "쇼핑 및 위시리스트";
+"category.subtitle.custom" = "나만의 카테고리";
+
+/* ContentView */
+"content.view.list" = "목록 보기";
+"content.view.grid" = "격자 보기";
+"content.delete.notes" = "메모를 삭제하시겠습니까?";
+"content.filter.attachments" = "첨부 있음";
+"content.filter.reminders" = "알림 있음";
+"content.sort.recent" = "최신";
+"content.sort.title" = "제목";
+"content.sort.category" = "카테고리";
+"content.sort.priority" = "우선순위";
+"content.sort.pinned" = "고정됨";
+"content.filter.view" = "보기";
+
+/* NoteDetailView */
+"common.back" = "뒤로";
+"common.today" = "오늘, %@";
+"common.yesterday" = "어제, %@";
+
+/* AudioRecorderView */
+"recorder.title" = "오디오 녹음기";
+"recorder.recording" = "녹음 중...";
+"recorder.tap" = "탭하여 녹음 시작";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "어제";

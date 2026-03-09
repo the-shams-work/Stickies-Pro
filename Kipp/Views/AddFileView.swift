@@ -25,8 +25,8 @@ struct AddFileView: View {
                     AttachmentSourceRow(
                         icon: "doc.fill",
                         iconColor: .blue,
-                        title: "Document",
-                        subtitle: "PDF, DOCX, TXT"
+                        title: String(localized: "addfile.type.document"),
+                        subtitle: String(localized: "addfile.type.document.subtitle")
                     )
                 }
 
@@ -37,8 +37,8 @@ struct AddFileView: View {
                     AttachmentSourceRow(
                         icon: "photo.fill",
                         iconColor: .green,
-                        title: "Image",
-                        subtitle: "PNG, JPG, SVG"
+                        title: String(localized: "addfile.type.image"),
+                        subtitle: String(localized: "addfile.type.image.subtitle")
                     )
                 }
 
@@ -49,8 +49,8 @@ struct AddFileView: View {
                     AttachmentSourceRow(
                         icon: "archivebox.fill",
                         iconColor: .orange,
-                        title: "Archive",
-                        subtitle: "ZIP, RAR, 7Z"
+                        title: String(localized: "addfile.type.archive"),
+                        subtitle: String(localized: "addfile.type.archive.subtitle")
                     )
                 }
 
@@ -61,12 +61,12 @@ struct AddFileView: View {
                     AttachmentSourceRow(
                         icon: "doc.fill",
                         iconColor: Color(.systemGray),
-                        title: "Other",
-                        subtitle: "Any file type"
+                        title: String(localized: "addfile.type.other"),
+                        subtitle: String(localized: "addfile.type.other.subtitle")
                     )
                 }
             } header: {
-                Text("FILE TYPE")
+                Text(String(localized: "addfile.section.filetype"))
             }
 
             // MARK: Drop Zone
@@ -80,11 +80,11 @@ struct AddFileView: View {
                             .font(.system(size: 28, weight: .medium))
                             .foregroundColor(.blue)
 
-                        Text("Browse to attach")
+                        Text(String(localized: "addfile.browse"))
                             .font(.subheadline.weight(.medium))
                             .foregroundColor(.primary)
 
-                        Text("Supports all common file types")
+                        Text(String(localized: "addfile.browse.subtitle"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -115,7 +115,7 @@ struct AddFileView: View {
                                     .foregroundColor(.primary)
                                     .lineLimit(1)
 
-                                Text(fileURL.pathExtension.uppercased() + " file")
+                                Text(fileURL.pathExtension.uppercased() + " " + String(localized: "addfile.selected.suffix"))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -127,17 +127,17 @@ struct AddFileView: View {
                         Button(role: .destructive) {
                             selectedFileURL = nil
                         } label: {
-                            Label("Remove File", systemImage: "trash")
+                            Label(String(localized: "addfile.selected.remove"), systemImage: "trash")
                                 .font(.subheadline)
                         }
                     }
                     .frame(maxWidth: .infinity)
                 } header: {
-                    Text("SELECTED FILE")
+                    Text(String(localized: "addfile.section.selected"))
                 }
             }
         }
-        .navigationTitle("Add File")
+        .navigationTitle(String(localized: "addfile.title"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showDocumentPicker) {
             GeneralDocumentPicker(

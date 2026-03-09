@@ -29,8 +29,8 @@ struct AddVideoView: View {
                     AttachmentSourceRow(
                         icon: "video.fill",
                         iconColor: .purple,
-                        title: "Record Video",
-                        subtitle: "Open camera to record"
+                        title: String(localized: "addvideo.source.record"),
+                        subtitle: String(localized: "addvideo.source.record.subtitle")
                     )
                 }
 
@@ -40,8 +40,8 @@ struct AddVideoView: View {
                     AttachmentSourceRow(
                         icon: "photo.on.rectangle",
                         iconColor: .green,
-                        title: "Video Library",
-                        subtitle: "Choose from your videos"
+                        title: String(localized: "addvideo.source.library"),
+                        subtitle: String(localized: "addvideo.source.library.subtitle")
                     )
                 }
 
@@ -51,12 +51,12 @@ struct AddVideoView: View {
                     AttachmentSourceRow(
                         icon: "folder.fill",
                         iconColor: .orange,
-                        title: "Browse Files",
-                        subtitle: "Select from your files"
+                        title: String(localized: "addvideo.source.browse"),
+                        subtitle: String(localized: "addvideo.source.browse.subtitle")
                     )
                 }
             } header: {
-                Text("SOURCE")
+                Text(String(localized: "addaudio.section.source"))
             }
 
             // MARK: Selected Video Preview
@@ -79,14 +79,14 @@ struct AddVideoView: View {
                         Button(role: .destructive) {
                             selectedVideoURL = nil
                         } label: {
-                            Label("Remove Video", systemImage: "trash")
+                            Label(String(localized: "addvideo.selected.remove"), systemImage: "trash")
                                 .font(.subheadline)
                         }
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 4)
                 } header: {
-                    Text("SELECTED VIDEO")
+                    Text(String(localized: "addvideo.section.selected"))
                 }
             }
 
@@ -122,11 +122,11 @@ struct AddVideoView: View {
                     }
                     .padding(.vertical, 4)
                 } header: {
-                    Text("RECENT VIDEOS")
+                    Text(String(localized: "addvideo.section.recent"))
                 }
             }
         }
-        .navigationTitle("Add Video")
+        .navigationTitle(String(localized: "addvideo.title"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showLibraryPicker) {
             VideoPicker(videoURL: $selectedVideoURL, sourceType: .photoLibrary)

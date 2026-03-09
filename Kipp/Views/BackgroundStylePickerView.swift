@@ -21,7 +21,7 @@ struct BackgroundStylePickerView: View {
 
                 // MARK: - Style Grid
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("STYLE")
+                    Text(String(localized: "backgroundstyle.section.style"))
                         .font(.footnote.weight(.medium))
                         .foregroundColor(.secondary)
                         .padding(.horizontal)
@@ -45,7 +45,7 @@ struct BackgroundStylePickerView: View {
             .padding(.vertical)
         }
         .background(Color(.systemGroupedBackground))
-        .navigationTitle("Background Style")
+        .navigationTitle(String(localized: "backgroundstyle.title"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -54,7 +54,7 @@ struct BackgroundStylePickerView: View {
     @ViewBuilder
     private var previewCard: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Preview")
+            Text(String(localized: "backgroundstyle.preview"))
                 .font(.footnote.weight(.medium))
                 .foregroundColor(.secondary)
 
@@ -151,7 +151,7 @@ private struct StyleThumbnailCard: View {
                 }
             }
 
-            Text(style.rawValue)
+            Text(LocalizedStringKey(style.rawValue))
                 .font(.caption2)
                 .foregroundColor(isSelected ? .accentColor : .secondary)
                 .lineLimit(1)

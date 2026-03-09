@@ -29,8 +29,8 @@ struct AddPhotoView: View {
                     AttachmentSourceRow(
                         icon: "camera.fill",
                         iconColor: .blue,
-                        title: "Take Photo",
-                        subtitle: "Open camera to capture"
+                        title: String(localized: "addphoto.source.camera"),
+                        subtitle: String(localized: "addphoto.source.camera.subtitle")
                     )
                 }
 
@@ -40,8 +40,8 @@ struct AddPhotoView: View {
                     AttachmentSourceRow(
                         icon: "photo.on.rectangle",
                         iconColor: .green,
-                        title: "Photo Library",
-                        subtitle: "Choose from your photos"
+                        title: String(localized: "addphoto.source.library"),
+                        subtitle: String(localized: "addphoto.source.library.subtitle")
                     )
                 }
 
@@ -51,12 +51,12 @@ struct AddPhotoView: View {
                     AttachmentSourceRow(
                         icon: "folder.fill",
                         iconColor: .orange,
-                        title: "Browse Files",
-                        subtitle: "Select from your files"
+                        title: String(localized: "addphoto.source.browse"),
+                        subtitle: String(localized: "addphoto.source.browse.subtitle")
                     )
                 }
             } header: {
-                Text("SOURCE")
+                Text(String(localized: "addaudio.section.source"))
             }
 
             // MARK: Selected Photo Preview
@@ -76,14 +76,14 @@ struct AddPhotoView: View {
                         Button(role: .destructive) {
                             selectedImage = nil
                         } label: {
-                            Label("Remove Photo", systemImage: "trash")
+                            Label(String(localized: "addphoto.selected.remove"), systemImage: "trash")
                                 .font(.subheadline)
                         }
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 4)
                 } header: {
-                    Text("SELECTED PHOTO")
+                    Text(String(localized: "addphoto.section.selected"))
                 }
             }
 
@@ -112,11 +112,11 @@ struct AddPhotoView: View {
                     }
                     .padding(.vertical, 4)
                 } header: {
-                    Text("RECENT PHOTOS")
+                    Text(String(localized: "addphoto.section.recent"))
                 }
             }
         }
-        .navigationTitle("Add Photo")
+        .navigationTitle(String(localized: "addphoto.title"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showLibraryPicker) {
             ImagePicker(image: $selectedImage, sourceType: .photoLibrary)

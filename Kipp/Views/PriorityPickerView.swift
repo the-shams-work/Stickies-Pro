@@ -27,7 +27,7 @@ struct PriorityPickerView: View {
                                 .clipShape(Circle())
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(priority.rawValue)
+                                Text(LocalizedStringKey(priority.rawValue))
                                     .font(.body.weight(.medium))
                                     .foregroundColor(.primary)
                                 Text(priority.subtitle)
@@ -47,10 +47,10 @@ struct PriorityPickerView: View {
                     }
                 }
             } header: {
-                Text("SELECT PRIORITY")
+                Text(String(localized: "priority.section.select"))
             }
         }
-        .navigationTitle("Priority")
+        .navigationTitle(String(localized: "priority.title"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "フォトライブラリ";
 "addnote.attachments.image.remove.title" = "画像を削除しますか？";
 "addnote.attachments.image.remove.message" = "これによりノートから画像が削除されます。";
+"addnote.attachments.photo" = "写真";
+"addnote.reminders.never" = "なし";
 "common.remove" = "削除";
 "addnote.reminders.title" = "リマインダー";
 "addnote.reminders.schedule" = "リマインダーをスケジュール";
@@ -190,3 +192,174 @@
 /* Pin */
 "stickynote.pin" = "ノートをピン固定";
 "stickynote.unpin" = "ピン固定を解除";
+
+/* AddAudioView */
+"addaudio.source.record" = "音声を録音";
+"addaudio.source.record.subtitle" = "マイクで録音";
+"addaudio.source.audiofiles" = "音声ファイル";
+"addaudio.source.audiofiles.subtitle" = "ミュージックから選択";
+"addaudio.source.browse" = "ファイルを参照";
+"addaudio.source.browse.subtitle" = "ファイルから選択";
+"addaudio.section.source" = "ソース";
+"addaudio.selected.audiofile" = "音声ファイル";
+"addaudio.selected.remove" = "音声を削除";
+"addaudio.section.selected" = "選択済みの音声";
+"addaudio.title" = "音声を追加";
+
+/* AddFileView */
+"addfile.type.document" = "ドキュメント";
+"addfile.type.document.subtitle" = "PDF、DOCX、TXT";
+"addfile.type.image" = "画像";
+"addfile.type.image.subtitle" = "PNG、JPG、SVG";
+"addfile.type.archive" = "アーカイブ";
+"addfile.type.archive.subtitle" = "ZIP、RAR、7Z";
+"addfile.type.other" = "その他";
+"addfile.type.other.subtitle" = "すべてのファイルタイプ";
+"addfile.section.filetype" = "ファイルタイプ";
+"addfile.browse" = "参照して添付";
+"addfile.browse.subtitle" = "一般的なファイル形式に対応";
+"addfile.selected.remove" = "ファイルを削除";
+"addfile.section.selected" = "選択済みファイル";
+"addfile.title" = "ファイルを追加";
+"addfile.selected.suffix" = "ファイル";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "写真を撮影";
+"addphoto.source.camera.subtitle" = "カメラを開いて撮影";
+"addphoto.source.library" = "フォトライブラリ";
+"addphoto.source.library.subtitle" = "写真から選択";
+"addphoto.source.browse" = "ファイルを参照";
+"addphoto.source.browse.subtitle" = "ファイルから選択";
+"addphoto.selected.remove" = "写真を削除";
+"addphoto.section.selected" = "選択済みの写真";
+"addphoto.section.recent" = "最近の写真";
+"addphoto.title" = "写真を追加";
+
+/* AddVideoView */
+"addvideo.source.record" = "動画を録画";
+"addvideo.source.record.subtitle" = "カメラを開いて録画";
+"addvideo.source.library" = "ビデオライブラリ";
+"addvideo.source.library.subtitle" = "動画から選択";
+"addvideo.source.browse" = "ファイルを参照";
+"addvideo.source.browse.subtitle" = "ファイルから選択";
+"addvideo.selected.remove" = "動画を削除";
+"addvideo.section.selected" = "選択済みの動画";
+"addvideo.section.recent" = "最近の動画";
+"addvideo.title" = "動画を追加";
+
+/* AddNoteView */
+"addnote.background.style" = "背景スタイル";
+"addnote.background.image.title" = "背景画像";
+"addnote.selected.image" = "画像1枚選択済み";
+"addnote.selected.photo" = "写真1枚選択済み";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "スタイル";
+"backgroundstyle.title" = "背景スタイル";
+"backgroundstyle.preview" = "プレビュー";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "罫線";
+"Grid" = "グリッド";
+"Dotted" = "ドット";
+"Ruled" = "横罫";
+"Dashed" = "破線";
+"Cross-hatch" = "クロスハッチ";
+"Columns" = "カラム";
+"Checkerboard" = "チェッカーボード";
+"Diagonal" = "斜線";
+"Diamond" = "ダイヤモンド";
+"Honeycomb" = "ハニカム";
+"Zigzag" = "ジグザグ";
+"Waves" = "波";
+"Plus Grid" = "プラスグリッド";
+"Circles" = "サークル";
+"Herringbone" = "ヘリンボーン";
+"Brickwork" = "レンガ";
+"Wide Ruled" = "広罫";
+"Tight Grid" = "細かいグリッド";
+
+/* CategoryPickerView */
+"category.section.select" = "カテゴリを選択";
+"category.custom" = "カスタムカテゴリ";
+"category.custom.subtitle" = "独自のカテゴリを作成";
+"category.section.custom" = "カスタム";
+"category.title" = "カテゴリ";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "色を選択";
+"notecolor.title" = "ノートの色";
+"color.none" = "なし";
+"color.default" = "デフォルト";
+"color.rose" = "ローズ";
+"color.orange" = "オレンジ";
+"color.amber" = "アンバー";
+"color.emerald" = "エメラルド";
+"color.teal" = "ティール";
+"color.cyan" = "シアン";
+"color.violet" = "バイオレット";
+"color.fuchsia" = "フクシア";
+"color.pink" = "ピンク";
+"color.slate" = "スレート";
+"color.stone" = "ストーン";
+
+/* PriorityPickerView */
+"priority.section.select" = "優先度を選択";
+"priority.title" = "優先度";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "優先度未設定";
+"priority.subtitle.low" = "急ぎではない";
+"priority.subtitle.medium" = "早めに対応すべき";
+"priority.subtitle.high" = "すぐに対応が必要";
+
+/* Category subtitles */
+"category.subtitle.todo" = "タスクとやることリスト";
+"category.subtitle.journal" = "日々の日記";
+"category.subtitle.ideas" = "クリエイティブなアイデアと思考";
+"category.subtitle.study" = "学習ノートと資料";
+"category.subtitle.finance" = "財務記録と予算";
+"category.subtitle.work" = "仕事関連のメモ";
+"category.subtitle.goals" = "個人と仕事の目標";
+"category.subtitle.important" = "高優先度の項目";
+"category.subtitle.projects" = "プロジェクトの計画と追跡";
+"category.subtitle.music" = "曲、歌詞、プレイリスト";
+"category.subtitle.books" = "本の要約とレビュー";
+"category.subtitle.movies" = "映画レビューとウォッチリスト";
+"category.subtitle.art" = "アートのアイデアとデザインノート";
+"category.subtitle.writing" = "ブログ投稿と下書き";
+"category.subtitle.diet" = "食事計画とフィットネス記録";
+"category.subtitle.mental" = "マインドフルネスとウェルビーイング";
+"category.subtitle.health" = "医療記録";
+"category.subtitle.travel" = "旅行計画と旅程";
+"category.subtitle.memories" = "特別な瞬間と思い出";
+"category.subtitle.urgent" = "緊急の項目";
+"category.subtitle.home" = "家事と家族のメモ";
+"category.subtitle.shopping" = "買い物リストとウィッシュリスト";
+"category.subtitle.custom" = "あなたのカテゴリ";
+
+/* ContentView */
+"content.view.list" = "リスト表示";
+"content.view.grid" = "グリッド表示";
+"content.delete.notes" = "ノートを削除しますか？";
+"content.filter.attachments" = "添付あり";
+"content.filter.reminders" = "リマインダーあり";
+"content.sort.recent" = "最新";
+"content.sort.title" = "タイトル";
+"content.sort.category" = "カテゴリ";
+"content.sort.priority" = "優先度";
+"content.sort.pinned" = "ピン固定";
+"content.filter.view" = "表示";
+
+/* NoteDetailView */
+"common.back" = "戻る";
+"common.today" = "今日、%@";
+"common.yesterday" = "昨日、%@";
+
+/* AudioRecorderView */
+"recorder.title" = "オーディオレコーダー";
+"recorder.recording" = "録音中...";
+"recorder.tap" = "タップして録音開始";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "昨日";

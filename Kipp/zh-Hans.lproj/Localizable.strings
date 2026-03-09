@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "照片库";
 "addnote.attachments.image.remove.title" = "删除图片？";
 "addnote.attachments.image.remove.message" = "这会从你的笔记中删除该图片。";
+"addnote.attachments.photo" = "照片";
+"addnote.reminders.never" = "从不";
 "common.remove" = "删除";
 "addnote.reminders.title" = "提醒";
 "addnote.reminders.schedule" = "安排提醒";
@@ -190,3 +192,174 @@
 /* Pin */
 "stickynote.pin" = "置顶笔记";
 "stickynote.unpin" = "取消置顶";
+
+/* AddAudioView */
+"addaudio.source.record" = "录制音频";
+"addaudio.source.record.subtitle" = "使用麦克风录制";
+"addaudio.source.audiofiles" = "音频文件";
+"addaudio.source.audiofiles.subtitle" = "从音乐中选择";
+"addaudio.source.browse" = "浏览文件";
+"addaudio.source.browse.subtitle" = "从文件中选择";
+"addaudio.section.source" = "来源";
+"addaudio.selected.audiofile" = "音频文件";
+"addaudio.selected.remove" = "移除音频";
+"addaudio.section.selected" = "已选音频";
+"addaudio.title" = "添加音频";
+
+/* AddFileView */
+"addfile.type.document" = "文档";
+"addfile.type.document.subtitle" = "PDF、DOCX、TXT";
+"addfile.type.image" = "图片";
+"addfile.type.image.subtitle" = "PNG、JPG、SVG";
+"addfile.type.archive" = "压缩文件";
+"addfile.type.archive.subtitle" = "ZIP、RAR、7Z";
+"addfile.type.other" = "其他";
+"addfile.type.other.subtitle" = "任意文件类型";
+"addfile.section.filetype" = "文件类型";
+"addfile.browse" = "浏览以附加";
+"addfile.browse.subtitle" = "支持所有常见文件类型";
+"addfile.selected.remove" = "移除文件";
+"addfile.section.selected" = "已选文件";
+"addfile.title" = "添加文件";
+"addfile.selected.suffix" = "文件";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "拍照";
+"addphoto.source.camera.subtitle" = "打开相机拍摄";
+"addphoto.source.library" = "照片图库";
+"addphoto.source.library.subtitle" = "从照片中选择";
+"addphoto.source.browse" = "浏览文件";
+"addphoto.source.browse.subtitle" = "从文件中选择";
+"addphoto.selected.remove" = "移除照片";
+"addphoto.section.selected" = "已选照片";
+"addphoto.section.recent" = "最近照片";
+"addphoto.title" = "添加照片";
+
+/* AddVideoView */
+"addvideo.source.record" = "录制视频";
+"addvideo.source.record.subtitle" = "打开相机录制";
+"addvideo.source.library" = "视频图库";
+"addvideo.source.library.subtitle" = "从视频中选择";
+"addvideo.source.browse" = "浏览文件";
+"addvideo.source.browse.subtitle" = "从文件中选择";
+"addvideo.selected.remove" = "移除视频";
+"addvideo.section.selected" = "已选视频";
+"addvideo.section.recent" = "最近视频";
+"addvideo.title" = "添加视频";
+
+/* AddNoteView */
+"addnote.background.style" = "背景样式";
+"addnote.background.image.title" = "背景图片";
+"addnote.selected.image" = "已选1张图片";
+"addnote.selected.photo" = "已选1张照片";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "样式";
+"backgroundstyle.title" = "背景样式";
+"backgroundstyle.preview" = "预览";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "横线";
+"Grid" = "网格";
+"Dotted" = "点阵";
+"Ruled" = "横线纸";
+"Dashed" = "虚线";
+"Cross-hatch" = "交叉线";
+"Columns" = "分栏";
+"Checkerboard" = "棋盘格";
+"Diagonal" = "斜线";
+"Diamond" = "菱形";
+"Honeycomb" = "蜂窝";
+"Zigzag" = "锯齿";
+"Waves" = "波浪";
+"Plus Grid" = "十字网格";
+"Circles" = "圆形";
+"Herringbone" = "人字纹";
+"Brickwork" = "砖墙";
+"Wide Ruled" = "宽行线";
+"Tight Grid" = "密网格";
+
+/* CategoryPickerView */
+"category.section.select" = "选择分类";
+"category.custom" = "自定义分类";
+"category.custom.subtitle" = "创建您自己的分类";
+"category.section.custom" = "自定义";
+"category.title" = "分类";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "选择颜色";
+"notecolor.title" = "笔记颜色";
+"color.none" = "无";
+"color.default" = "默认";
+"color.rose" = "玫瑰";
+"color.orange" = "橙色";
+"color.amber" = "琥珀";
+"color.emerald" = "翡翠";
+"color.teal" = "青色";
+"color.cyan" = "蓝绿";
+"color.violet" = "紫罗兰";
+"color.fuchsia" = "紫红";
+"color.pink" = "粉色";
+"color.slate" = "石板";
+"color.stone" = "石头";
+
+/* PriorityPickerView */
+"priority.section.select" = "选择优先级";
+"priority.title" = "优先级";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "未设置优先级";
+"priority.subtitle.low" = "不急，可以等待";
+"priority.subtitle.medium" = "应尽快处理";
+"priority.subtitle.high" = "需要立即关注";
+
+/* Category subtitles */
+"category.subtitle.todo" = "任务和待办事项";
+"category.subtitle.journal" = "每日日记";
+"category.subtitle.ideas" = "创意和想法";
+"category.subtitle.study" = "学习笔记和资料";
+"category.subtitle.finance" = "财务记录和预算";
+"category.subtitle.work" = "工作相关笔记";
+"category.subtitle.goals" = "个人和职业目标";
+"category.subtitle.important" = "高优先级项目";
+"category.subtitle.projects" = "项目规划和跟踪";
+"category.subtitle.music" = "歌曲、歌词和播放列表";
+"category.subtitle.books" = "书籍摘要和评论";
+"category.subtitle.movies" = "电影评论和观影清单";
+"category.subtitle.art" = "艺术创意和设计笔记";
+"category.subtitle.writing" = "博客文章和草稿";
+"category.subtitle.diet" = "饮食计划和健身记录";
+"category.subtitle.mental" = "正念和心理健康";
+"category.subtitle.health" = "医疗记录";
+"category.subtitle.travel" = "旅行计划和行程";
+"category.subtitle.memories" = "特别时刻和回忆";
+"category.subtitle.urgent" = "紧急项目";
+"category.subtitle.home" = "家务和家庭笔记";
+"category.subtitle.shopping" = "购物清单和心愿单";
+"category.subtitle.custom" = "您自定义的分类";
+
+/* ContentView */
+"content.view.list" = "列表视图";
+"content.view.grid" = "网格视图";
+"content.delete.notes" = "删除笔记？";
+"content.filter.attachments" = "有附件";
+"content.filter.reminders" = "有提醒";
+"content.sort.recent" = "最近";
+"content.sort.title" = "标题";
+"content.sort.category" = "分类";
+"content.sort.priority" = "优先级";
+"content.sort.pinned" = "已置顶";
+"content.filter.view" = "视图";
+
+/* NoteDetailView */
+"common.back" = "返回";
+"common.today" = "今天，%@";
+"common.yesterday" = "昨天，%@";
+
+/* AudioRecorderView */
+"recorder.title" = "录音机";
+"recorder.recording" = "录音中...";
+"recorder.tap" = "点击开始录音";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "昨天";

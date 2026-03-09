@@ -28,8 +28,8 @@ struct AddAudioView: View {
                     AttachmentSourceRow(
                         icon: "mic.fill",
                         iconColor: .red,
-                        title: "Record Audio",
-                        subtitle: "Record with microphone"
+                        title: String(localized: "addaudio.source.record"),
+                        subtitle: String(localized: "addaudio.source.record.subtitle")
                     )
                 }
 
@@ -39,8 +39,8 @@ struct AddAudioView: View {
                     AttachmentSourceRow(
                         icon: "music.note.list",
                         iconColor: .purple,
-                        title: "Audio Files",
-                        subtitle: "Choose from your music"
+                        title: String(localized: "addaudio.source.audiofiles"),
+                        subtitle: String(localized: "addaudio.source.audiofiles.subtitle")
                     )
                 }
 
@@ -50,12 +50,12 @@ struct AddAudioView: View {
                     AttachmentSourceRow(
                         icon: "folder.fill",
                         iconColor: .orange,
-                        title: "Browse Files",
-                        subtitle: "Select from your files"
+                        title: String(localized: "addaudio.source.browse"),
+                        subtitle: String(localized: "addaudio.source.browse.subtitle")
                     )
                 }
             } header: {
-                Text("SOURCE")
+                Text(String(localized: "addaudio.section.source"))
             }
 
             // MARK: Selected Audio Preview
@@ -72,7 +72,7 @@ struct AddAudioView: View {
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.primary)
                                     .lineLimit(1)
-                                Text("Audio file")
+                                Text(String(localized: "addaudio.selected.audiofile"))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -84,17 +84,17 @@ struct AddAudioView: View {
                         Button(role: .destructive) {
                             selectedAudioURL = nil
                         } label: {
-                            Label("Remove Audio", systemImage: "trash")
+                            Label(String(localized: "addaudio.selected.remove"), systemImage: "trash")
                                 .font(.subheadline)
                         }
                     }
                     .frame(maxWidth: .infinity)
                 } header: {
-                    Text("SELECTED AUDIO")
+                    Text(String(localized: "addaudio.section.selected"))
                 }
             }
         }
-        .navigationTitle("Add Audio")
+        .navigationTitle(String(localized: "addaudio.title"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showAudioRecorder) {
             AudioRecorderView(

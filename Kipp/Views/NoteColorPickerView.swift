@@ -15,19 +15,19 @@ struct NoteColorOption: Identifiable, Equatable {
     let color: Color
 
     static let allOptions: [NoteColorOption] = [
-        NoteColorOption(id: "none", name: "None", color: .clear),
-        NoteColorOption(id: "default", name: "Default", color: .blue),
-        NoteColorOption(id: "rose", name: "Rose", color: Color(red: 0.91, green: 0.30, blue: 0.40)),
-        NoteColorOption(id: "orange", name: "Orange", color: .orange),
-        NoteColorOption(id: "amber", name: "Amber", color: Color(red: 0.93, green: 0.70, blue: 0.13)),
-        NoteColorOption(id: "emerald", name: "Emerald", color: Color(red: 0.20, green: 0.71, blue: 0.47)),
-        NoteColorOption(id: "teal", name: "Teal", color: .teal),
-        NoteColorOption(id: "cyan", name: "Cyan", color: .cyan),
-        NoteColorOption(id: "violet", name: "Violet", color: Color(red: 0.48, green: 0.36, blue: 0.89)),
-        NoteColorOption(id: "fuchsia", name: "Fuchsia", color: Color(red: 0.82, green: 0.22, blue: 0.74)),
-        NoteColorOption(id: "pink", name: "Pink", color: .pink),
-        NoteColorOption(id: "slate", name: "Slate", color: Color(red: 0.44, green: 0.50, blue: 0.56)),
-        NoteColorOption(id: "stone", name: "Stone", color: Color(red: 0.47, green: 0.44, blue: 0.40)),
+        NoteColorOption(id: "none", name: String(localized: "color.none"), color: .clear),
+        NoteColorOption(id: "default", name: String(localized: "color.default"), color: .blue),
+        NoteColorOption(id: "rose", name: String(localized: "color.rose"), color: Color(red: 0.91, green: 0.30, blue: 0.40)),
+        NoteColorOption(id: "orange", name: String(localized: "color.orange"), color: .orange),
+        NoteColorOption(id: "amber", name: String(localized: "color.amber"), color: Color(red: 0.93, green: 0.70, blue: 0.13)),
+        NoteColorOption(id: "emerald", name: String(localized: "color.emerald"), color: Color(red: 0.20, green: 0.71, blue: 0.47)),
+        NoteColorOption(id: "teal", name: String(localized: "color.teal"), color: .teal),
+        NoteColorOption(id: "cyan", name: String(localized: "color.cyan"), color: .cyan),
+        NoteColorOption(id: "violet", name: String(localized: "color.violet"), color: Color(red: 0.48, green: 0.36, blue: 0.89)),
+        NoteColorOption(id: "fuchsia", name: String(localized: "color.fuchsia"), color: Color(red: 0.82, green: 0.22, blue: 0.74)),
+        NoteColorOption(id: "pink", name: String(localized: "color.pink"), color: .pink),
+        NoteColorOption(id: "slate", name: String(localized: "color.slate"), color: Color(red: 0.44, green: 0.50, blue: 0.56)),
+        NoteColorOption(id: "stone", name: String(localized: "color.stone"), color: Color(red: 0.47, green: 0.44, blue: 0.40)),
     ]
 
     static func == (lhs: NoteColorOption, rhs: NoteColorOption) -> Bool {
@@ -79,11 +79,11 @@ struct NoteColorPickerView: View {
                     }
                     .padding(.vertical, 12)
                 } header: {
-                    Text("CHOOSE A COLOR")
+                    Text(String(localized: "notecolor.section.choose"))
                 }
             }
         }
-        .navigationTitle("Note Color")
+        .navigationTitle(String(localized: "notecolor.title"))
         .navigationBarTitleDisplayMode(.inline)
     }
 

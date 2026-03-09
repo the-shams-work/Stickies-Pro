@@ -75,7 +75,7 @@ struct ContentView: View {
                                     }
                                 } label: {
                                     Label(
-                                        isGridView ? "List View" : "Grid View",
+                                        isGridView ? String(localized: "content.view.list") : String(localized: "content.view.grid"),
                                         systemImage: isGridView ? "list.bullet" : "square.grid.2x2"
                                     )
                                 }
@@ -114,7 +114,7 @@ struct ContentView: View {
                     .padding(.bottom, 24)
                     .transition(.move(edge: .bottom))
                     .animation(.easeInOut, value: isSelecting)
-                    .alert("Delete Notes?", isPresented: $showDeleteAlert) {
+                    .alert(String(localized: "content.delete.notes"), isPresented: $showDeleteAlert) {
                         Button("common.delete", role: .destructive) {
                             viewModel.deleteNotes(withIDs: selectedNoteIDs)
                             isSelecting = false
@@ -165,7 +165,7 @@ struct ContentView: View {
             HStack(spacing: 8) {
                 if let category = viewModel.selectedCategoryFilter {
                     FilterChip(
-                        title: category.rawValue,
+                        title: String(localized: String.LocalizationValue(category.rawValue)),
                         systemImage: category.systemImage,
                         color: themeManager.theme.color
                     ) {
@@ -175,7 +175,7 @@ struct ContentView: View {
                 
                 if viewModel.showOnlyWithAttachments {
                     FilterChip(
-                        title: "With Attachments",
+                        title: String(localized: "content.filter.attachments"),
                         systemImage: "paperclip",
                         color: themeManager.theme.color
                     ) {
@@ -185,7 +185,7 @@ struct ContentView: View {
                 
                 if viewModel.showOnlyWithReminders {
                     FilterChip(
-                        title: "With Reminders",
+                        title: String(localized: "content.filter.reminders"),
                         systemImage: "bell",
                         color: themeManager.theme.color
                     ) {
@@ -195,7 +195,7 @@ struct ContentView: View {
                 
                 if viewModel.dateFilterOption != .all {
                     FilterChip(
-                        title: viewModel.dateFilterOption.rawValue,
+                        title: String(localized: String.LocalizationValue(viewModel.dateFilterOption.rawValue)),
                         systemImage: viewModel.dateFilterOption.systemImage,
                         color: themeManager.theme.color
                     ) {
@@ -242,19 +242,19 @@ struct ContentView: View {
     private var sortOptions: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                SortButton(title: "Recent", isSelected: viewModel.sortOption == .dateCreated) {
+                SortButton(title: String(localized: "content.sort.recent"), isSelected: viewModel.sortOption == .dateCreated) {
                     viewModel.sortOption = .dateCreated
                 }
-                SortButton(title: "Title", isSelected: viewModel.sortOption == .title) {
+                SortButton(title: String(localized: "content.sort.title"), isSelected: viewModel.sortOption == .title) {
                     viewModel.sortOption = .title
                 }
-                SortButton(title: "Category", isSelected: viewModel.sortOption == .category) {
+                SortButton(title: String(localized: "content.sort.category"), isSelected: viewModel.sortOption == .category) {
                     viewModel.sortOption = .category
                 }
-                SortButton(title: "Priority", isSelected: viewModel.sortOption == .priority) {
+                SortButton(title: String(localized: "content.sort.priority"), isSelected: viewModel.sortOption == .priority) {
                     viewModel.sortOption = .priority
                 }
-                SortButton(title: "Pinned", isSelected: viewModel.sortOption == .pinned) {
+                SortButton(title: String(localized: "content.sort.pinned"), isSelected: viewModel.sortOption == .pinned) {
                     viewModel.sortOption = .pinned
                 }
             }
@@ -604,7 +604,7 @@ struct FilterView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Picker("View", selection: $showingArchivedNotes) {
+            Picker(String(localized: "content.filter.view"), selection: $showingArchivedNotes) {
                 Text("home.tab.mynotes").tag(false)
                 Text("home.tab.archive").tag(true)
             }

@@ -29,7 +29,7 @@ struct CategoryPickerView: View {
                                 .clipShape(Circle())
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(category.rawValue)
+                                Text(LocalizedStringKey(category.rawValue))
                                     .font(.body.weight(.medium))
                                     .foregroundColor(.primary)
                                 Text(category.subtitle)
@@ -49,7 +49,7 @@ struct CategoryPickerView: View {
                     }
                 }
             } header: {
-                Text("SELECT CATEGORY")
+                Text(String(localized: "category.section.select"))
             }
 
             // Custom category
@@ -67,10 +67,10 @@ struct CategoryPickerView: View {
                             .clipShape(Circle())
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Custom Category")
+                            Text(String(localized: "category.custom"))
                                 .font(.body.weight(.medium))
                                 .foregroundColor(.primary)
-                            Text("Create your own category")
+                            Text(String(localized: "category.custom.subtitle"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -86,10 +86,10 @@ struct CategoryPickerView: View {
                     .contentShape(Rectangle())
                 }
             } header: {
-                Text("CUSTOM")
+                Text(String(localized: "category.section.custom"))
             }
         }
-        .navigationTitle("Category")
+        .navigationTitle(String(localized: "category.title"))
         .navigationBarTitleDisplayMode(.inline)
         .alert("home.filters.category.custom.alert", isPresented: $showCustomCategoryAlert, actions: {
             TextField("home.filters.category.custom.placeholder", text: $customCategoryInput)

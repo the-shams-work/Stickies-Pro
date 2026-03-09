@@ -35,6 +35,8 @@
 "addnote.attachments.library" = "फ़ोटो लाइब्रेरी";
 "addnote.attachments.image.remove.title" = "छवि हटाएँ?";
 "addnote.attachments.image.remove.message" = "यह आपके नोट से छवि हटा देगा।";
+"addnote.attachments.photo" = "फोटो";
+"addnote.reminders.never" = "कभी नहीं";
 "common.remove" = "हटाएँ";
 "addnote.reminders.title" = "रिमाइंडर";
 "addnote.reminders.schedule" = "रिमाइंडर शेड्यूल करें";
@@ -198,3 +200,174 @@
 /* Pin */
 "stickynote.pin" = "नोट पिन करें";
 "stickynote.unpin" = "नोट अनपिन करें";
+
+/* AddAudioView */
+"addaudio.source.record" = "ऑडियो रिकॉर्ड करें";
+"addaudio.source.record.subtitle" = "माइक्रोफ़ोन से रिकॉर्ड करें";
+"addaudio.source.audiofiles" = "ऑडियो फ़ाइलें";
+"addaudio.source.audiofiles.subtitle" = "अपने संगीत से चुनें";
+"addaudio.source.browse" = "फ़ाइलें ब्राउज़ करें";
+"addaudio.source.browse.subtitle" = "अपनी फ़ाइलों से चुनें";
+"addaudio.section.source" = "स्रोत";
+"addaudio.selected.audiofile" = "ऑडियो फ़ाइल";
+"addaudio.selected.remove" = "ऑडियो हटाएँ";
+"addaudio.section.selected" = "चयनित ऑडियो";
+"addaudio.title" = "ऑडियो जोड़ें";
+
+/* AddFileView */
+"addfile.type.document" = "दस्तावेज़";
+"addfile.type.document.subtitle" = "PDF, DOCX, TXT";
+"addfile.type.image" = "छवि";
+"addfile.type.image.subtitle" = "PNG, JPG, SVG";
+"addfile.type.archive" = "संग्रह";
+"addfile.type.archive.subtitle" = "ZIP, RAR, 7Z";
+"addfile.type.other" = "अन्य";
+"addfile.type.other.subtitle" = "कोई भी फ़ाइल प्रकार";
+"addfile.section.filetype" = "फ़ाइल प्रकार";
+"addfile.browse" = "संलग्न करने के लिए ब्राउज़ करें";
+"addfile.browse.subtitle" = "सभी सामान्य फ़ाइल प्रकार समर्थित";
+"addfile.selected.remove" = "फ़ाइल हटाएँ";
+"addfile.section.selected" = "चयनित फ़ाइल";
+"addfile.title" = "फ़ाइल जोड़ें";
+"addfile.selected.suffix" = "फ़ाइल";
+
+/* AddPhotoView */
+"addphoto.source.camera" = "फ़ोटो लें";
+"addphoto.source.camera.subtitle" = "कैप्चर करने के लिए कैमरा खोलें";
+"addphoto.source.library" = "फ़ोटो लाइब्रेरी";
+"addphoto.source.library.subtitle" = "अपनी फ़ोटो से चुनें";
+"addphoto.source.browse" = "फ़ाइलें ब्राउज़ करें";
+"addphoto.source.browse.subtitle" = "अपनी फ़ाइलों से चुनें";
+"addphoto.selected.remove" = "फ़ोटो हटाएँ";
+"addphoto.section.selected" = "चयनित फ़ोटो";
+"addphoto.section.recent" = "हाल की फ़ोटो";
+"addphoto.title" = "फ़ोटो जोड़ें";
+
+/* AddVideoView */
+"addvideo.source.record" = "वीडियो रिकॉर्ड करें";
+"addvideo.source.record.subtitle" = "रिकॉर्ड करने के लिए कैमरा खोलें";
+"addvideo.source.library" = "वीडियो लाइब्रेरी";
+"addvideo.source.library.subtitle" = "अपने वीडियो से चुनें";
+"addvideo.source.browse" = "फ़ाइलें ब्राउज़ करें";
+"addvideo.source.browse.subtitle" = "अपनी फ़ाइलों से चुनें";
+"addvideo.selected.remove" = "वीडियो हटाएँ";
+"addvideo.section.selected" = "चयनित वीडियो";
+"addvideo.section.recent" = "हाल के वीडियो";
+"addvideo.title" = "वीडियो जोड़ें";
+
+/* AddNoteView */
+"addnote.background.style" = "पृष्ठभूमि शैली";
+"addnote.background.image.title" = "पृष्ठभूमि छवि";
+"addnote.selected.image" = "1 छवि चयनित";
+"addnote.selected.photo" = "1 फ़ोटो चयनित";
+
+/* BackgroundStylePickerView */
+"backgroundstyle.section.style" = "शैली";
+"backgroundstyle.title" = "पृष्ठभूमि शैली";
+"backgroundstyle.preview" = "पूर्वावलोकन";
+
+/* NoteBackgroundStyle rawValues */
+"Lined" = "रेखांकित";
+"Grid" = "ग्रिड";
+"Dotted" = "बिंदीदार";
+"Ruled" = "रूल्ड";
+"Dashed" = "डैश्ड";
+"Cross-hatch" = "क्रॉस-हैच";
+"Columns" = "कॉलम";
+"Checkerboard" = "चेकरबोर्ड";
+"Diagonal" = "विकर्ण";
+"Diamond" = "हीरा";
+"Honeycomb" = "मधुकोश";
+"Zigzag" = "ज़िगज़ैग";
+"Waves" = "तरंगें";
+"Plus Grid" = "प्लस ग्रिड";
+"Circles" = "वृत्त";
+"Herringbone" = "हेरिंगबोन";
+"Brickwork" = "ईंटवर्क";
+"Wide Ruled" = "चौड़ा रूल्ड";
+"Tight Grid" = "संकुचित ग्रिड";
+
+/* CategoryPickerView */
+"category.section.select" = "श्रेणी चुनें";
+"category.custom" = "कस्टम श्रेणी";
+"category.custom.subtitle" = "अपनी श्रेणी बनाएँ";
+"category.section.custom" = "कस्टम";
+"category.title" = "श्रेणी";
+
+/* NoteColorPickerView */
+"notecolor.section.choose" = "रंग चुनें";
+"notecolor.title" = "नोट का रंग";
+"color.none" = "कोई नहीं";
+"color.default" = "डिफ़ॉल्ट";
+"color.rose" = "गुलाब";
+"color.orange" = "नारंगी";
+"color.amber" = "एम्बर";
+"color.emerald" = "पन्ना";
+"color.teal" = "टील";
+"color.cyan" = "सियान";
+"color.violet" = "बैंगनी";
+"color.fuchsia" = "फ्यूशिया";
+"color.pink" = "गुलाबी";
+"color.slate" = "स्लेट";
+"color.stone" = "पत्थर";
+
+/* PriorityPickerView */
+"priority.section.select" = "प्राथमिकता चुनें";
+"priority.title" = "प्राथमिकता";
+
+/* Priority subtitles */
+"priority.subtitle.none" = "कोई प्राथमिकता नहीं";
+"priority.subtitle.low" = "प्रतीक्षा कर सकते हैं, कोई जल्दी नहीं";
+"priority.subtitle.medium" = "जल्द ही ध्यान दिया जाना चाहिए";
+"priority.subtitle.high" = "तत्काल ध्यान देने की आवश्यकता";
+
+/* Category subtitles */
+"category.subtitle.todo" = "कार्य और टू-डू आइटम";
+"category.subtitle.journal" = "दैनिक जर्नल प्रविष्टियाँ";
+"category.subtitle.ideas" = "रचनात्मक विचार और सोच";
+"category.subtitle.study" = "अध्ययन नोट्स और सामग्री";
+"category.subtitle.finance" = "वित्तीय रिकॉर्ड और बजट";
+"category.subtitle.work" = "कार्य-संबंधित नोट्स";
+"category.subtitle.goals" = "व्यक्तिगत और पेशेवर लक्ष्य";
+"category.subtitle.important" = "उच्च-महत्त्व की वस्तुएं";
+"category.subtitle.projects" = "परियोजना योजना और ट्रैकिंग";
+"category.subtitle.music" = "गाने, बोल और प्लेलिस्ट";
+"category.subtitle.books" = "पुस्तक सारांश और समीक्षाएँ";
+"category.subtitle.movies" = "फिल्म समीक्षाएँ और वॉचलिस्ट";
+"category.subtitle.art" = "कला के विचार और डिज़ाइन नोट्स";
+"category.subtitle.writing" = "ब्लॉग पोस्ट और ड्राफ्ट";
+"category.subtitle.diet" = "आहार योजना और फिटनेस लॉग";
+"category.subtitle.mental" = "माइंडफुलनेस और कल्याण";
+"category.subtitle.health" = "चिकित्सा रिकॉर्ड और नोट्स";
+"category.subtitle.travel" = "यात्रा योजनाएँ और कार्यक्रम";
+"category.subtitle.memories" = "विशेष क्षण और यादें";
+"category.subtitle.urgent" = "समय-संवेदनशील आइटम";
+"category.subtitle.home" = "घरेलू और पारिवारिक नोट्स";
+"category.subtitle.shopping" = "खरीदारी सूची और विशलिस्ट";
+"category.subtitle.custom" = "आपकी कस्टम श्रेणी";
+
+/* ContentView */
+"content.view.list" = "सूची दृश्य";
+"content.view.grid" = "ग्रिड दृश्य";
+"content.delete.notes" = "नोट्स हटाएं?";
+"content.filter.attachments" = "अटैचमेंट के साथ";
+"content.filter.reminders" = "रिमाइंडर के साथ";
+"content.sort.recent" = "हाल का";
+"content.sort.title" = "शीर्षक";
+"content.sort.category" = "श्रेणी";
+"content.sort.priority" = "प्राथमिकता";
+"content.sort.pinned" = "पिन किया गया";
+"content.filter.view" = "दृश्य";
+
+/* NoteDetailView */
+"common.back" = "वापस";
+"common.today" = "आज, %@";
+"common.yesterday" = "कल, %@";
+
+/* AudioRecorderView */
+"recorder.title" = "ऑडियो रिकॉर्डर";
+"recorder.recording" = "रिकॉर्डिंग...";
+"recorder.tap" = "रिकॉर्डिंग शुरू करने के लिए टैप करें";
+
+/* StickyNoteView */
+"stickynote.yesterday" = "कल";
