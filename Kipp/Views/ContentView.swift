@@ -90,6 +90,7 @@ struct ContentView: View {
                                     .font(.system(size: 18))
                                     .foregroundColor(themeManager.theme.color)
                             }
+                            .tint(themeManager.theme.color)
                         }
                     }
                 }
