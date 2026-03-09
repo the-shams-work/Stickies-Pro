@@ -16,7 +16,6 @@ struct NoteDetailView: View {
     
     @State private var showEditNote = false
     @State private var showDeleteConfirmation = false
-    @State private var showShareSheet = false
 
     /// Always read the latest version from the viewModel so edits are reflected live
     private var currentNote: StickyNote {
@@ -184,11 +183,6 @@ struct NoteDetailView: View {
                             .font(.system(size: 17, weight: .medium))
                     }
 
-                    Button(action: { showShareSheet = true }) {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.system(size: 17, weight: .medium))
-                    }
-
                     Menu {
                         Button(action: {
                             viewModel.togglePin(id: currentNote.id)
@@ -231,9 +225,6 @@ struct NoteDetailView: View {
                 )
             }
             .tint(themeManager.theme.color)
-        }
-        .sheet(isPresented: $showShareSheet) {
-            ShareSheet(items: [currentNote.title, currentNote.content])
         }
         .alert("stickynote.delete", isPresented: $showDeleteConfirmation) {
             Button("common.delete", role: .destructive) {
@@ -404,16 +395,6 @@ struct FileAttachmentView: View {
         default: return "doc.fill"
         }
     }
-}
-
-struct ShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // MARK: - Metadata Chip
