@@ -71,22 +71,28 @@ struct OnboardingFeatureRow: View {
     let description: LocalizedStringKey
 
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
+        HStack(alignment: .top, spacing: 14) {
             Image(systemName: icon)
-                .font(.system(size: 28, weight: .medium))
-                .foregroundColor(iconColor)
-                .frame(width: 44, height: 44)
+                .resizable()
+                .scaledToFit()
+                .fontWeight(.medium)
+                .foregroundStyle(.white)
+                .padding(7)
+                .frame(width: 36, height: 36)
+                .background(iconColor, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
 
                 Text(description)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

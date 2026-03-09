@@ -37,7 +37,7 @@ struct OnboardingView: View {
 
             // Feature list
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
+                VStack(spacing: 20) {
                     ForEach(0..<features.count, id: \.self) { index in
                         OnboardingFeatureRow(
                             icon: features[index].icon,
@@ -47,7 +47,7 @@ struct OnboardingView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 40)
             }
 
             Spacer(minLength: 20)
