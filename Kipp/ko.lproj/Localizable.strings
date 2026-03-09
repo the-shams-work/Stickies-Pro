@@ -28,6 +28,7 @@
 "addnote.attachments.audio.record" = "오디오 녹음";
 "addnote.attachments.audio.file" = "파일 선택";
 "addnote.attachments.audio.label" = "오디오";
+"addnote.attachments.file.label" = "파일";
 "addnote.attachments.video.label" = "비디오";
 "addnote.attachments.image.label" = "이미지";
 "addnote.attachments.camera" = "카메라";

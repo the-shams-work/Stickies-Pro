@@ -47,9 +47,13 @@ struct AnalyticsView: View {
     private var audioAttachmentCount: Int {
         viewModel.notes.filter { $0.audioURLString != nil }.count
     }
+
+    private var fileAttachmentCount: Int {
+        viewModel.notes.filter { $0.fileURLString != nil }.count
+    }
     
     private var totalAttachmentsCount: Int {
-        imageAttachmentCount + videoAttachmentCount + audioAttachmentCount
+        imageAttachmentCount + videoAttachmentCount + audioAttachmentCount + fileAttachmentCount
     }
     
     var body: some View {
@@ -82,6 +86,7 @@ struct AnalyticsView: View {
                                 AttachmentCard(title: "addnote.attachments.image.label", count: imageAttachmentCount, icon: "photo", color: .blue)
                                 AttachmentCard(title: "addnote.attachments.video.label", count: videoAttachmentCount, icon: "video", color: .purple)
                                 AttachmentCard(title: "addnote.attachments.audio.label", count: audioAttachmentCount, icon: "music.note", color: .orange)
+                                AttachmentCard(title: "addnote.attachments.file.label", count: fileAttachmentCount, icon: "doc", color: .gray)
                             }
                         }
                     }

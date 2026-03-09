@@ -28,6 +28,7 @@
 "addnote.attachments.audio.record" = "录制音频";
 "addnote.attachments.audio.file" = "选择文件";
 "addnote.attachments.audio.label" = "音频";
+"addnote.attachments.file.label" = "文件";
 "addnote.attachments.video.label" = "视频";
 "addnote.attachments.image.label" = "图像";
 "addnote.attachments.camera" = "相机";

@@ -88,7 +88,7 @@ struct NoteDetailView: View {
                 // Attachments
                 if hasAttachments {
                     VStack(alignment: .leading, spacing: 14) {
-                        Label("addnote.attachments.label", systemImage: "paperclip")
+                        Label("addnote.attachments.title", systemImage: "paperclip")
                             .font(.subheadline.weight(.semibold))
                             .foregroundColor(currentNote.colorValue.isWhite ? .secondary : .white.opacity(0.8))
                             .padding(.top, 4)
@@ -114,6 +114,10 @@ struct NoteDetailView: View {
                         
                         if let audioURL = currentNote.audioURL {
                             AudioAttachmentView(audioURL: audioURL, note: currentNote)
+                        }
+                        
+                        if let fileURL = currentNote.fileURL {
+                            FileAttachmentView(fileURL: fileURL, note: currentNote)
                         }
                     }
                 }
@@ -243,7 +247,7 @@ struct NoteDetailView: View {
     }
     
     private var hasAttachments: Bool {
-        currentNote.attachmentData != nil || currentNote.audioURLString != nil || currentNote.videoURLString != nil
+        currentNote.attachmentData != nil || currentNote.audioURLString != nil || currentNote.videoURLString != nil || currentNote.fileURLString != nil
     }
     
     private func formattedDateRange(start: Date, end: Date) -> String {
@@ -346,6 +350,59 @@ struct AudioAttachmentView: View {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(note.colorValue.isWhite ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
         )
+    }
+}
+
+struct FileAttachmentView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let fileURL: URL
+    let note: StickyNote
+
+    var body: some View {
+        Button {
+            UIApplication.shared.open(fileURL)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: iconForFileExtension(fileURL.pathExtension))
+                    .font(.system(size: 28))
+                    .foregroundColor(themeManager.theme.color)
+                    .frame(width: 40, height: 40)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(fileURL.lastPathComponent)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundColor(note.colorValue.isWhite ? .primary : .white)
+                        .lineLimit(1)
+                    Text(fileURL.pathExtension.uppercased() + " file")
+                        .font(.caption)
+                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
+                }
+
+                Spacer()
+
+                Image(systemName: "arrow.up.right.square")
+                    .font(.system(size: 16))
+                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
+            }
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(note.colorValue.isWhite ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
+            )
+        }
+    }
+
+    private func iconForFileExtension(_ ext: String) -> String {
+        switch ext.lowercased() {
+        case "pdf": return "doc.richtext.fill"
+        case "doc", "docx": return "doc.text.fill"
+        case "txt": return "doc.plaintext.fill"
+        case "png", "jpg", "jpeg", "heic", "svg": return "photo.fill"
+        case "zip", "rar", "7z", "gz": return "archivebox.fill"
+        case "mp3", "m4a", "wav", "aiff": return "music.note"
+        case "mp4", "mov", "avi": return "film"
+        default: return "doc.fill"
+        }
     }
 }
 

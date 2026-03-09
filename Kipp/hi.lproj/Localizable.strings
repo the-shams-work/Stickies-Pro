@@ -28,6 +28,7 @@
 "addnote.attachments.audio.record" = "ऑडियो रिकॉर्ड करें";
 "addnote.attachments.audio.file" = "फ़ाइल चुनें";
 "addnote.attachments.audio.label" = "ऑडियो";
+"addnote.attachments.file.label" = "फ़ाइल";
 "addnote.attachments.video.label" = "वीडियो";
 "addnote.attachments.image.label" = "छवि";
 "addnote.attachments.camera" = "कैमरा";

@@ -63,6 +63,7 @@ struct AddNoteView: View {
         _wantsReminder = State(initialValue: editingNote?.reminderDate != nil)
         _selectedPriority = State(initialValue: editingNote?.priority ?? .none)
         _selectedRepeat = State(initialValue: editingNote?.reminderRepeat ?? .never)
+        _selectedFileURL = State(initialValue: editingNote?.fileURL)
         _selectedBackgroundStyle = State(initialValue: editingNote?.backgroundStyle ?? .none)
     }
 
@@ -111,6 +112,7 @@ struct AddNoteView: View {
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
+                fileURL: selectedFileURL,
                 backgroundImage: selectedBackgroundImage,
                 reminderDate: useReminderDate,
                 isTimeBounded: isTimeBounded,
@@ -139,6 +141,7 @@ struct AddNoteView: View {
                 attachment: selectedImage,
                 audioURL: selectedAudioURL,
                 videoURL: selectedVideoURL,
+                fileURL: selectedFileURL,
                 backgroundImage: selectedBackgroundImage,
                 reminderDate: useReminderDate,
                 isTimeBounded: isTimeBounded,

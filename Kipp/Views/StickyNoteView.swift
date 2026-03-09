@@ -145,7 +145,7 @@ struct StickyNoteView: View {
     }
 
     private var hasAttachments: Bool {
-        note.attachmentData != nil || note.audioURLString != nil || note.videoURLString != nil
+        note.attachmentData != nil || note.audioURLString != nil || note.videoURLString != nil || note.fileURLString != nil
     }
 
     private func priorityColor(_ priority: Priority) -> Color {

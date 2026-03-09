@@ -74,7 +74,7 @@ class NotesViewModel: ObservableObject {
         }
         
         if showOnlyWithAttachments {
-            notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil }
+            notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil || $0.fileURL != nil }
         }
         
         if showOnlyWithReminders {
@@ -135,7 +135,7 @@ class NotesViewModel: ObservableObject {
         }
         
         if showOnlyWithAttachments {
-            notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil }
+            notes = notes.filter { $0.attachment != nil || $0.audioURL != nil || $0.videoURL != nil || $0.fileURL != nil }
         }
         
         if showOnlyWithReminders {
@@ -199,7 +199,7 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) -> StickyNote {
+    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) -> StickyNote {
         let newNote = StickyNote(
             title: title,
             content: content,
@@ -211,6 +211,7 @@ class NotesViewModel: ObservableObject {
             attachment: attachment,
             audioURL: audioURL,
             videoURL: videoURL,
+            fileURL: fileURL,
             backgroundImage: backgroundImage,
             reminderDate: reminderDate,
             isTimeBounded: isTimeBounded,
@@ -222,7 +223,7 @@ class NotesViewModel: ObservableObject {
         return newNote
     }
 
-    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) {
+    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].title = title
             notes[index].content = content
@@ -233,6 +234,7 @@ class NotesViewModel: ObservableObject {
             notes[index].attachment = attachment
             notes[index].audioURL = audioURL
             notes[index].videoURL = videoURL
+            notes[index].fileURL = fileURL
             notes[index].backgroundImage = backgroundImage
             notes[index].reminderDate = reminderDate
             notes[index].isTimeBounded = isTimeBounded

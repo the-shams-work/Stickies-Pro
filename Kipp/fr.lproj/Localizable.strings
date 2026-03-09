@@ -28,6 +28,7 @@
 "addnote.attachments.audio.record" = "Enregistrer audio";
 "addnote.attachments.audio.file" = "Choisir un fichier";
 "addnote.attachments.audio.label" = "Audio";
+"addnote.attachments.file.label" = "Fichier";
 "addnote.attachments.video.label" = "Vidéo";
 "addnote.attachments.image.label" = "Image";
 "addnote.attachments.camera" = "Caméra";

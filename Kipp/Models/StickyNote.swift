@@ -333,6 +333,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
     var attachmentData: Data?
     var audioURLString: String?
     var videoURLString: String?
+    var fileURLString: String?
     var backgroundImageData: Data?
     var reminderDate: Date?
     var isTimeBounded: Bool
@@ -357,12 +358,16 @@ struct StickyNote: Identifiable, Codable, Hashable {
         get { videoURLString.flatMap { URL(string: $0) } }
         set { videoURLString = newValue?.absoluteString }
     }
+    var fileURL: URL? {
+        get { fileURLString.flatMap { URL(string: $0) } }
+        set { fileURLString = newValue?.absoluteString }
+    }
     var colorValue: Color {
         get { color.color }
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none, isPinned: Bool = false) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none, isPinned: Bool = false) {
         self.id = id
         self.title = title
         self.content = content
@@ -374,6 +379,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         self.attachmentData = attachment?.jpegData(compressionQuality: 0.8)
         self.audioURLString = audioURL?.absoluteString
         self.videoURLString = videoURL?.absoluteString
+        self.fileURLString = fileURL?.absoluteString
         self.backgroundImageData = backgroundImage?.jpegData(compressionQuality: 0.8)
         self.reminderDate = reminderDate
         self.isTimeBounded = isTimeBounded
@@ -384,7 +390,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle, isPinned
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, fileURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle, isPinned
     }
 
     init(from decoder: Decoder) throws {
@@ -400,6 +406,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         attachmentData = try container.decodeIfPresent(Data.self, forKey: .attachmentData)
         audioURLString = try container.decodeIfPresent(String.self, forKey: .audioURLString)
         videoURLString = try container.decodeIfPresent(String.self, forKey: .videoURLString)
+        fileURLString = try container.decodeIfPresent(String.self, forKey: .fileURLString)
         backgroundImageData = try container.decodeIfPresent(Data.self, forKey: .backgroundImageData)
         reminderDate = try container.decodeIfPresent(Date.self, forKey: .reminderDate)
         isTimeBounded = try container.decodeIfPresent(Bool.self, forKey: .isTimeBounded) ?? false
@@ -422,6 +429,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         try container.encodeIfPresent(attachmentData, forKey: .attachmentData)
         try container.encodeIfPresent(audioURLString, forKey: .audioURLString)
         try container.encodeIfPresent(videoURLString, forKey: .videoURLString)
+        try container.encodeIfPresent(fileURLString, forKey: .fileURLString)
         try container.encodeIfPresent(backgroundImageData, forKey: .backgroundImageData)
         try container.encodeIfPresent(reminderDate, forKey: .reminderDate)
         try container.encode(isTimeBounded, forKey: .isTimeBounded)
