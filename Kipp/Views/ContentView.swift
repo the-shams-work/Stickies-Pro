@@ -34,7 +34,6 @@ struct ContentView: View {
                     sortOptions
                     notesList
                 }
-                .dismissKeyboardOnTap()
                 .navigationTitle(showingArchivedNotes ? LocalizedStringKey("home.tab.archive") : LocalizedStringKey("home.tab.mynotes"))
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {

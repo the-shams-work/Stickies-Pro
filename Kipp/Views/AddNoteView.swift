@@ -454,8 +454,6 @@ struct AddNoteView: View {
             customizationSection
             attachmentsSection
         }
-        .scrollDismissesKeyboard(.interactively)
-        .dismissKeyboardOnTap()
         .tint(themeManager.theme.color)
         .navigationBarTitle(editingNote == nil ? "addnote.newnote.title" : "stickynote.edit", displayMode: .inline)
         .toolbar {
