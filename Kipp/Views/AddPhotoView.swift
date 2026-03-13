@@ -123,6 +123,7 @@ struct AddPhotoView: View {
         }
         .sheet(isPresented: $showFilePicker) {
             DocumentImagePicker(selectedImage: $selectedImage)
+                .id(UUID()) // Force recreation
         }
         .onAppear {
             loadRecentPhotos()
@@ -192,6 +193,7 @@ struct DocumentImagePicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.image])
         picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = false
         return picker
     }
 

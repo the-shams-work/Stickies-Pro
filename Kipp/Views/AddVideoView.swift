@@ -133,6 +133,7 @@ struct AddVideoView: View {
         }
         .sheet(isPresented: $showFilePicker) {
             DocumentVideoPicker(selectedVideoURL: $selectedVideoURL)
+                .id(UUID()) // Force recreation
         }
         .onAppear {
             loadRecentVideos()
@@ -231,6 +232,7 @@ struct DocumentVideoPicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.movie, .video, .mpeg4Movie, .quickTimeMovie])
         picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = false
         return picker
     }
 

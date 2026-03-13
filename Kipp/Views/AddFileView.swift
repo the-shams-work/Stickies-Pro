@@ -11,16 +11,27 @@ import UniformTypeIdentifiers
 struct AddFileView: View {
     @Binding var selectedFileURL: URL?
 
-    @State private var showDocumentPicker = false
-    @State private var pickerContentTypes: [UTType] = []
+    enum FilePickerType: Identifiable {
+        case document, archive, other
+        var id: Self { self }
+        
+        var contentTypes: [UTType] {
+            switch self {
+            case .document: return [.pdf, .plainText, .rtf, .rtfd]
+            case .archive: return [.archive, .zip, .gzip]
+            case .other: return [.item]
+            }
+        }
+    }
+
+    @State private var activePicker: FilePickerType?
 
     var body: some View {
         Form {
             // MARK: File Type Section
             Section {
                 Button {
-                    pickerContentTypes = [.pdf, .plainText, .rtf, .rtfd]
-                    showDocumentPicker = true
+                    activePicker = .document
                 } label: {
                     AttachmentSourceRow(
                         icon: "doc.fill",
@@ -31,20 +42,7 @@ struct AddFileView: View {
                 }
 
                 Button {
-                    pickerContentTypes = [.image, .png, .jpeg, .svg, .heic]
-                    showDocumentPicker = true
-                } label: {
-                    AttachmentSourceRow(
-                        icon: "photo.fill",
-                        iconColor: .green,
-                        title: String(localized: "addfile.type.image"),
-                        subtitle: String(localized: "addfile.type.image.subtitle")
-                    )
-                }
-
-                Button {
-                    pickerContentTypes = [.archive, .zip, .gzip]
-                    showDocumentPicker = true
+                    activePicker = .archive
                 } label: {
                     AttachmentSourceRow(
                         icon: "archivebox.fill",
@@ -55,8 +53,7 @@ struct AddFileView: View {
                 }
 
                 Button {
-                    pickerContentTypes = [.item]
-                    showDocumentPicker = true
+                    activePicker = .other
                 } label: {
                     AttachmentSourceRow(
                         icon: "doc.fill",
@@ -69,35 +66,7 @@ struct AddFileView: View {
                 Text(String(localized: "addfile.section.filetype"))
             }
 
-            // MARK: Drop Zone
-            Section {
-                Button {
-                    pickerContentTypes = [.item]
-                    showDocumentPicker = true
-                } label: {
-                    VStack(spacing: 10) {
-                        Image(systemName: "square.and.arrow.down")
-                            .font(.system(size: 28, weight: .medium))
-                            .foregroundColor(.blue)
 
-                        Text(String(localized: "addfile.browse"))
-                            .font(.subheadline.weight(.medium))
-                            .foregroundColor(.primary)
-
-                        Text(String(localized: "addfile.browse.subtitle"))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 28)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [8, 5]))
-                            .foregroundColor(Color(.tertiaryLabel))
-                    )
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-            }
 
             // MARK: Selected File Preview
             if let fileURL = selectedFileURL {
@@ -139,11 +108,12 @@ struct AddFileView: View {
         }
         .navigationTitle(String(localized: "addfile.title"))
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showDocumentPicker) {
+        .sheet(item: $activePicker) { pickerType in
             GeneralDocumentPicker(
-                contentTypes: pickerContentTypes,
+                contentTypes: pickerType.contentTypes,
                 selectedURL: $selectedFileURL
             )
+            .id(pickerType.id)
         }
     }
 
@@ -179,7 +149,10 @@ struct GeneralDocumentPicker: UIViewControllerRepresentable {
         return picker
     }
 
-    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {
+        // UIDocumentPickerViewController doesn't allow changing contentTypes after creation.
+        // But SwiftUI recreates the view when `contentTypes` changes if the ID changes, or we can just rely on the new instance being created on sheet presentation.
+    }
 
     class Coordinator: NSObject, UIDocumentPickerDelegate {
         let parent: GeneralDocumentPicker

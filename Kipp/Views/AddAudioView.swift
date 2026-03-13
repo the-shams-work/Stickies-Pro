@@ -109,6 +109,7 @@ struct AddAudioView: View {
         }
         .sheet(isPresented: $showBrowseFiles) {
             DocumentAudioPicker(selectedAudioURL: $selectedAudioURL)
+                .id(UUID()) // Force recreation
         }
     }
 
@@ -136,6 +137,7 @@ struct DocumentAudioPicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.audio, .mp3, .mpeg4Audio, .wav, .aiff])
         picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = false
         return picker
     }
 
