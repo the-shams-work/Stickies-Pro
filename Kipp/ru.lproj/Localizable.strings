@@ -74,7 +74,7 @@
 "Monthly" = "Ежемесячно";
 "addnote.details" = "Детали заметки";
 "addnote.title.field" = "Заголовок";
-"addnote.content.field" = "Содержимое";
+"addnote.content.field" = "Начните писать...";
 "common.save" = "Сохранить";
 "stickynote.reminder" = "Напоминание";
 "addnote.background" = "Фоновое изображение";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "Нет архива";
 "home.empty.archive.desc" = "Здесь появятся завершенные заметки";
 "home.empty.notes.title" = "Пока нет заметок";
-"home.empty.notes.desc" = "Нажмите +, чтобы создать заметку";
+"home.empty.notes.desc" = "Нажмите значок карандаша, чтобы создать заметку";
 "home.empty.search.title" = "Результаты не найдены";
 "home.empty.search.desc" = "Попробуйте изменить поиск или фильтры";
 "To Do" = "Сделать";

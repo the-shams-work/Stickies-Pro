@@ -74,7 +74,7 @@
 "Monthly" = "मासिक";
 "addnote.details" = "नोट विवरण";
 "addnote.title.field" = "शीर्षक";
-"addnote.content.field" = "सामग्री";
+"addnote.content.field" = "लिखना शुरू करें...";
 "common.save" = "सहेजें";
 "stickynote.reminder" = "रिमाइंडर";
 "addnote.background" = "पृष्ठभूमि छवि";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "कोई पुरालेख नोट्स नहीं";
 "home.empty.archive.desc" = "पूरे किए गए नोट्स यहाँ दिखाई देंगे";
 "home.empty.notes.title" = "अभी कोई नोट्स नहीं";
-"home.empty.notes.desc" = "अपना नोट बनाने के लिए + बटन पर टैप करें";
+"home.empty.notes.desc" = "अपना नोट बनाने के लिए पेंसिल बटन पर टैप करें";
 "home.empty.search.title" = "कोई परिणाम नहीं मिला";
 "home.empty.search.desc" = "अपनी खोज या फ़िल्टर समायोजित करने का प्रयास करें";
 "To Do" = "करने योग्य";

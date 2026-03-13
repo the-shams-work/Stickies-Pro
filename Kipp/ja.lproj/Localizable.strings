@@ -74,7 +74,7 @@
 "Monthly" = "毎月";
 "addnote.details" = "ノートの詳細";
 "addnote.title.field" = "タイトル";
-"addnote.content.field" = "コンテンツ";
+"addnote.content.field" = "書き始める...";
 "common.save" = "保存";
 "stickynote.reminder" = "リマインダー";
 "addnote.background" = "背景画像";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "アーカイブなし";
 "home.empty.archive.desc" = "完了したノートはここに表示されます";
 "home.empty.notes.title" = "まだノートはありません";
-"home.empty.notes.desc" = "＋ボタンをタップしてノートを作成";
+"home.empty.notes.desc" = "鉛筆ボタンをタップしてノートを作成";
 "home.empty.search.title" = "結果が見つかりません";
 "home.empty.search.desc" = "検索またはフィルターを調整してみてください";
 "To Do" = "やること";

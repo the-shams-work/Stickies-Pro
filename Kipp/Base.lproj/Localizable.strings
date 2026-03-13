@@ -74,7 +74,7 @@
 "Monthly" = "Monthly";
 "addnote.details" = "Note Details";
 "addnote.title.field" = "Title";
-"addnote.content.field" = "Content";
+"addnote.content.field" = "Start writing...";
 "common.save" = "Save";
 "stickynote.reminder" = "Reminder";
 "addnote.background" = "Background Image";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "No Archived Notes";
 "home.empty.archive.desc" = "Completed notes will appear here";
 "home.empty.notes.title" = "No Notes Yet";
-"home.empty.notes.desc" = "Tap the + button to create your note";
+"home.empty.notes.desc" = "Tap the pencil button to create your note";
 "home.empty.search.title" = "No Results Found";
 "home.empty.search.desc" = "Try adjusting your search or filters";
 "To Do" = "To Do";

@@ -391,13 +391,13 @@ struct ContentView: View {
                             editingNote = nil
                             showAddNote = true
                         }) {
-                            Image(systemName: "plus")
-                                .font(.system(size: 22, weight: .semibold))
-                                .foregroundColor(.white)
+                            Image(systemName: "square.and.pencil")
+                                .font(.system(size: 24, weight: .medium))
+                                .foregroundColor(themeManager.theme.color)
                                 .frame(width: 56, height: 56)
-                                .background(themeManager.theme.color)
+                                .background(Color(.systemBackground))
                                 .clipShape(Circle())
-                                .shadow(color: themeManager.theme.color.opacity(0.3), radius: 10, x: 0, y: 5)
+                                .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
                         }
                         .padding(.trailing, 20)
                         .padding(.bottom, 30)

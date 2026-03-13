@@ -169,8 +169,7 @@ struct NoteDetailView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 16, weight: .semibold))
-                        Text(String(localized: "common.back"))
+                            .font(.system(size: 20, weight: .medium))
                     }
                     .foregroundColor(themeManager.theme.color)
                 }

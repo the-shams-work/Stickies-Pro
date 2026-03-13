@@ -74,7 +74,7 @@
 "Monthly" = "매월";
 "addnote.details" = "메모 세부 정보";
 "addnote.title.field" = "제목";
-"addnote.content.field" = "콘텐츠";
+"addnote.content.field" = "작성 시작...";
 "common.save" = "저장";
 "stickynote.reminder" = "알림";
 "addnote.background" = "배경 이미지";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "보관된 메모 없음";
 "home.empty.archive.desc" = "완료된 메모가 여기에 표시됩니다";
 "home.empty.notes.title" = "아직 메모가 없습니다";
-"home.empty.notes.desc" = "+ 버튼을 탭하여 메모를 생성하세요";
+"home.empty.notes.desc" = "연필 버튼을 탭하여 메모를 생성하세요";
 "home.empty.search.title" = "결과 없음";
 "home.empty.search.desc" = "검색어나 필터를 조정해보세요";
 "To Do" = "할 일";

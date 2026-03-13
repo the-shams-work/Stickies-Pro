@@ -461,8 +461,8 @@ struct AddNoteView: View {
                 Button {
                     showAddNote = false
                 } label: {
-                    Text("common.cancel")
-                        .fontWeight(.regular)
+                    Image(systemName: "xmark")
+                        .font(.system(size: 20, weight: .medium))
                         .foregroundColor(themeManager.theme.color)
                 }
             }
@@ -470,9 +470,10 @@ struct AddNoteView: View {
                 Button {
                     saveNote()
                 } label: {
-                    Text("common.save")
-                        .fontWeight(.regular)
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 20, weight: .medium))
                         .foregroundColor(themeManager.theme.color)
+                        .symbolRenderingMode(.hierarchical)
                 }
             }
         }

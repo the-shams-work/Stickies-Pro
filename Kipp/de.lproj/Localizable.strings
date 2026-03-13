@@ -74,7 +74,7 @@
 "Monthly" = "Monatlich";
 "addnote.details" = "Notizdetails";
 "addnote.title.field" = "Titel";
-"addnote.content.field" = "Inhalt";
+"addnote.content.field" = "Fange an zu schreiben...";
 "common.save" = "Speichern";
 "stickynote.reminder" = "Erinnerung";
 "addnote.background" = "Hintergrundbild";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "Kein Archiv";
 "home.empty.archive.desc" = "Erledigte Notizen erscheinen hier";
 "home.empty.notes.title" = "Noch keine Notizen";
-"home.empty.notes.desc" = "Tippen Sie auf +, um eine Notiz zu erstellen";
+"home.empty.notes.desc" = "Tippen Sie auf das Stiftsymbol, um eine Notiz zu erstellen";
 "home.empty.search.title" = "Keine Ergebnisse";
 "home.empty.search.desc" = "Passen Sie Ihre Suche oder Filter an";
 "To Do" = "Zu erledigen";

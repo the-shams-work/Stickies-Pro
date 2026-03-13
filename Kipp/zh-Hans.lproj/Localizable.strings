@@ -74,7 +74,7 @@
 "Monthly" = "每月";
 "addnote.details" = "笔记详情";
 "addnote.title.field" = "标题";
-"addnote.content.field" = "内容";
+"addnote.content.field" = "开始书写...";
 "common.save" = "保存";
 "stickynote.reminder" = "提醒";
 "addnote.background" = "背景图片";
@@ -103,7 +103,7 @@
 "home.empty.archive" = "没有归档";
 "home.empty.archive.desc" = "已完成的笔记将在此处显示";
 "home.empty.notes.title" = "还没笔记";
-"home.empty.notes.desc" = "点击 + 按钮新建笔记";
+"home.empty.notes.desc" = "点击铅笔按钮新建笔记";
 "home.empty.search.title" = "未找到结果";
 "home.empty.search.desc" = "请尝试调整你的搜索或筛选条件";
 "To Do" = "待办事项";
