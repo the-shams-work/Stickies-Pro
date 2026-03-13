@@ -86,6 +86,7 @@ struct SettingsView: View {
                     } message: {
                         Text("settings.reset_all.message")
                     }
+                    .tint(.black)
                 }
             }
             .navigationTitle("settings.title")
