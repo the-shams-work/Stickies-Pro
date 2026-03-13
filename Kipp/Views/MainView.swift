@@ -12,10 +12,13 @@ struct MainView: View {
     @StateObject var viewModel = NotesViewModel()
 
     var body: some View {
-        if hasSeenOnboarding {
-            ContentView(viewModel: viewModel)
-        } else {
-            OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
-        }
+        ContentView(viewModel: viewModel)
+            .sheet(isPresented: Binding(
+                get: { !hasSeenOnboarding },
+                set: { if !$0 { hasSeenOnboarding = true } }
+            )) {
+                OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
+                    .interactiveDismissDisabled()
+            }
     }
 }
