@@ -35,6 +35,7 @@ struct AddNoteView: View {
     @State private var showFutureNoteAlert = false
     @State private var selectedFileURL: URL?
     @State private var selectedBackgroundStyle: NoteBackgroundStyle
+    @StateObject private var speechRecognition = SpeechRecognitionService()
 
     let today = Date()
 
@@ -171,10 +172,38 @@ struct AddNoteView: View {
         Section {
             TextField("addnote.title.field", text: $title)
                 .font(.body)
-            TextField("addnote.content.field", text: $content, axis: .vertical)
-                .lineLimit(5, reservesSpace: true)
+            HStack(alignment: .top, spacing: 12) {
+                TextField("addnote.content.field", text: $content, axis: .vertical)
+                    .lineLimit(5, reservesSpace: true)
+                Button {
+                    toggleDictation()
+                } label: {
+                    Image(systemName: speechRecognition.isListening ? "mic.fill" : "mic")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(speechRecognition.isListening ? themeManager.theme.color : Color(.secondaryLabel))
+                        .symbolRenderingMode(.hierarchical)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(speechRecognition.isListening ? String(localized: "addnote.dictation.stop") : String(localized: "addnote.dictation.start"))
+                .accessibilityHint(String(localized: "addnote.dictation.hint"))
+            }
         } header: {
             Text("addnote.details")
+        }
+    }
+
+    private func toggleDictation() {
+        if speechRecognition.isListening {
+            speechRecognition.stopRecognition()
+        } else {
+            Task {
+                let authorized = await speechRecognition.requestAuthorizationIfNeeded()
+                if authorized {
+                    speechRecognition.startRecognition(initialContent: content) { newContent in
+                        content = newContent
+                    }
+                }
+            }
         }
     }
 
@@ -486,6 +515,14 @@ struct AddNoteView: View {
             Button("common.ok") { showAddNote = false }
         } message: {
             Text("addnote.datetime.active")
+        }
+        .alert("addnote.dictation.error.title", isPresented: Binding(
+            get: { speechRecognition.errorMessage != nil },
+            set: { if !$0 { speechRecognition.errorMessage = nil } }
+        )) {
+            Button("common.ok") { speechRecognition.errorMessage = nil }
+        } message: {
+            Text(speechRecognition.errorMessage ?? "")
         }
     }
 }

@@ -75,6 +75,14 @@
 "addnote.details" = "Note Details";
 "addnote.title.field" = "Title";
 "addnote.content.field" = "Start writing...";
+"addnote.dictation.start" = "Start dictation";
+"addnote.dictation.stop" = "Stop dictation";
+"addnote.dictation.hint" = "Tap to dictate note content with your voice.";
+"addnote.dictation.error.title" = "Dictation";
+"addnote.dictation.error.speech.denied" = "Speech recognition was denied. Enable it in Settings to dictate notes.";
+"addnote.dictation.error.speech.restricted" = "Speech recognition is not available on this device.";
+"addnote.dictation.error.microphone.denied" = "Microphone access was denied. Enable it in Settings to dictate notes.";
+"addnote.dictation.error.unavailable" = "Speech recognition is currently unavailable. Try again later.";
 "common.save" = "Save";
 "stickynote.reminder" = "Reminder";
 "addnote.background" = "Background Image";
