@@ -32,26 +32,26 @@ struct StickyNoteView: View {
                 
                 Text(note.title)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(note.colorValue.isWhite ? .primary : .white)
+                    .foregroundColor(note.colorValue.isLightColor ? .primary : .white)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if note.isPinned {
                     Image(systemName: "pin.fill")
                         .font(.caption2)
-                        .foregroundColor(note.colorValue.isWhite ? .orange : .yellow)
+                        .foregroundColor(note.colorValue.isLightColor ? .orange : .yellow)
                 }
 
                 if hasAttachments {
                     Image(systemName: "paperclip")
                         .font(.caption2)
-                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
+                        .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.6))
                 }
             }
 
             Text(note.content)
                 .font(.caption)
-                .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.85))
+                .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.85))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
@@ -61,20 +61,20 @@ struct StickyNoteView: View {
             HStack(spacing: 6) {
                 Text(formattedTime(note.startDate))
                     .font(.caption2)
-                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
+                    .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.6))
                 
                 Spacer()
                 
                 if note.priority != .none {
                     Text(LocalizedStringKey(note.priority.rawValue))
-                        .font(.system(size: 9, weight: .bold))
+                        .font(.caption2.weight(.bold))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
                         .background(
                             Capsule()
-                                .fill(note.colorValue.isWhite ? Color.primary.opacity(0.07) : Color.white.opacity(0.2))
+                                .fill(note.colorValue.isLightColor ? Color.primary.opacity(0.07) : Color.white.opacity(0.2))
                         )
-                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
+                        .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.6))
                 }
             }
         }
@@ -114,6 +114,13 @@ struct StickyNoteView: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 3)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLabelText)
+        .accessibilityAddTraits(isSelecting ? (isSelected ? [.isSelected] : []) : [.isButton])
+        .accessibilityAction(named: Text(note.isPinned ? "stickynote.unpin" : "stickynote.pin")) { onTogglePin() }
+        .accessibilityAction(named: Text("common.edit")) { onEdit() }
+        .accessibilityAction(named: Text(note.isDone ? "stickynote.active.mark" : "home.tab.archive")) { markAsDone() }
+        .accessibilityAction(named: Text("common.delete")) { showDeleteConfirmation = true }
         .contextMenu(isSelecting ? nil : ContextMenu {
             Button(action: { onTogglePin() }) {
                 Label(
@@ -146,6 +153,17 @@ struct StickyNoteView: View {
 
     private var hasAttachments: Bool {
         note.attachmentData != nil || note.audioURLString != nil || note.videoURLString != nil || note.fileURLString != nil
+    }
+
+    private var accessibilityLabelText: Text {
+        var text = "\(note.title), \(note.content)"
+        if note.isPinned { text += ", Pinned" }
+        if hasAttachments { text += ", Has attachments" }
+        if note.priority != .none {
+            text += ", \(String(localized: String.LocalizationValue(note.priority.rawValue))) priority"
+        }
+        text += ", " + formattedTime(note.startDate)
+        return Text(text)
     }
 
     private func priorityColor(_ priority: Priority) -> Color {

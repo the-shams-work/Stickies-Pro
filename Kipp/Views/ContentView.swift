@@ -87,8 +87,9 @@ struct ContentView: View {
                                 }
                             } label: {
                                 Image(systemName: "ellipsis.circle")
-                                    .font(.system(size: 18))
+                                    .font(.title3)
                                     .foregroundColor(themeManager.theme.color)
+                                    .accessibilityLabel(Text("common.more"))
                             }
                             .tint(themeManager.theme.color)
                         }
@@ -214,7 +215,8 @@ struct ContentView: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.secondary)
-                .font(.system(size: 16))
+                .font(.body)
+                .accessibilityHidden(true)
             TextField(String(localized: "common.search"), text: $viewModel.searchQuery)
                 .font(.body)
                 .autocorrectionDisabled()
@@ -225,8 +227,9 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary)
-                        .font(.system(size: 16))
+                        .font(.body)
                 }
+                .accessibilityLabel(Text("common.clear"))
             }
         }
         .padding(10)
@@ -352,6 +355,15 @@ struct ContentView: View {
                                     )
                                 }
                                 .buttonStyle(PlainButtonStyle())
+                                .accessibilityAction(named: Text(note.isPinned ? "stickynote.unpin" : "stickynote.pin")) { viewModel.togglePin(id: note.id) }
+                                .accessibilityAction(named: Text("common.edit")) {
+                                    if !showingArchivedNotes {
+                                        editingNote = note
+                                        showAddNote = true
+                                    }
+                                }
+                                .accessibilityAction(named: Text(note.isDone ? "stickynote.active.mark" : "home.tab.archive")) { viewModel.markAsDone(id: note.id) }
+                                .accessibilityAction(named: Text("common.delete")) { viewModel.deleteNote(id: note.id) }
                                 .contextMenu {
                                     Button(action: { viewModel.togglePin(id: note.id) }) {
                                         Label(
@@ -392,13 +404,15 @@ struct ContentView: View {
                             showAddNote = true
                         }) {
                             Image(systemName: "square.and.pencil")
-                                .font(.system(size: 24, weight: .medium))
+                                .font(.title.weight(.medium))
                                 .foregroundColor(themeManager.theme.color)
                                 .frame(width: 56, height: 56)
                                 .background(Color(.systemBackground))
                                 .clipShape(Circle())
                                 .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
                         }
+                        .accessibilityLabel(Text("addnote.title"))
+                        .accessibilityHint(Text("addnote.hint"))
                         .padding(.trailing, 20)
                         .padding(.bottom, 30)
                     }
@@ -517,6 +531,20 @@ struct NoteListRow: View {
         .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
         .padding(.horizontal, 16)
         .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLabelText)
+        .accessibilityAddTraits(isSelecting ? (isSelected ? [.isSelected] : []) : [.isButton])
+    }
+
+    private var accessibilityLabelText: Text {
+        var text = "\(note.title), \(note.content)"
+        if note.isPinned { text += ", Pinned" }
+        if hasAttachments { text += ", Has attachments" }
+        if note.priority != .none { 
+            text += ", \(String(localized: String.LocalizationValue(note.priority.rawValue))) priority" 
+        }
+        text += ", " + formattedDate(note.startDate)
+        return Text(text)
     }
 
     private var hasAttachments: Bool {
@@ -549,16 +577,18 @@ struct FilterChip: View {
     var body: some View {
         HStack(spacing: 6) {
             Image(systemName: systemImage)
-                .font(.system(size: 11, weight: .semibold))
+                .font(.caption2.weight(.semibold))
+                .accessibilityHidden(true)
             
             Text(LocalizedStringKey(title))
                 .font(.subheadline.weight(.medium))
             
             Button(action: onRemove) {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 14))
+                    .font(.caption)
                     .foregroundColor(color.opacity(0.6))
             }
+            .accessibilityLabel(Text("Filter \(title) remove"))
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
@@ -589,6 +619,7 @@ struct SortButton: View {
                 .foregroundColor(isSelected ? .white : .primary)
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 }
 

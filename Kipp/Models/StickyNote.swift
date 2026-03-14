@@ -497,7 +497,7 @@ extension Color {
 
     /// Whether this color should be treated as "light" for text-contrast purposes.
     /// Transparent ("None") and white both return true so dark text is used.
-    var isWhite: Bool {
+    var isLightColor: Bool {
         let uiColor = UIColor(self)
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
         if !uiColor.getRed(&r, green: &g, blue: &b, alpha: &a) {
@@ -507,8 +507,9 @@ extension Color {
                 return false
             }
         }
-        // Transparent / clear → treat as white (system background)
+        // Transparent / clear → treat as light (system background)
         if a < 0.05 { return true }
-        return abs(r - 1.0) < 0.01 && abs(g - 1.0) < 0.01 && abs(b - 1.0) < 0.01 && a > 0.95
+        let luminance = 0.299 * r + 0.587 * g + 0.114 * b
+        return luminance > 0.6
     }
 }

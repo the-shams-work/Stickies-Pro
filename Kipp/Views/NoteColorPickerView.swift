@@ -175,11 +175,11 @@ private struct NotePreviewCard: View {
         return alpha < 0.01
     }
 
-    private var isWhite: Bool { color.isWhite }
+    private var isLightColor: Bool { color.isLightColor }
 
     private var previewBackground: Color {
         if isNone { return Color(.systemGray6) }
-        if isWhite { return Color(.systemGray5) }
+        if isLightColor { return Color(.systemGray5) }
         return color.opacity(0.15)
     }
 

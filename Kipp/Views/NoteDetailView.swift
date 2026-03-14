@@ -29,13 +29,14 @@ struct NoteDetailView: View {
                 HStack(alignment: .top, spacing: 8) {
                     Text(currentNote.title)
                         .font(.largeTitle.weight(.bold))
-                        .foregroundColor(currentNote.colorValue.isWhite ? .primary : .white)
+                        .foregroundColor(currentNote.colorValue.isLightColor ? .primary : .white)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityAddTraits(.isHeader)
                     
                     if currentNote.isPinned {
                         Image(systemName: "pin.fill")
                             .font(.title2)
-                            .foregroundColor(currentNote.colorValue.isWhite ? .orange : .yellow)
+                            .foregroundColor(currentNote.colorValue.isLightColor ? .orange : .yellow)
                             .padding(.top, 6)
                     }
                 }
@@ -46,20 +47,20 @@ struct NoteDetailView: View {
                     MetadataChip(
                         icon: currentNote.category.systemImage,
                         text: String(localized: String.LocalizationValue(currentNote.category.rawValue)),
-                        isWhite: currentNote.colorValue.isWhite
+                        isLightColor: currentNote.colorValue.isLightColor
                     )
                     
                     MetadataChip(
                         icon: "clock",
                         text: formattedCreatedDate(currentNote.startDate),
-                        isWhite: currentNote.colorValue.isWhite
+                        isLightColor: currentNote.colorValue.isLightColor
                     )
                     
                     if currentNote.isTimeBounded {
                         MetadataChip(
                             icon: "calendar",
                             text: formattedDateRange(start: currentNote.startDate, end: currentNote.endDate),
-                            isWhite: currentNote.colorValue.isWhite
+                            isLightColor: currentNote.colorValue.isLightColor
                         )
                     }
                     
@@ -67,21 +68,21 @@ struct NoteDetailView: View {
                         MetadataChip(
                             icon: currentNote.priority.systemImage,
                             text: String(localized: String.LocalizationValue(currentNote.priority.rawValue)),
-                            isWhite: currentNote.colorValue.isWhite
+                            isLightColor: currentNote.colorValue.isLightColor
                         )
                     }
                 }
                 
                 // Divider
                 Rectangle()
-                    .fill(currentNote.colorValue.isWhite ? Color(.separator) : Color.white.opacity(0.2))
+                    .fill(currentNote.colorValue.isLightColor ? Color(.separator) : Color.white.opacity(0.2))
                     .frame(height: 0.5)
                 
                 // Content
                 Text(currentNote.content)
                     .font(.body)
                     .lineSpacing(6)
-                    .foregroundColor(currentNote.colorValue.isWhite ? .primary : .white.opacity(0.95))
+                    .foregroundColor(currentNote.colorValue.isLightColor ? .primary : .white.opacity(0.95))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 // Attachments
@@ -89,8 +90,9 @@ struct NoteDetailView: View {
                     VStack(alignment: .leading, spacing: 14) {
                         Label("addnote.attachments.title", systemImage: "paperclip")
                             .font(.subheadline.weight(.semibold))
-                            .foregroundColor(currentNote.colorValue.isWhite ? .secondary : .white.opacity(0.8))
+                            .foregroundColor(currentNote.colorValue.isLightColor ? .secondary : .white.opacity(0.8))
                             .padding(.top, 4)
+                            .accessibilityAddTraits(.isHeader)
                         
                         if let image = currentNote.attachment {
                             VStack(alignment: .leading, spacing: 6) {
@@ -103,7 +105,7 @@ struct NoteDetailView: View {
                                 
                                 Text("addnote.attachments.image.label")
                                     .font(.caption)
-                                    .foregroundColor(currentNote.colorValue.isWhite ? .secondary : .white.opacity(0.7))
+                                    .foregroundColor(currentNote.colorValue.isLightColor ? .secondary : .white.opacity(0.7))
                             }
                         }
                         
@@ -136,7 +138,7 @@ struct NoteDetailView: View {
                         .ignoresSafeArea()
                         .overlay(
                             Rectangle()
-                                .fill(currentNote.colorValue.opacity(currentNote.colorValue.isWhite ? 0.4 : 0.7))
+                                .fill(currentNote.colorValue.opacity(currentNote.colorValue.isLightColor ? 0.4 : 0.7))
                                 .ignoresSafeArea()
                         )
                     if currentNote.backgroundStyle != .none {
@@ -169,10 +171,11 @@ struct NoteDetailView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 20, weight: .medium))
+                            .font(.title3.weight(.medium))
                     }
                     .foregroundColor(themeManager.theme.color)
                 }
+                .accessibilityLabel(Text("common.back"))
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -209,8 +212,9 @@ struct NoteDetailView: View {
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
-                            .font(.system(size: 17, weight: .medium))
+                            .font(.body.weight(.medium))
                     }
+                    .accessibilityLabel(Text("common.more"))
                 }
                 .foregroundColor(themeManager.theme.color)
             }
@@ -294,7 +298,7 @@ struct VideoAttachmentView: View {
             
             Text("addnote.attachments.video.label")
                 .font(.caption)
-                .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
+                .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.7))
         }
     }
 }
@@ -320,16 +324,17 @@ struct AudioAttachmentView: View {
                 isPlaying.toggle()
             }) {
                 Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                    .font(.system(size: 32))
+                    .font(.largeTitle)
                     .foregroundColor(themeManager.theme.color)
             }
+            .accessibilityLabel(Text(isPlaying ? "common.pause" : "common.play"))
             
             VStack(alignment: .leading, spacing: 2) {
                 Text("addnote.attachments.audio.label")
                     .font(.subheadline.weight(.medium))
                 Text(audioURL.lastPathComponent)
                     .font(.caption)
-                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
+                    .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.7))
                     .lineLimit(1)
             }
             
@@ -338,7 +343,7 @@ struct AudioAttachmentView: View {
         .padding(12)
         .background(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(note.colorValue.isWhite ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
+                .fill(note.colorValue.isLightColor ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
         )
     }
 }
@@ -354,32 +359,33 @@ struct FileAttachmentView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: iconForFileExtension(fileURL.pathExtension))
-                    .font(.system(size: 28))
+                    .font(.title2)
                     .foregroundColor(themeManager.theme.color)
                     .frame(width: 40, height: 40)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(fileURL.lastPathComponent)
                         .font(.subheadline.weight(.medium))
-                        .foregroundColor(note.colorValue.isWhite ? .primary : .white)
+                        .foregroundColor(note.colorValue.isLightColor ? .primary : .white)
                         .lineLimit(1)
                     Text(fileURL.pathExtension.uppercased() + " " + String(localized: "addfile.selected.suffix"))
                         .font(.caption)
-                        .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.7))
+                        .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.7))
                 }
 
                 Spacer()
 
                 Image(systemName: "arrow.up.right.square")
-                    .font(.system(size: 16))
-                    .foregroundColor(note.colorValue.isWhite ? .secondary : .white.opacity(0.6))
+                    .font(.body)
+                    .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.6))
             }
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(note.colorValue.isWhite ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
+                    .fill(note.colorValue.isLightColor ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
             )
         }
+        .accessibilityLabel(Text("Open \(fileURL.lastPathComponent)"))
     }
 
     private func iconForFileExtension(_ ext: String) -> String {
@@ -401,7 +407,7 @@ struct FileAttachmentView: View {
 struct MetadataChip: View {
     let icon: String
     let text: String
-    var isWhite: Bool = true
+    var isLightColor: Bool = true
     var tintColor: Color? = nil
     
     var body: some View {
@@ -414,20 +420,21 @@ struct MetadataChip: View {
                     .fill(chipBackground)
             )
             .foregroundColor(chipForeground)
+            .accessibilityElement(children: .combine)
     }
     
     private var chipBackground: Color {
         if let tintColor {
             return tintColor.opacity(0.12)
         }
-        return isWhite ? Color.primary.opacity(0.07) : Color.white.opacity(0.2)
+        return isLightColor ? Color.primary.opacity(0.07) : Color.white.opacity(0.2)
     }
     
     private var chipForeground: Color {
         if let tintColor {
             return tintColor
         }
-        return isWhite ? .primary : .white
+        return isLightColor ? .primary : .white
     }
 }
 
