@@ -272,8 +272,9 @@
 				INFOPLIST_FILE = Kipp.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Kipp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Needs your camera to let you snap pictures or record videos for your notes.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Kipp Allows you to record audio and save it as an attachment in your notes.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Use the camera to capture photos or videos for your notes.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Use the microphone to record audio for your notes.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Use speech recognition to dictate notes with your voice.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -310,8 +311,9 @@
 				INFOPLIST_FILE = Kipp.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Kipp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Needs your camera to let you snap pictures or record videos for your notes.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Kipp Allows you to record audio and save it as an attachment in your notes.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Use the camera to capture photos or videos for your notes.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Use the microphone to record audio for your notes.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Use speech recognition to dictate notes with your voice.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
