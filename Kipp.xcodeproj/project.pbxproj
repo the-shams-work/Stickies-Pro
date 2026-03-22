@@ -274,6 +274,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Use the camera to capture photos or videos for your notes.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Use the microphone to record audio for your notes.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select photos from your library to attach images to your notes.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Use speech recognition to dictate notes with your voice.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -313,6 +314,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Use the camera to capture photos or videos for your notes.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Use the microphone to record audio for your notes.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select photos from your library to attach images to your notes.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Use speech recognition to dictate notes with your voice.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
