@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "Вчера";
+
+
+/* New Categories Added */
+"Coding & Tech" = "Программирование и технологии";
+"Gaming" = "Игры";
+"Cooking & Recipes" = "Кулинария и рецепты";
+"Pets" = "Домашние питомцы";
+"Events & Plans" = "События и планы";
+"Vehicles & Auto" = "Автомобили и транспорт";
+"category.subtitle.coding" = "Программирование и технологии";
+"category.subtitle.gaming" = "Игры и достижения";
+"category.subtitle.cooking" = "Рецепты и идеи для еды";
+"category.subtitle.pets" = "Уход за питомцами и воспоминания";
+"category.subtitle.events" = "Планирование событий и расписания";
+"category.subtitle.vehicles" = "Обслуживание транспортных средств и журналы";
+
+
+/* AddLocationView */
+"addlocation.title" = "Местоположение";
+"addlocation.row.label" = "Местоположение";
+"addlocation.search.placeholder" = "Поиск места или адреса";
+"addlocation.section.search" = "ПОИСК";
+"addlocation.section.results" = "РЕЗУЛЬТАТЫ";
+"addlocation.section.current" = "ТЕКУЩЕЕ МЕСТОПОЛОЖЕНИЕ";
+"addlocation.section.preview" = "ВЫБРАННОЕ МЕСТОПОЛОЖЕНИЕ";
+"addlocation.use.current" = "Использовать текущее местоположение";
+"addlocation.remove" = "Удалить местоположение";
+"addlocation.remove.confirm.title" = "Удалить местоположение?";
+"addlocation.remove.confirm.message" = "Это удалит прикрепленное местоположение из вашей заметки.";
+"addlocation.unknown" = "Неизвестное местоположение";
+"addlocation.maps.hint" = "Нажмите, чтобы открыть в Картах";
+"addnote.attachments.location.label" = "Местоположение";

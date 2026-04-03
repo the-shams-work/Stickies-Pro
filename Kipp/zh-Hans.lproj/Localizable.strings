@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "昨天";
+
+
+/* New Categories Added */
+"Coding & Tech" = "编程与技术";
+"Gaming" = "游戏";
+"Cooking & Recipes" = "烹饪与食谱";
+"Pets" = "宠物";
+"Events & Plans" = "活动与计划";
+"Vehicles & Auto" = "车辆与汽车";
+"category.subtitle.coding" = "编程与技术";
+"category.subtitle.gaming" = "游戏与成就";
+"category.subtitle.cooking" = "食谱与膳食创意";
+"category.subtitle.pets" = "宠物护理与记忆";
+"category.subtitle.events" = "活动规划与日程安排";
+"category.subtitle.vehicles" = "车辆维护与日志";
+
+
+/* AddLocationView */
+"addlocation.title" = "位置";
+"addlocation.row.label" = "位置";
+"addlocation.search.placeholder" = "搜索地点或地址";
+"addlocation.section.search" = "搜索";
+"addlocation.section.results" = "结果";
+"addlocation.section.current" = "当前位置";
+"addlocation.section.preview" = "选定位置";
+"addlocation.use.current" = "使用当前位置";
+"addlocation.remove" = "移除位置";
+"addlocation.remove.confirm.title" = "移除位置？";
+"addlocation.remove.confirm.message" = "这将从您的笔记中移除固定的位置。";
+"addlocation.unknown" = "未知位置";
+"addlocation.maps.hint" = "轻点在地图中打开";
+"addnote.attachments.location.label" = "位置";

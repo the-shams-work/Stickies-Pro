@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "昨日";
+
+
+/* New Categories Added */
+"Coding & Tech" = "プログラミングとテクノロジー";
+"Gaming" = "ゲーム";
+"Cooking & Recipes" = "料理とレシピ";
+"Pets" = "ペット";
+"Events & Plans" = "イベントと計画";
+"Vehicles & Auto" = "乗り物と車";
+"category.subtitle.coding" = "プログラミングとテクノロジー";
+"category.subtitle.gaming" = "ゲームと実績";
+"category.subtitle.cooking" = "レシピと食事のアイデア";
+"category.subtitle.pets" = "ペットの世話と思い出";
+"category.subtitle.events" = "イベントの計画とスケジュール";
+"category.subtitle.vehicles" = "車両のメンテナンスと記録";
+
+
+/* AddLocationView */
+"addlocation.title" = "場所";
+"addlocation.row.label" = "場所";
+"addlocation.search.placeholder" = "場所や住所を検索";
+"addlocation.section.search" = "検索";
+"addlocation.section.results" = "結果";
+"addlocation.section.current" = "現在地";
+"addlocation.section.preview" = "選択された場所";
+"addlocation.use.current" = "現在地を使用";
+"addlocation.remove" = "場所を削除";
+"addlocation.remove.confirm.title" = "場所を削除しますか？";
+"addlocation.remove.confirm.message" = "これにより、ノートから固定された場所が削除されます。";
+"addlocation.unknown" = "不明な場所";
+"addlocation.maps.hint" = "タップしてマップで開く";
+"addnote.attachments.location.label" = "場所";

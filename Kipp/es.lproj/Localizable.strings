@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "Ayer";
+
+
+/* New Categories Added */
+"Coding & Tech" = "Programación y tecnología";
+"Gaming" = "Juegos";
+"Cooking & Recipes" = "Cocina y recetas";
+"Pets" = "Mascotas";
+"Events & Plans" = "Eventos y planes";
+"Vehicles & Auto" = "Vehículos y autos";
+"category.subtitle.coding" = "Programación y tecnología";
+"category.subtitle.gaming" = "Juegos y logros";
+"category.subtitle.cooking" = "Recetas e ideas de comidas";
+"category.subtitle.pets" = "Cuidado de mascotas y recuerdos";
+"category.subtitle.events" = "Planificación de eventos y horarios";
+"category.subtitle.vehicles" = "Mantenimiento de vehículos y registros";
+
+
+/* AddLocationView */
+"addlocation.title" = "Ubicación";
+"addlocation.row.label" = "Ubicación";
+"addlocation.search.placeholder" = "Buscar un lugar o dirección";
+"addlocation.section.search" = "BÚSQUEDA";
+"addlocation.section.results" = "RESULTADOS";
+"addlocation.section.current" = "UBICACIÓN ACTUAL";
+"addlocation.section.preview" = "UBICACIÓN SELECCIONADA";
+"addlocation.use.current" = "Usar ubicación actual";
+"addlocation.remove" = "Eliminar ubicación";
+"addlocation.remove.confirm.title" = "¿Eliminar ubicación?";
+"addlocation.remove.confirm.message" = "Esto eliminará la ubicación anclada de tu nota.";
+"addlocation.unknown" = "Ubicación desconocida";
+"addlocation.maps.hint" = "Toca para abrir en Mapas";
+"addnote.attachments.location.label" = "Ubicación";

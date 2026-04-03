@@ -371,3 +371,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "कल";
+
+
+/* New Categories Added */
+"Coding & Tech" = "कोडिंग और तकनीक";
+"Gaming" = "गेमिंग";
+"Cooking & Recipes" = "कुकिंग और रेसिपी";
+"Pets" = "पालतू जानवर";
+"Events & Plans" = "कार्यक्रम और योजनाएं";
+"Vehicles & Auto" = "वाहन और ऑटो";
+"category.subtitle.coding" = "प्रोग्रामिंग और तकनीक";
+"category.subtitle.gaming" = "खेल और उपलब्धियां";
+"category.subtitle.cooking" = "व्यंजनों और भोजन के विचार";
+"category.subtitle.pets" = "पालतू जानवरों की देखभाल और यादें";
+"category.subtitle.events" = "इवेंट प्लानिंग और शेड्यूल";
+"category.subtitle.vehicles" = "वाहन रखरखाव और लॉग";
+
+
+/* AddLocationView */
+"addlocation.title" = "स्थान";
+"addlocation.row.label" = "स्थान";
+"addlocation.search.placeholder" = "कोई स्थान या पता खोजें";
+"addlocation.section.search" = "खोज";
+"addlocation.section.results" = "परिणाम";
+"addlocation.section.current" = "वर्तमान स्थान";
+"addlocation.section.preview" = "चयनित स्थान";
+"addlocation.use.current" = "वर्तमान स्थान का उपयोग करें";
+"addlocation.remove" = "स्थान हटाएं";
+"addlocation.remove.confirm.title" = "स्थान हटाएं?";
+"addlocation.remove.confirm.message" = "यह आपके नोट से पिन किए गए स्थान को हटा देगा।";
+"addlocation.unknown" = "अज्ञात स्थान";
+"addlocation.maps.hint" = "मैप्स में खोलने के लिए टैप करें";
+"addnote.attachments.location.label" = "स्थान";

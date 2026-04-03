@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "Ieri";
+
+
+/* New Categories Added */
+"Coding & Tech" = "Programmazione e tecnologia";
+"Gaming" = "Giochi";
+"Cooking & Recipes" = "Cucina e ricette";
+"Pets" = "Animali domestici";
+"Events & Plans" = "Eventi e piani";
+"Vehicles & Auto" = "Veicoli e auto";
+"category.subtitle.coding" = "Programmazione e tecnologia";
+"category.subtitle.gaming" = "Giochi e obiettivi";
+"category.subtitle.cooking" = "Ricette e idee per i pasti";
+"category.subtitle.pets" = "Cura degli animali e ricordi";
+"category.subtitle.events" = "Pianificazione di eventi e orari";
+"category.subtitle.vehicles" = "Manutenzione dei veicoli e registri";
+
+
+/* AddLocationView */
+"addlocation.title" = "Posizione";
+"addlocation.row.label" = "Posizione";
+"addlocation.search.placeholder" = "Cerca un luogo o un indirizzo";
+"addlocation.section.search" = "CERCA";
+"addlocation.section.results" = "RISULTATI";
+"addlocation.section.current" = "POSIZIONE ATTUALE";
+"addlocation.section.preview" = "POSIZIONE SELEZIONATA";
+"addlocation.use.current" = "Usa posizione attuale";
+"addlocation.remove" = "Rimuovi posizione";
+"addlocation.remove.confirm.title" = "Rimuovere posizione?";
+"addlocation.remove.confirm.message" = "Questo rimuoverà la posizione appuntata dalla tua nota.";
+"addlocation.unknown" = "Posizione sconosciuta";
+"addlocation.maps.hint" = "Tocca per aprire in Mappe";
+"addnote.attachments.location.label" = "Posizione";

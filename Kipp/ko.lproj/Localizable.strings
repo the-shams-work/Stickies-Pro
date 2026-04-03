@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "어제";
+
+
+/* New Categories Added */
+"Coding & Tech" = "프로그래밍 및 기술";
+"Gaming" = "게임";
+"Cooking & Recipes" = "요리 및 레시피";
+"Pets" = "반려동물";
+"Events & Plans" = "이벤트 및 계획";
+"Vehicles & Auto" = "차량 및 자동차";
+"category.subtitle.coding" = "프로그래밍 및 기술";
+"category.subtitle.gaming" = "게임 및 업적";
+"category.subtitle.cooking" = "레시피 및 식사 아이디어";
+"category.subtitle.pets" = "반려동물 관리 및 추억";
+"category.subtitle.events" = "이벤트 계획 및 일정";
+"category.subtitle.vehicles" = "차량 유지보수 및 기록";
+
+
+/* AddLocationView */
+"addlocation.title" = "위치";
+"addlocation.row.label" = "위치";
+"addlocation.search.placeholder" = "장소 또는 주소 검색";
+"addlocation.section.search" = "검색";
+"addlocation.section.results" = "결과";
+"addlocation.section.current" = "현재 위치";
+"addlocation.section.preview" = "선택된 위치";
+"addlocation.use.current" = "현재 위치 사용";
+"addlocation.remove" = "위치 알림 제거";
+"addlocation.remove.confirm.title" = "위치를 제거하시겠습니까?";
+"addlocation.remove.confirm.message" = "이 위치는 노트에서 고정 해제됩니다.";
+"addlocation.unknown" = "알 수 없는 위치";
+"addlocation.maps.hint" = "탭하여 지도에서 열기";
+"addnote.attachments.location.label" = "위치";

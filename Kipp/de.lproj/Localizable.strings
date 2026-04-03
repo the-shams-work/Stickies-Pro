@@ -363,3 +363,35 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "Gestern";
+
+
+/* New Categories Added */
+"Coding & Tech" = "Programmierung & Technik";
+"Gaming" = "Gaming";
+"Cooking & Recipes" = "Kochen & Rezepte";
+"Pets" = "Haustiere";
+"Events & Plans" = "Veranstaltungen & Pläne";
+"Vehicles & Auto" = "Fahrzeuge & Auto";
+"category.subtitle.coding" = "Programmierung und Technologie";
+"category.subtitle.gaming" = "Spiele und Erfolge";
+"category.subtitle.cooking" = "Rezepte und Mahlzeitideen";
+"category.subtitle.pets" = "Tierpflege und Erinnerungen";
+"category.subtitle.events" = "Veranstaltungsplanung und Zeitpläne";
+"category.subtitle.vehicles" = "Fahrzeugwartung und Protokolle";
+
+
+/* AddLocationView */
+"addlocation.title" = "Standort";
+"addlocation.row.label" = "Standort";
+"addlocation.search.placeholder" = "Nach einem Ort oder einer Adresse suchen";
+"addlocation.section.search" = "SUCHEN";
+"addlocation.section.results" = "ERGEBNISSE";
+"addlocation.section.current" = "AKTUELLER STANDORT";
+"addlocation.section.preview" = "AUSGEWÄHLTER STANDORT";
+"addlocation.use.current" = "Aktuellen Standort verwenden";
+"addlocation.remove" = "Standort entfernen";
+"addlocation.remove.confirm.title" = "Standort entfernen?";
+"addlocation.remove.confirm.message" = "Dadurch wird der angeheftete Standort aus Ihrer Notiz entfernt.";
+"addlocation.unknown" = "Unbekannter Standort";
+"addlocation.maps.hint" = "Tippen, um in Karten zu öffnen";
+"addnote.attachments.location.label" = "Standort";
