@@ -199,7 +199,7 @@ class NotesViewModel: ObservableObject {
         }
     }
 
-    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) -> StickyNote {
+    func addNote(title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none, locationName: String? = nil, locationLatitude: Double? = nil, locationLongitude: Double? = nil) -> StickyNote {
         let newNote = StickyNote(
             title: title,
             content: content,
@@ -217,13 +217,16 @@ class NotesViewModel: ObservableObject {
             isTimeBounded: isTimeBounded,
             priority: priority,
             reminderRepeat: reminderRepeat,
-            backgroundStyle: backgroundStyle
+            backgroundStyle: backgroundStyle,
+            locationName: locationName,
+            locationLatitude: locationLatitude,
+            locationLongitude: locationLongitude
         )
         notes.append(newNote)
         return newNote
     }
 
-    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none) {
+    func updateNote(id: UUID, title: String, content: String, startDate: Date, endDate: Date, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat, backgroundStyle: NoteBackgroundStyle = .none, locationName: String? = nil, locationLatitude: Double? = nil, locationLongitude: Double? = nil) {
         if let index = notes.firstIndex(where: { $0.id == id }) {
             notes[index].title = title
             notes[index].content = content
@@ -241,6 +244,9 @@ class NotesViewModel: ObservableObject {
             notes[index].priority = priority
             notes[index].reminderRepeat = reminderRepeat
             notes[index].backgroundStyle = backgroundStyle
+            notes[index].locationName = locationName
+            notes[index].locationLatitude = locationLatitude
+            notes[index].locationLongitude = locationLongitude
         }
     }
 

@@ -35,6 +35,9 @@ struct AddNoteView: View {
     @State private var showFutureNoteAlert = false
     @State private var selectedFileURL: URL?
     @State private var selectedBackgroundStyle: NoteBackgroundStyle
+    @State private var selectedLocationName: String?
+    @State private var selectedLatitude: Double?
+    @State private var selectedLongitude: Double?
     @StateObject private var speechRecognition = SpeechRecognitionService()
 
     let today = Date()
@@ -66,6 +69,9 @@ struct AddNoteView: View {
         _selectedRepeat = State(initialValue: editingNote?.reminderRepeat ?? .never)
         _selectedFileURL = State(initialValue: editingNote?.fileURL)
         _selectedBackgroundStyle = State(initialValue: editingNote?.backgroundStyle ?? .none)
+        _selectedLocationName = State(initialValue: editingNote?.locationName)
+        _selectedLatitude = State(initialValue: editingNote?.locationLatitude)
+        _selectedLongitude = State(initialValue: editingNote?.locationLongitude)
     }
 
     // MARK: - Validation Function
@@ -119,7 +125,10 @@ struct AddNoteView: View {
                 isTimeBounded: isTimeBounded,
                 priority: selectedPriority,
                 reminderRepeat: selectedRepeat,
-                backgroundStyle: selectedBackgroundStyle
+                backgroundStyle: selectedBackgroundStyle,
+                locationName: selectedLocationName,
+                locationLatitude: selectedLatitude,
+                locationLongitude: selectedLongitude
             )
 
             if let reminderDate = useReminderDate {
@@ -148,7 +157,10 @@ struct AddNoteView: View {
                 isTimeBounded: isTimeBounded,
                 priority: selectedPriority,
                 reminderRepeat: selectedRepeat,
-                backgroundStyle: selectedBackgroundStyle
+                backgroundStyle: selectedBackgroundStyle,
+                locationName: selectedLocationName,
+                locationLatitude: selectedLatitude,
+                locationLongitude: selectedLongitude
             )
 
             if let reminderDate = useReminderDate, reminderDate > Date() {
@@ -465,6 +477,35 @@ struct AddNoteView: View {
                     }
                     Spacer()
                     if selectedFileURL != nil {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 16))
+                    }
+                }
+            }
+
+            // Location
+            NavigationLink {
+                AddLocationView(
+                    selectedLocationName: $selectedLocationName,
+                    selectedLatitude: $selectedLatitude,
+                    selectedLongitude: $selectedLongitude
+                )
+            } label: {
+                HStack(spacing: 14) {
+                    HIGIcon(systemName: "mappin.and.ellipse", color: .red)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("addlocation.row.label")
+                            .foregroundColor(.primary)
+                        if let name = selectedLocationName {
+                            Text(name)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
+                    Spacer()
+                    if selectedLatitude != nil {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
                             .font(.system(size: 16))

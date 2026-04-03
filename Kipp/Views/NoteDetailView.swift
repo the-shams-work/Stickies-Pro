@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVKit
+import MapKit
 
 struct NoteDetailView: View {
     @Environment(\.dismiss) var dismiss
@@ -71,6 +72,14 @@ struct NoteDetailView: View {
                             isLightColor: currentNote.colorValue.isLightColor
                         )
                     }
+
+                    if let locationName = currentNote.locationName {
+                        MetadataChip(
+                            icon: "mappin.and.ellipse",
+                            text: locationName,
+                            isLightColor: currentNote.colorValue.isLightColor
+                        )
+                    }
                 }
                 
                 // Divider
@@ -119,6 +128,16 @@ struct NoteDetailView: View {
                         
                         if let fileURL = currentNote.fileURL {
                             FileAttachmentView(fileURL: fileURL, note: currentNote)
+                        }
+
+                        if let lat = currentNote.locationLatitude,
+                           let lon = currentNote.locationLongitude {
+                            LocationAttachmentView(
+                                locationName: currentNote.locationName,
+                                latitude: lat,
+                                longitude: lon,
+                                note: currentNote
+                            )
                         }
                     }
                 }
@@ -241,7 +260,11 @@ struct NoteDetailView: View {
     }
     
     private var hasAttachments: Bool {
-        currentNote.attachmentData != nil || currentNote.audioURLString != nil || currentNote.videoURLString != nil || currentNote.fileURLString != nil
+        currentNote.attachmentData != nil
+            || currentNote.audioURLString != nil
+            || currentNote.videoURLString != nil
+            || currentNote.fileURLString != nil
+            || currentNote.locationLatitude != nil
     }
     
     private func formattedDateRange(start: Date, end: Date) -> String {
@@ -399,6 +422,81 @@ struct FileAttachmentView: View {
         case "mp4", "mov", "avi": return "film"
         default: return "doc.fill"
         }
+    }
+}
+
+// MARK: - Location Attachment View
+
+struct LocationAttachmentView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    let locationName: String?
+    let latitude: Double
+    let longitude: Double
+    let note: StickyNote
+
+    @State private var region: MKCoordinateRegion
+
+    init(locationName: String?, latitude: Double, longitude: Double, note: StickyNote) {
+        self.locationName = locationName
+        self.latitude = latitude
+        self.longitude = longitude
+        self.note = note
+        _region = State(initialValue: MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        ))
+    }
+
+    var body: some View {
+        Button {
+            openInMaps()
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                Map(coordinateRegion: $region, annotationItems: [IdentifiableCoordinate(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))]) { item in
+                    MapMarker(coordinate: item.coordinate, tint: themeManager.theme.color)
+                }
+                .frame(height: 140)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .allowsHitTesting(false)
+
+                HStack(spacing: 10) {
+                    Image(systemName: "mappin.circle.fill")
+                        .font(.title3)
+                        .foregroundColor(themeManager.theme.color)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(locationName ?? String(localized: "addlocation.unknown"))
+                            .font(.subheadline.weight(.medium))
+                            .foregroundColor(note.colorValue.isLightColor ? .primary : .white)
+                            .lineLimit(2)
+                        Text(String(format: "%.5f, %.5f", latitude, longitude))
+                            .font(.caption)
+                            .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.7))
+                            .monospacedDigit()
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "arrow.up.right.square")
+                        .font(.body)
+                        .foregroundColor(note.colorValue.isLightColor ? .secondary : .white.opacity(0.6))
+                }
+            }
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(note.colorValue.isLightColor ? Color(.secondarySystemBackground) : Color.white.opacity(0.15))
+            )
+        }
+        .accessibilityLabel(Text(locationName ?? String(localized: "addlocation.unknown")))
+        .accessibilityHint(Text("addlocation.maps.hint"))
+    }
+
+    private func openInMaps() {
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
+        mapItem.name = locationName ?? String(localized: "addlocation.unknown")
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: coordinate)])
     }
 }
 

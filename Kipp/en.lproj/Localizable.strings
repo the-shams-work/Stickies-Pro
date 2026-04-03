@@ -379,3 +379,19 @@
 
 /* StickyNoteView */
 "stickynote.yesterday" = "Yesterday";
+
+/* AddLocationView */
+"addlocation.title" = "Location";
+"addlocation.row.label" = "Location";
+"addlocation.search.placeholder" = "Search for a place or address";
+"addlocation.section.search" = "SEARCH";
+"addlocation.section.results" = "RESULTS";
+"addlocation.section.current" = "CURRENT LOCATION";
+"addlocation.section.preview" = "SELECTED LOCATION";
+"addlocation.use.current" = "Use Current Location";
+"addlocation.remove" = "Remove Location";
+"addlocation.remove.confirm.title" = "Remove Location?";
+"addlocation.remove.confirm.message" = "This will remove the pinned location from your note.";
+"addlocation.unknown" = "Unknown Location";
+"addlocation.maps.hint" = "Tap to open in Maps";
+"addnote.attachments.location.label" = "Location";

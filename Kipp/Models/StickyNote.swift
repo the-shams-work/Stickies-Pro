@@ -341,6 +341,9 @@ struct StickyNote: Identifiable, Codable, Hashable {
     var reminderRepeat: ReminderRepeat
     var backgroundStyle: NoteBackgroundStyle
     var isPinned: Bool
+    var locationName: String?
+    var locationLatitude: Double?
+    var locationLongitude: Double?
 
     var attachment: UIImage? {
         get { attachmentData.flatMap { UIImage(data: $0) } }
@@ -367,7 +370,7 @@ struct StickyNote: Identifiable, Codable, Hashable {
         set { color = ColorCodable(color: newValue) }
     }
 
-    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none, isPinned: Bool = false) {
+    init(id: UUID = UUID(), title: String, content: String, startDate: Date, endDate: Date, isDone: Bool, color: Color, category: NoteCategory, attachment: UIImage?, audioURL: URL?, videoURL: URL?, fileURL: URL? = nil, backgroundImage: UIImage?, reminderDate: Date?, isTimeBounded: Bool, priority: Priority, reminderRepeat: ReminderRepeat = .never, backgroundStyle: NoteBackgroundStyle = .none, isPinned: Bool = false, locationName: String? = nil, locationLatitude: Double? = nil, locationLongitude: Double? = nil) {
         self.id = id
         self.title = title
         self.content = content
@@ -387,10 +390,13 @@ struct StickyNote: Identifiable, Codable, Hashable {
         self.reminderRepeat = reminderRepeat
         self.backgroundStyle = backgroundStyle
         self.isPinned = isPinned
+        self.locationName = locationName
+        self.locationLatitude = locationLatitude
+        self.locationLongitude = locationLongitude
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, fileURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle, isPinned
+        case id, title, content, startDate, endDate, isDone, color, category, attachmentData, audioURLString, videoURLString, fileURLString, backgroundImageData, reminderDate, isTimeBounded, priority, reminderRepeat, backgroundStyle, isPinned, locationName, locationLatitude, locationLongitude
     }
 
     init(from decoder: Decoder) throws {
@@ -414,6 +420,9 @@ struct StickyNote: Identifiable, Codable, Hashable {
         reminderRepeat = try container.decodeIfPresent(ReminderRepeat.self, forKey: .reminderRepeat) ?? .never
         backgroundStyle = try container.decodeIfPresent(NoteBackgroundStyle.self, forKey: .backgroundStyle) ?? .none
         isPinned = try container.decodeIfPresent(Bool.self, forKey: .isPinned) ?? false
+        locationName = try container.decodeIfPresent(String.self, forKey: .locationName)
+        locationLatitude = try container.decodeIfPresent(Double.self, forKey: .locationLatitude)
+        locationLongitude = try container.decodeIfPresent(Double.self, forKey: .locationLongitude)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -437,6 +446,9 @@ struct StickyNote: Identifiable, Codable, Hashable {
         try container.encode(reminderRepeat, forKey: .reminderRepeat)
         try container.encode(backgroundStyle, forKey: .backgroundStyle)
         try container.encode(isPinned, forKey: .isPinned)
+        try container.encodeIfPresent(locationName, forKey: .locationName)
+        try container.encodeIfPresent(locationLatitude, forKey: .locationLatitude)
+        try container.encodeIfPresent(locationLongitude, forKey: .locationLongitude)
     }
 }
 
