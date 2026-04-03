@@ -136,6 +136,12 @@
 "Urgent" = "Urgent";
 "Home & Family" = "Home & Family";
 "Shopping List" = "Shopping List";
+"Coding & Tech" = "Coding & Tech";
+"Gaming" = "Gaming";
+"Cooking & Recipes" = "Cooking & Recipes";
+"Pets" = "Pets";
+"Events & Plans" = "Events & Plans";
+"Vehicles & Auto" = "Vehicles & Auto";
 "None" = "None";
 "Low" = "Low";
 "Medium" = "Medium";
@@ -301,6 +307,7 @@
 "category.custom.subtitle" = "Create your own category";
 "category.section.custom" = "CUSTOM";
 "category.title" = "Category";
+"category.search.prompt" = "Search categories";
 
 /* NoteColorPickerView */
 "notecolor.section.choose" = "CHOOSE A COLOR";
@@ -352,6 +359,12 @@
 "category.subtitle.urgent" = "Time-sensitive items";
 "category.subtitle.home" = "Household and family notes";
 "category.subtitle.shopping" = "Shopping lists and wishlists";
+"category.subtitle.coding" = "Programming and technology";
+"category.subtitle.gaming" = "Games and achievements";
+"category.subtitle.cooking" = "Recipes and meal ideas";
+"category.subtitle.pets" = "Pet care and memories";
+"category.subtitle.events" = "Event planning and schedules";
+"category.subtitle.vehicles" = "Vehicle maintenance and logs";
 "category.subtitle.custom" = "Your custom category";
 
 /* ContentView */

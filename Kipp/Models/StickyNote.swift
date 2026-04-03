@@ -8,12 +8,12 @@
 import SwiftUI
 
 enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
-    case todo, journal, ideas, study, finance, work, goals, important, projects, music, books, movies, art, writing, diet, mental, health, travel, memories, urgent, home, shopping
+    case todo, journal, ideas, study, finance, work, goals, important, projects, music, books, movies, art, writing, diet, mental, health, travel, memories, urgent, home, shopping, coding, gaming, cooking, pets, events, vehicles
     case custom(String)
 
     static var allCases: [NoteCategory] {
         return [
-            .todo, .journal, .ideas, .study, .finance, .work, .goals, .important, .projects, .music, .books, .movies, .art, .writing, .diet, .mental, .health, .travel, .memories, .urgent, .home, .shopping
+            .todo, .journal, .ideas, .study, .finance, .work, .goals, .important, .projects, .music, .books, .movies, .art, .writing, .diet, .mental, .health, .travel, .memories, .urgent, .home, .shopping, .coding, .gaming, .cooking, .pets, .events, .vehicles
         ]
     }
 
@@ -41,6 +41,12 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
         case .urgent: return "Urgent"
         case .home: return "Home & Family"
         case .shopping: return "Shopping List"
+        case .coding: return "Coding & Tech"
+        case .gaming: return "Gaming"
+        case .cooking: return "Cooking & Recipes"
+        case .pets: return "Pets"
+        case .events: return "Events & Plans"
+        case .vehicles: return "Vehicles & Auto"
         case .custom(let value): return value
         }
     }
@@ -71,6 +77,12 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
         case .urgent: return "exclamationmark.octagon"
         case .home: return "house"
         case .shopping: return "cart"
+        case .coding: return "chevron.left.forwardslash.chevron.right"
+        case .gaming: return "gamecontroller"
+        case .cooking: return "fork.knife"
+        case .pets: return "pawprint"
+        case .events: return "calendar"
+        case .vehicles: return "car"
         case .custom: return "tag"
         }
     }
@@ -99,6 +111,12 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
         case .urgent: return .red
         case .home: return .orange
         case .shopping: return .green
+        case .coding: return .indigo
+        case .gaming: return .purple
+        case .cooking: return .orange
+        case .pets: return .brown
+        case .events: return .red
+        case .vehicles: return .blue
         case .custom: return .gray
         }
     }
@@ -127,6 +145,12 @@ enum NoteCategory: Identifiable, Codable, Equatable, Hashable {
         case .urgent: return String(localized: "category.subtitle.urgent")
         case .home: return String(localized: "category.subtitle.home")
         case .shopping: return String(localized: "category.subtitle.shopping")
+        case .coding: return String(localized: "category.subtitle.coding")
+        case .gaming: return String(localized: "category.subtitle.gaming")
+        case .cooking: return String(localized: "category.subtitle.cooking")
+        case .pets: return String(localized: "category.subtitle.pets")
+        case .events: return String(localized: "category.subtitle.events")
+        case .vehicles: return String(localized: "category.subtitle.vehicles")
         case .custom: return String(localized: "category.subtitle.custom")
         }
     }
