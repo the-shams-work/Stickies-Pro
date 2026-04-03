@@ -168,10 +168,11 @@ struct AnalyticsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("common.done") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "checkmark")
                     }
-                    .foregroundColor(themeManager.theme.color)
+                    .buttonStyle(.borderedProminent)
+                    .tint(themeManager.theme.color)
                 }
             }
         }

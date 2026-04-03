@@ -50,8 +50,12 @@ struct SettingsView: View {
                         }
                     )) {
                         ForEach(AppLanguage.allCases) { language in
-                            Text(language.displayName)
-                                .tag(language)
+                            Label {
+                                Text(language.displayName)
+                            } icon: {
+                                Text(language.flag)
+                            }
+                            .tag(language)
                         }
                     } label: {
                         HStack(spacing: 14) {
@@ -93,10 +97,11 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("common.done") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "checkmark")
                     }
-                    .foregroundColor(themeManager.theme.color)
+                    .buttonStyle(.borderedProminent)
+                    .tint(themeManager.theme.color)
                 }
             }
             .tint(themeManager.theme.color)

@@ -33,7 +33,22 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         case .russian: return "Русский"
         }
     }
-    
+
+    var flag: String {
+        switch self {
+        case .system:   return "🇺🇸"
+        case .spanish:  return "🇪🇸"
+        case .french:   return "🇫🇷"
+        case .hindi:    return "🇮🇳"
+        case .chinese:  return "🇨🇳"
+        case .german:   return "🇩🇪"
+        case .japanese: return "🇯🇵"
+        case .italian:  return "🇮🇹"
+        case .korean:   return "🇰🇷"
+        case .russian:  return "🇷🇺"
+        }
+    }
+
     var locale: Locale? {
         if self == .system {
             return nil
