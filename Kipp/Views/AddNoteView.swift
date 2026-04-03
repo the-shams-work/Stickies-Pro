@@ -491,8 +491,6 @@ struct AddNoteView: View {
                     showAddNote = false
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(themeManager.theme.color)
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
@@ -500,10 +498,9 @@ struct AddNoteView: View {
                     saveNote()
                 } label: {
                     Image(systemName: "checkmark")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(themeManager.theme.color)
-                        .symbolRenderingMode(.hierarchical)
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(themeManager.theme.color)
             }
         }
         .alert("common.error.validation", isPresented: $showValidationAlert) {
